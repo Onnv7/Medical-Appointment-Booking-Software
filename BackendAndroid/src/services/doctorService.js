@@ -4,13 +4,12 @@ let bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 
 
-let hashUserPassword = (password) =>
-{
+let hashUserPassword = (password) => {
     return new Promise(async (resolve, reject) => {
         try {
             var hashPassword = await bcrypt.hashSync(password, salt);
             // resolve in ket qua ==> tuong tu nhu console log
-            resolve(hashPassword) 
+            resolve(hashPassword)
         } catch (error) {
             reject(error)
         }
@@ -18,20 +17,18 @@ let hashUserPassword = (password) =>
 }
 
 let checkEmail = (doctorEmail) => {
-    return new Promise (async (resolve, reject) => 
-    {
+    return new Promise(async (resolve, reject) => {
         try {
             let data = await db.Doctor.findOne({
                 where: {
                     email: doctorEmail
-                } 
+                }
             })
 
             if (data) {
                 resolve(true)
             }
-            else
-            {
+            else {
                 resolve(false)
             }
         } catch (error) {
@@ -40,19 +37,18 @@ let checkEmail = (doctorEmail) => {
     })
 }
 
-let handleSinupDoctorService = (inputData) => {
-    return new Promise( async(resolve, reject) => {
+export const handleSinupDoctorService = (inputData) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let check = await checkEmail(inputData.email)
 
-            if (check == true)
-            {
+            if (check == true) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Email đã tồn tại !!!'
                 })
             }
-            else{
+            else {
                 let hashPasswordFromBcrypt = await hashUserPassword(inputData.password)
                 await db.Doctor.create({
                     name: inputData.name,
@@ -69,8 +65,4 @@ let handleSinupDoctorService = (inputData) => {
             reject(error)
         }
     })
-}
-
-module.exports = {
-    handleSinupDoctorService: handleSinupDoctorService
 }

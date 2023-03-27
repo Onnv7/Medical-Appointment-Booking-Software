@@ -1,20 +1,11 @@
 import db from "../models";
-import doctorService from '../services/doctorService'
+import { handleSinupDoctorService } from '../services/doctorService'
 
-let handleSingupDoctor = async (req, res) => 
-{
+export const handleSingupDoctor = async (req, res, next) => {
     try {
-        let response = await doctorService.handleSinupDoctorService(req.body)
+        let response = await handleSinupDoctorService(req.body)
         return res.status(200).json(response)
     } catch (error) {
-        console.log(error)
-        return res.status(200).json({
-            errCode: -1,
-            message: 'Error from server'
-        })
+        next(error)
     }
-}
-
-module.exports = {
-    handleSingupDoctor:handleSingupDoctor
 }
