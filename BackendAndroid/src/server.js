@@ -1,10 +1,12 @@
 var express = require('express')
 import bodyParser from "body-parser";
 import viewEngine from "./config/viewEngine"
-import initWebRoutesPatient from "./route/patient/webPatient"
-import initWebRoutesDoctor from './route/doctor/webDoctor' 
+import initWebRoutesPatient from "./route/webPatient"
+import initWebRoutesDoctor from './route/webDoctor'
 import connectDB from './config/connectDB'
 import cors from 'cors'
+import doctorRoute from './route/webDoctor.js'
+import patientRoute from './route/webPatient.js'
 require('dotenv').config()
 let app = express()
 
@@ -18,19 +20,32 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(bodyParser.json({limit: '50mb'}))
-app.use(bodyParser.urlencoded({limit:'50mb', extended: true}))
+app.use(bodyParser.json({ limit: '50mb' }))
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 // app.use(bodyParser.json())
 // app.use(bodyParser.urlencoded({extended: true}))
 
+app.use('/api/doctor', doctorRoute)
+app.use('/api/patient', patientRoute)
+
+app.use((err, req, res, next) => {
+    const errorStatus = err.status || 500;
+    const errorMessage = err.message || "Something went wrong!";
+    return res.status(500).json({
+        success: false,
+        status: errorStatus,
+        message: errorMessage,
+        stack: err.stack,
+    });
+})
+
 viewEngine(app)
-initWebRoutesPatient(app)
-initWebRoutesDoctor(app)
+
 
 connectDB()
 
 let port = process.env.PORT || 8080
-app.listen(port , () => {
+app.listen(port, () => {
     // callback
-    console.log("Running................ port: "+port)
+    console.log("Running................ port: " + port)
 })

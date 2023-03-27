@@ -1,10 +1,9 @@
 import db from "../models";
-import patientService from '../services/patientService'
+import { handleSinupService, handleLoginService, updateDatePatientService, getTestService } from '../services/patientService'
 
-let handleSingup = async (req, res) => 
-{
+export const handleSingup = async (req, res, next) => {
     try {
-        let response = await patientService.handleSinupService(req.body)
+        let response = await handleSinupService(req.body)
         return res.status(200).json(response)
     } catch (error) {
         console.log(error)
@@ -15,50 +14,51 @@ let handleSingup = async (req, res) =>
     }
 }
 
-let handleLogin = async (req, res) => 
-{
+export const handleLogin = async (req, res, next) => {
 
-    let email = req.body.email
-    let password = req.body.password
+    try {
+        let email = req.body.email
+        let password = req.body.password
 
-    if(!email || !password)
-    {
-        return res.status(500).json(
-        {
-            message: 'Vui lòng điền Email và Password',
-            errCode: 1,
+        if (!email || !password) {
+            return res.status(500).json(
+                {
+                    message: 'Vui lòng điền Email và Password',
+                    errCode: 1,
+                })
+        }
+
+        let userData = await handleLoginService(email, password)
+
+        return res.status(200).json({
+            errCode: userData.errCode,
+            errMessage: userData.errMessage,
+            user: userData.user ? userData.user : []
         })
+    } catch (error) {
+        next(error)
     }
 
-    let userData = await patientService.handleLoginService(email, password)
-    
-    return res.status(200).json({
-        errCode: userData.errCode,
-        errMessage: userData.errMessage,
-        user: userData.user ? userData.user : []
-    })
-
 }
 
 
-let handleUpdateDetailInfor= async (req,res) =>
-{
-
-   let data = req.body
-   let message = await patientService.updateDatePatientService(data)
-   return res.status(200).json(message)
+export const handleUpdateDetailInfor = async (req, res, next) => {
+    try {
+        let data = req.body
+        let message = await updateDatePatientService(data)
+        return res.status(200).json(message)
+    } catch (error) {
+        next(error)
+    }
 }
 
-let handleTest = async (req, res) => 
-{
-    let id = req.body.id
-    id = parseInt(id)
-    let message = await patientService.getTestService(id)
-    return res.status(200).json(message)
-}
-module.exports = {
-    handleSingup: handleSingup,
-    handleLogin: handleLogin,
-    handleUpdateDetailInfor:handleUpdateDetailInfor,
-    handleTest:handleTest
+export const handleTest = async (req, res) => {
+    try {
+        let id = req.body.id
+        id = parseInt(id)
+        let message = await getTestService(id)
+        return res.status(200).json(message)
+    } catch (error) {
+        next(error)
+    }
 }
