@@ -1,8 +1,10 @@
-package com.hcmute.findyourdoctor;
+package com.hcmute.findyourdoctor.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.hcmute.findyourdoctor.R;
 
 public class LoginActivity extends AppCompatActivity {
 
