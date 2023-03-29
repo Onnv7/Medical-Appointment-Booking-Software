@@ -6,11 +6,15 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.hcmute.findyourdoctor.Fragment.CalendarFragment;
+//import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
+//import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
+import com.hcmute.findyourdoctor.Fragment.AppointmentEmptyFragment;
+import com.hcmute.findyourdoctor.Fragment.AppointmentFragment;
 import com.hcmute.findyourdoctor.Fragment.HistoryFragment;
 import com.hcmute.findyourdoctor.Fragment.HomeFragment;
 import com.hcmute.findyourdoctor.Fragment.NotificationsFragment;
@@ -26,12 +30,19 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("FRAG", "acitivy start");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         viewPager = findViewById(R.id.view_pager);
+        setupChangeFragment();
+    }
+
+
+    private void setupChangeFragment() {
         fragmentArrayList.add(new HomeFragment());
-        fragmentArrayList.add(new CalendarFragment());
+//        fragmentArrayList.add(new AppointmentEmptyFragment());
+        fragmentArrayList.add(new AppointmentFragment());
         fragmentArrayList.add(new NotificationsFragment());
         fragmentArrayList.add(new HistoryFragment());
         fragmentArrayList.add(new ProfileFragment());
@@ -89,30 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-//        bottomNavigationView.setOnNavigationItemSelectedListener((item) -> {
-//            item.setChecked(true);
-//            switch (item.getItemId()) {
-//                case R.id.action_home:
-//                    viewPager.setCurrentItem(0);
-//                    Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
-//                    break;
-//                case R.id.action_calendar:
-//                    viewPager.setCurrentItem(1);
-//                    Toast.makeText(MainActivity.this, "Calendar", Toast.LENGTH_SHORT).show();
-//                    break;
-//                case R.id.action_notifications:
-//                    Toast.makeText(MainActivity.this, "Notifications", Toast.LENGTH_SHORT).show();
-//                    break;
-//                case R.id.action_history:
-//                    Toast.makeText(MainActivity.this, "History", Toast.LENGTH_SHORT).show();
-//                    break;
-//                case R.id.action_profile:
-//                    Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
-//                    break;
-//            }
-//            return true;
-//        });
     }
-    private void setupViewPager() {
-    }
+
 }

@@ -13,11 +13,18 @@ import android.view.ViewGroup;
 import com.hcmute.findyourdoctor.R;
 
 
-public class CalendarFragment extends Fragment {
+public class AppointmentEmptyFragment extends Fragment {
 
+    public AppointmentEmptyFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_calendar, container, false);
+        return inflater.inflate(R.layout.fragment_appointment_empty, container, false);
     }
 }
