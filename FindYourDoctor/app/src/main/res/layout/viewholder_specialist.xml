@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/specialist_layout"
+    android:layout_width="80dp"
+    android:layout_height="wrap_content"
+    android:background="#D37979">
+
+    <ImageView
+        android:id="@+id/specialist_pic"
+        android:layout_width="33dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/specialist_pic01" />
+
+    <TextView
+        android:id="@+id/specialist_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Dental Care"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/specialist_pic"
+        app:layout_constraintStart_toStartOf="@+id/specialist_pic"
+        app:layout_constraintTop_toBottomOf="@+id/specialist_pic" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 
 import com.hcmute.findyourdoctor.R;
 
-public class NotificationsFragment extends Fragment {
-    public NotificationsFragment() {
+
+public class AppointmentFragment extends Fragment {
+
+    public AppointmentFragment() {
     }
 
     @Override
@@ -22,6 +24,6 @@ public class NotificationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_notifications, container, false);
+        return inflater.inflate(R.layout.fragment_appointment, container, false);
     }
 }
