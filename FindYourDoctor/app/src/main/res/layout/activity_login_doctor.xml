@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_weight="10"
+    android:layout_height="match_parent"
+    tools:context=".Activity.LoginDoctorActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:layout_height="0dp">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_marginLeft="160dp"
+            android:layout_gravity="center"
+            android:layout_height="80dp"
+            android:src="@drawable/logo_doctor">
+
+        </ImageView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:text="Welcome back"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#121212"
+            android:layout_height="match_parent">
+
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:text="Your patient is waiting for you, what are you waiting for. Let's go"
+            android:paddingRight="50dp"
+            android:textAlignment="center"
+            android:paddingLeft="50dp"
+            android:layout_height="match_parent">
+
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:weightSum="10"
+        android:orientation="vertical"
+        android:layout_weight="3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="2"
+            android:layout_height="0dp">
+
+            <EditText
+                android:layout_width="330dp"
+                android:drawableEnd="@drawable/check"
+                android:hint="User name"
+                android:textSize="16sp"
+                android:paddingRight="10dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/custom_input"
+                android:layout_height="45dp">
+            </EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="2"
+            android:layout_height="0dp">
+
+            <EditText
+                android:layout_width="330dp"
+                android:drawableEnd="@drawable/eye"
+                android:hint="Password"
+                android:paddingRight="10dp"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/custom_input"
+                android:layout_height="45dp">
+            </EditText>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:weightSum="10"
+        android:orientation="vertical"
+        android:layout_weight="4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="2"
+            android:layout_height="0dp">
+
+            <Button
+                android:layout_width="300dp"
+                android:text="Login"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/custom_button_book"
+                android:layout_marginLeft="50dp"
+                android:layout_height="match_parent">
+
+            </Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="2"
+            android:layout_height="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Forgot password"
+                android:textAlignment="center"
+                android:textColor="#0EBE7F"
+                android:layout_height="match_parent">
+
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="5"
+            android:layout_height="0dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Don’t have an account? Join us"
+                android:textColor="#0EBE7F"
+                android:textAlignment="center"
+                android:layout_marginTop="70dp"
+                android:layout_height="match_parent">
+
+            </TextView>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
