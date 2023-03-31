@@ -9,6 +9,7 @@ const sequelize = new Sequelize('clinic_hcmute', 'root', '0339930201An.', {
 });
 
 let connectDB = async () => {
+  console.log("connect")
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
