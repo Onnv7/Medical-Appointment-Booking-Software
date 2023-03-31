@@ -10,6 +10,8 @@ import specialistRoute from "./src/routers/specialist.route.js";
 import bookingRoute from "./src/routers/booking.route.js";
 import scheduleRoute from "./src/routers/schedule.route.js";
 
+
+import bodyParser from 'body-parser';
 const app = express();
 dotenv.config();
 
@@ -34,6 +36,9 @@ mongoose.connection.on("connected", () => {
 app.use(cors({ credentials: true, origin: true }));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.use("/api/auth", authRoute);
 app.use("/api/patient", patientRoute);

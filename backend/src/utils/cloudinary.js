@@ -8,4 +8,14 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
+export const uploadImage = async (fileStr, folder) => {
+    try {
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+            upload_preset: folder
+        })
+        return uploadedResponse;
+    } catch (error) {
+
+    }
+}
 export default cloudinary
