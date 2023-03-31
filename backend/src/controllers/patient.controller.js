@@ -1,6 +1,7 @@
 import Patient from "../models/patient.model.js";
 import Booking from "../models/booking.model.js";
 
+
 export const bookingAppointment = async (req, res, next) => {
     try {
         const advice = req.body.advice;
@@ -23,6 +24,7 @@ export const bookingAppointment = async (req, res, next) => {
 
 export const updateProfile = async (req, res, next) => {
     try {
+        console.log(req.body)
         const patient = await Patient.findByIdAndUpdate(
             req.params.patientId,
             { ...req.body },

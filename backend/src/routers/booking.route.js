@@ -9,5 +9,5 @@ router.get("/patient/list/:patientId", listBookingForPatient);
 router.get("/doctor/list/:doctorId", listBookingForDoctor);
 
 
-export default router;
+export default router
 
