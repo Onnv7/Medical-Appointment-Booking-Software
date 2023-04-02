@@ -8,11 +8,15 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 //import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
 //import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
+import com.google.gson.JsonObject;
+import com.hcmute.findyourdoctor.Api.ApiService;
+import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Fragment.AppointmentEmptyFragment;
 import com.hcmute.findyourdoctor.Fragment.AppointmentFragment;
 import com.hcmute.findyourdoctor.Fragment.HistoryFragment;
@@ -23,6 +27,10 @@ import com.hcmute.findyourdoctor.Adapter.ViewPagerAdapter;
 import com.hcmute.findyourdoctor.R;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
@@ -35,6 +43,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         viewPager = findViewById(R.id.view_pager);
+        ApiService apiService = RetrofitClient.getRetrofit().create(ApiService.class);
+        Log.d("nva1", "onResponse: 00000000000000");
+        apiService.test("642698a194ab5aa296209d00").enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("nva1", "onResponse: 11111111111111");
+                Toast.makeText(MainActivity.this, "?????????", Toast.LENGTH_SHORT).show();
+                if(response.isSuccessful()) {
+                    JsonObject res = response.body();
+                    System.out.println(res.get("message").toString());
+                    Log.d("nva1", "onResponse: " + res.get("patientId").toString());
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Khong thanh cong", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
         setupChangeFragment();
     }
 
