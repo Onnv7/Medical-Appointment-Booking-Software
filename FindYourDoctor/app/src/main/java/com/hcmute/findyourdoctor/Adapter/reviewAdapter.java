@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.model.review;
+import com.hcmute.findyourdoctor.Model.review;
 
 import java.util.List;
 

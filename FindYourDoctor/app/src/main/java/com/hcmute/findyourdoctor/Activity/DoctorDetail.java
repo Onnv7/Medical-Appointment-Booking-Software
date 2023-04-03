@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.hcmute.findyourdoctor.Adapter.reviewAdapter;
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.model.review;
+import com.hcmute.findyourdoctor.Model.review;
 
 import java.util.ArrayList;
 import java.util.List;
