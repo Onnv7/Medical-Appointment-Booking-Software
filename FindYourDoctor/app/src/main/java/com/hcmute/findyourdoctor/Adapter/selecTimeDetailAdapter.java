@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.model.selectTimeDetail;
+import com.hcmute.findyourdoctor.Model.selectTimeDetail;
 
 import java.util.List;
 

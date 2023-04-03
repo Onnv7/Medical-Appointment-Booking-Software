@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     JsonObject res = response.body();
                     System.out.println(res.get("message").toString());
-                    Log.d("nva1", "onResponse: " + res.get("patientId").toString());
+//                    Log.d("nva1", "onResponse: " + res.get("patientId").toString());
                 }
                 else {
                     Toast.makeText(MainActivity.this, "Khong thanh cong", Toast.LENGTH_SHORT).show();

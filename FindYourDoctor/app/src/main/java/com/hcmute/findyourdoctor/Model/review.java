@@ -1,4 +1,4 @@
-package com.hcmute.findyourdoctor.model;
+package com.hcmute.findyourdoctor.Model;
 
 public class review {
     private String name;

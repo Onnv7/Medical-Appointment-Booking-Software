@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.model.selectTime;
+import com.hcmute.findyourdoctor.Model.selectTime;
 
 import java.util.List;
 

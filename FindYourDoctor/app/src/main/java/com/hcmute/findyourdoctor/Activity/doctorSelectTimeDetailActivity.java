@@ -10,8 +10,8 @@ import android.widget.GridView;
 import com.hcmute.findyourdoctor.Adapter.selecTimeDetailAdapter;
 import com.hcmute.findyourdoctor.Adapter.selectTimeAdapter;
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.model.selectTime;
-import com.hcmute.findyourdoctor.model.selectTimeDetail;
+import com.hcmute.findyourdoctor.Model.selectTime;
+import com.hcmute.findyourdoctor.Model.selectTimeDetail;
 
 import java.util.ArrayList;
 import java.util.List;
