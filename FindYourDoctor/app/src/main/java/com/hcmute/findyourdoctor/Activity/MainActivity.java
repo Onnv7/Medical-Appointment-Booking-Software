@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("FRAG", "acitivy start");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_nav);
