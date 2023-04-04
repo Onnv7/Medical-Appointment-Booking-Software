@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_code"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroud"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            app:cardCornerRadius="8dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="1dp"
+                android:background="@null"
+                android:src="@drawable/back"></ImageView>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Verify your email"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter 4 Digits Code"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter the 4 digits code that you received on your email."
+                android:textColor="#677294" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btn_submit"
+            android:layout_width="295dp"
+            android:layout_height="56dp"
+            android:layout_marginBottom="56dp"
+            android:background="@drawable/backgroud_green"
+            android:gravity="center"
+            android:text="Continue"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_wrong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="You entered the wrong code"
+            android:textColor="#FC0D0D"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="96dp"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+            <EditText
+                android:id="@+id/edt_email_log"
+                android:layout_width="56dp"
+                android:layout_height="52dp"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/input_code"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="textPersonName"
+                android:textColor="@color/primary_green"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/edt_num2"
+                android:layout_width="56dp"
+                android:layout_height="52dp"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/input_code"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="textPersonName"
+                android:textColor="@color/primary_green"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/edt_num3"
+                android:layout_width="56dp"
+                android:layout_height="52dp"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/input_code"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="textPersonName"
+                android:textColor="@color/primary_green"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/edt_num4"
+                android:layout_width="56dp"
+                android:layout_height="52dp"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/input_code"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="textPersonName"
+                android:textColor="@color/primary_green"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:inputType="numberDecimal" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

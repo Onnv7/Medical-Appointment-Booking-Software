@@ -56,7 +56,7 @@
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/edt_email_log"
             android:layout_width="335dp"
             android:layout_height="54dp"
             android:layout_marginTop="40dp"
@@ -71,7 +71,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/edt_password_log"
             android:layout_width="335dp"
             android:layout_height="54dp"
             android:layout_marginTop="28dp"
@@ -80,21 +80,21 @@
             android:hint="Password"
             android:inputType="textPassword"
             android:paddingStart="24dp"
-            app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
-            app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+            app:layout_constraintEnd_toEndOf="@+id/edt_email_log"
+            app:layout_constraintStart_toStartOf="@+id/edt_email_log"
+            app:layout_constraintTop_toBottomOf="@+id/edt_email_log" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_login"
             android:layout_width="259dp"
             android:layout_height="54dp"
             android:layout_marginTop="60dp"
             android:background="@drawable/button_green_background"
             android:text="Login"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
-            app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+            app:layout_constraintEnd_toEndOf="@+id/edt_password_log"
+            app:layout_constraintStart_toStartOf="@+id/edt_password_log"
+            app:layout_constraintTop_toBottomOf="@+id/edt_password_log" />
 
         <TextView
             android:id="@+id/btn_signup"
@@ -104,13 +104,13 @@
             android:text="Forgor password"
             android:textColor="@color/primary_green"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="@+id/btn_login"
             app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="@+id/button"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintStart_toStartOf="@+id/btn_login"
+            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tv_register_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"

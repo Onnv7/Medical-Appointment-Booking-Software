@@ -15,10 +15,10 @@ const patientSchema = mongoose.Schema({
         type: String,
         enum: ["male", "female"],
     },
-    birth_date: {
+    birthDate: {
         type: String
     },
-    avatar_url: {
+    avatarUrl: {
         type: String
     },
     phone: {

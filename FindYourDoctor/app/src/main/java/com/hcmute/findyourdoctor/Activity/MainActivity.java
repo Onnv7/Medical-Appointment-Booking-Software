@@ -42,28 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         viewPager = findViewById(R.id.view_pager);
-        ApiService apiService = RetrofitClient.getRetrofit().create(ApiService.class);
-        Log.d("nva1", "onResponse: 00000000000000");
-        apiService.test("642698a194ab5aa296209d00").enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.d("nva1", "onResponse: 11111111111111");
-                Toast.makeText(MainActivity.this, "?????????", Toast.LENGTH_SHORT).show();
-                if(response.isSuccessful()) {
-                    JsonObject res = response.body();
-                    System.out.println(res.get("message").toString());
-//                    Log.d("nva1", "onResponse: " + res.get("patientId").toString());
-                }
-                else {
-                    Toast.makeText(MainActivity.this, "Khong thanh cong", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-
-            }
-        });
         setupChangeFragment();
     }
 
