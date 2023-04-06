@@ -28,6 +28,10 @@ export const registerNewPatient = async (req, res, next) => {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
         const newPatient = new Patient({
+            birthDate: "",
+            avatarUrl: "",
+            phone: "",
+            address: "",
             ...req.body,
             password: hash,
         });
