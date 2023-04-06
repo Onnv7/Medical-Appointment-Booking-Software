@@ -41,7 +41,6 @@ public class VerifyCodeActivity extends AppCompatActivity {
                 {
                     HashMap<String, String> body = new HashMap<>();
                     Intent intent = getIntent();
-                    System.out.println("????" + intent.getStringExtra("name").toString());
                     String code = intent.getStringExtra("code").toString();
                     String patientCode = edtNum1.getText().toString().trim() +  edtNum2.getText().toString().trim() +edtNum3.getText().toString().trim() +edtNum4.getText().toString().trim();
                     System.out.println(code + " --- " +  patientCode);
@@ -53,7 +52,9 @@ public class VerifyCodeActivity extends AppCompatActivity {
 
                     body.put("name", intent.getStringExtra("name"));
                     body.put("email", intent.getStringExtra("email"));
+                    body.put("phone", intent.getStringExtra("phone"));
                     body.put("password", intent.getStringExtra("password"));
+                    body.put("birthDate", intent.getStringExtra("birthDate"));
 
                     authApiService.registerPatient(body).enqueue(new Callback<JsonObject>() {
                         @Override
@@ -61,7 +62,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
                             if(response.isSuccessful())
                             {
                                 JsonObject res = response.body();
-                                Toast.makeText(VerifyCodeActivity.this, res.get("message").toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VerifyCodeActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                                 Intent intentLogin = new Intent(VerifyCodeActivity.this, LoginActivity.class);
                                 startActivity(intentLogin);
                             }

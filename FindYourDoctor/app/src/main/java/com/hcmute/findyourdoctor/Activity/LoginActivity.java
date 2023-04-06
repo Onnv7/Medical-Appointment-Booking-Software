@@ -27,6 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+    public static final String SHARE = "INFO";
     EditText tvEmail, tvPassword;
     TextView btnLogin, tvRegister;
     AuthApiService authApiService;
@@ -35,8 +36,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("info", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences(SHARE, Context.MODE_PRIVATE);
         boolean isLogged = sharedPreferences.getBoolean("is_logged", false);
+
         if(isLogged)
         {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -61,15 +63,16 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                             JsonObject res = response.body();
+                            Log.d("nva", response.toString());
                             if(response.isSuccessful()){
-                                String id = res.getAsJsonObject("result").get("_id").toString();
-                                String name = res.getAsJsonObject("result").get("name").toString();
-                                String email = res.getAsJsonObject("result").get("email").toString();
+                                String id = res.getAsJsonObject("result").get("_id").getAsString();
+                                String name = res.getAsJsonObject("result").get("name").getAsString();
+                                String email = res.getAsJsonObject("result").get("email").getAsString();
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("id", id);
                                 editor.putString("name", name);
-                                editor.putString("email", email);;
+                                editor.putString("email", email);
                                 editor.putBoolean("is_logged", true);
                                 editor.apply();
 
@@ -87,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+                    authApiService = null;
                 }
             }
         });
