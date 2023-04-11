@@ -9,14 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.Model.doctorList;
+import com.hcmute.findyourdoctor.Domain.PopularDoctorDomain;
 
 import java.util.List;
 
 public class doctorListAdapter extends RecyclerView.Adapter<doctorListAdapter.doctorListViewHolder> {
-    private List<doctorList> mList;
+    private List<PopularDoctorDomain> mList;
 
-    public doctorListAdapter(List<doctorList> mList) {
+    public doctorListAdapter(List<PopularDoctorDomain> mList) {
         this.mList = mList;
     }
 
@@ -31,13 +31,13 @@ public class doctorListAdapter extends RecyclerView.Adapter<doctorListAdapter.do
 
     @Override
     public void onBindViewHolder(@NonNull doctorListAdapter.doctorListViewHolder holder, int position) {
-        doctorList doctorList_pt = mList.get(position);
-        if (doctorList_pt == null)
+        PopularDoctorDomain popularDoctorDomain_pt = mList.get(position);
+        if (popularDoctorDomain_pt == null)
         {
             return;
         }
-        holder.name.setText(doctorList_pt.getName());
-        holder.info.setText(doctorList_pt.getInfo());
+        holder.name.setText(popularDoctorDomain_pt.getName());
+//        holder.info.setText(popularDoctorDomain_pt.getInfo());
     }
 
     @Override

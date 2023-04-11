@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Review from "./booking.model.js"
+import Booking from "./booking.model.js"
 
 const doctorSchema = mongoose.Schema({
     email: {
@@ -40,18 +40,28 @@ const doctorSchema = mongoose.Schema({
     specialistId: {
         type: mongoose.Types.ObjectId,
         ref: "Specialist"
-    }
+    },
+    // start: {
+    //     type: Number,
+    //     default: 0
+    // }
 }, { timestamps: true });
 
-doctorSchema.virtual('rating').get(function () {
-    return this._rating || (
-        this._rating = Review.aggregate([
-            { $match: { doctor_id: this._id } },
+doctorSchema.virtual('rating').get(async function () {
+    let rating = 0
+    try {
+        rating = await Booking.aggregate([
+            { $match: { doctorId: this._id } },
             { $group: { _id: null, avgRating: { $avg: '$rating' } } }
         ])
             .exec()
             .then(result => result.length ? result[0].avgRating : 0)
-    );
+    } catch (error) {
+
+    }
+    finally {
+        return rating;
+    }
 });
 
 

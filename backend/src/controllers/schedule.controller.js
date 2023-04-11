@@ -16,6 +16,8 @@ export const updateSchedule = async (req, res, next) => {
     }
 }
 
+
+
 export const createSchedule = async (req, res, next) => {
     try {
         const doctorId = req.body.doctorId;
