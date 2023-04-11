@@ -356,6 +356,7 @@
         android:layout_height="0dp">
 
         <Button
+            android:id="@+id/btn_confirmBook"
             android:layout_width="match_parent"
             android:text="Confirm"
             android:textAllCaps="false"
