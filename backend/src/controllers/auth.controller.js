@@ -69,6 +69,10 @@ export const registerNewPatient = async (req, res, next) => {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
         const newPatient = new Patient({
+            birthDate: "",
+            avatarUrl: "",
+            phone: "",
+            address: "",
             ...req.body,
             password: hash,
         });
@@ -108,11 +112,13 @@ export const loginPatient = async (req, res, next) => {
 export const registerNewDoctor = async (req, res, next) => {
     // TODO: sửa lỗi chỗ ngày sinh trong mongoose khác với date tong js => sử dụng 'yyyy-mm-dd để fix
     try {
+        const avatarUrl = "https://res.cloudinary.com/dtvnsczg8/image/upload/v1681134360/Clinic/avatar/doctor/doctor_avatar_default.png"
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
         const newDoctor = new Doctor({
             ...req.body,
             password: hash,
+            avatarUrl: avatarUrl
         });
         await newDoctor.save();
         res.status(200).json({ success: true, message: "Success" });

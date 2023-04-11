@@ -7,123 +7,178 @@
     android:background="@drawable/backgroud"
     tools:context=".Activity.Register">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="304dp"
-        android:layout_height="84dp"
-        android:layout_marginTop="90dp"
-        android:orientation="vertical"
-        android:weightSum="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Join us to find your doctor"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="You can view your doctor's schedule and book an appointment with them" />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="106dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="32dp"
+                android:orientation="vertical"
+                android:weightSum="10">
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="21dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:text="Join us to find your doctor"
+                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/nameRegister"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/vien_input"
-            android:ems="10"
-            android:hint="Name"
-            android:inputType="textPersonName" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="You can view your doctor's schedule and book an appointment with them" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/emailRegister"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/vien_input"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textPersonName" />
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="21dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="21dp"
+                android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/passwordRegister"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/vien_input"
-            android:drawableEnd="@drawable/hide_eye"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword" />
+                <EditText
+                    android:id="@+id/edt_name_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/textbox_background"
+                    android:ems="10"
+                    android:hint="Name"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:textColor="#677294" />
 
-        <RadioButton
-            android:id="@+id/radioButton5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="I agree with the Terms of Service &amp; Privacy Policy"
-            android:textColor="#677294"
-            android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/edt_email_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/textbox_background"
+                    android:ems="10"
+                    android:hint="Email"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:textColor="#677294" />
 
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/edt_phone_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/textbox_background"
+                    android:ems="10"
+                    android:hint="Phone"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:textColor="#677294" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/signup"
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/backgroud_signup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+                <EditText
+                    android:id="@+id/edt_birthdate_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/textbox_background"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:hint="Birthdate"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:textColor="#677294" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Sign up"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <EditText
+                    android:id="@+id/edt_password_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/textbox_background"
+                    android:drawableEnd="@drawable/hide_eye"
+                    android:ems="10"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textColor="#677294" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:text="Have an account? Log in"
-        android:textColor="#0EBE7F"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup" />
+                <EditText
+                    android:id="@+id/tv_re_pwd_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/textbox_background"
+                    android:drawableEnd="@drawable/hide_eye"
+                    android:ems="10"
+                    android:hint="Re-Password"
+                    android:inputType="textPassword"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textColor="#677294" />
+
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/radio_poplicy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="12dp"
+                android:gravity="center"
+                android:text="I agree with the Terms of Service &amp; Privacy Policy"
+                android:textColor="#677294"
+                android:textSize="12sp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/signup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/btn_signup"
+                    android:layout_width="295dp"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/backgroud_green"
+                    android:gravity="center"
+                    android:text="Sign up"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_register_log"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Have an account? Log in"
+                    android:textColor="#0EBE7F"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_signup"
+                    app:layout_constraintStart_toStartOf="@+id/btn_signup"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_signup" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

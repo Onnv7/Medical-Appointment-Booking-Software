@@ -1,7 +1,6 @@
 import Patient from "../models/patient.model.js";
 import Booking from "../models/booking.model.js";
-
-
+import cloudinary from "../utils/cloudinary.js";
 export const bookingAppointment = async (req, res, next) => {
     try {
         const advice = req.body.advice;
@@ -24,13 +23,70 @@ export const bookingAppointment = async (req, res, next) => {
 
 export const updateProfile = async (req, res, next) => {
     try {
-        console.log(req.body)
+        const patientId = req.params.patientId;
+        let type;
+        let image, avatarUrl = "";
+        let body = req.body;
+        if (req.file) {
+            type = req.file.mimetype
+            image = `data:${type};base64,` + req.file.buffer.toString('base64');
+            const uploadedResponse = await cloudinary.uploader.upload(image, {
+                public_id: patientId,
+                upload_preset: 'patient avatar'
+            })
+            avatarUrl = uploadedResponse.url
+            body = {
+                ...body,
+                avatarUrl
+            }
+        }
+
         const patient = await Patient.findByIdAndUpdate(
-            req.params.patientId,
-            { ...req.body },
+            patientId,
+            body,
             { new: true },
         );
-        res.status(200).json({ success: true, message: "Update profile successfully", result: patient })
+
+        const { password, ...others } = patient._doc;
+        res.status(200).json({ success: true, message: "Update profile successfully", result: others })
+    } catch (error) {
+        // console.log(error)
+        next(error);
+    }
+}
+
+export const updateAvatar = async (req, res, next) => {
+    try {
+        console.log(req.file)
+        const patientId = req.params.patientId;
+        const type = req.file.mimetype
+        const image = `data:${type};base64,` + req.file.buffer.toString('base64');
+
+        const uploadedResponse = await cloudinary.uploader.upload(image, {
+            public_id: patientId,
+            upload_preset: 'patient avatar'
+        })
+        const avatarUrl = uploadedResponse.url
+        const result = await Patient.findByIdAndUpdate(
+            patientId,
+            { avatarUrl: avatarUrl },
+            { new: true },
+        )
+        res.status(200).json({ success: true, message: "Update avatar successfully", result: result })
+    } catch (error) {
+        // console.log(error)
+        next(error);
+    }
+}
+
+export const getProfileById = async (req, res, next) => {
+    try {
+        const patient = await Patient.findById(req.params.patientId);
+        if (!patient) {
+            return res.status(200).json({ success: false, message: "Find failed" });
+        }
+        const { password, ...others } = patient._doc;
+        res.status(200).json({ success: true, message: "Find successfully", result: others })
     } catch (error) {
         next(error);
     }
