@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="160dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:weightSum="10"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_popular_doctor"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_height="wrap_content">
+    android:weightSum="10">
 
     <LinearLayout
         android:layout_width="140dp"
         android:layout_height="0dp"
-        android:layout_weight="10"
-        >
+        android:layout_weight="10">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            app:cardCornerRadius="20dp"
+            android:layout_height="wrap_content"
             app:cardBackgroundColor="#E1D8D8"
-            android:layout_height="wrap_content">
+            app:cardCornerRadius="20dp">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:weightSum="10"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_height="match_parent">
+                android:weightSum="10">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -36,17 +36,17 @@
                         android:id="@+id/img_popularDoctor"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:scaleType="fitXY"
                         android:layout_weight="1"
-                        android:src="@drawable/anhdaidien"/>
+                        android:scaleType="fitXY"
+                        android:src="@drawable/avatar" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:weightSum="10"
+                    android:layout_weight="3"
                     android:orientation="vertical"
-                    android:layout_weight="3">
+                    android:weightSum="10">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -72,9 +72,9 @@
                         <TextView
                             android:id="@+id/txtPopularDoctorDes"
                             android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:text="Medicine Specialist"
-                            android:textAlignment="center"
-                            android:layout_height="match_parent">
+                            android:textAlignment="center">
 
                         </TextView>
                     </LinearLayout>
@@ -82,16 +82,20 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="3.3">
+                        android:layout_weight="3.3"
+                        android:gravity="center">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:src="@drawable/star"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="17dp"
-                            android:layout_height="wrap_content">
-
-                        </ImageView>
+                        <RatingBar
+                            android:id="@+id/rtb_popular_doctor"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:isIndicator="false"
+                            android:max="5"
+                            android:progressTint="@color/green_star"
+                            android:secondaryProgressTint="@color/green_star"
+                            android:rating="0" />
                     </LinearLayout>
 
 

@@ -1,17 +1,34 @@
 package com.hcmute.findyourdoctor.Domain;
 
 public class FeatureDoctorDomain {
-    private String image;
+    private String id;
+    private String avatarUlr;
     private String name;
-    private int number;
-    private int price;
+    private float rating;
+    private float price;
 
-    public String getImage() {
-        return image;
+    public FeatureDoctorDomain(String id, String avatarUlr, String name, float rating, float price) {
+        this.id = id;
+        this.avatarUlr = avatarUlr;
+        this.name = name;
+        this.rating = rating;
+        this.price = price;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getAvatarUlr() {
+        return avatarUlr;
+    }
+
+    public void setAvatarUlr(String avatarUlr) {
+        this.avatarUlr = avatarUlr;
     }
 
     public String getName() {
@@ -22,26 +39,29 @@ public class FeatureDoctorDomain {
         this.name = name;
     }
 
-    public int getNumber() {
-        return number;
+    public float getRating() {
+        return rating;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
-    public FeatureDoctorDomain(String image, String name, int number, int price) {
-        this.image = image;
-        this.name = name;
-        this.number = number;
-        this.price = price;
+    @Override
+    public String toString() {
+        return "FeatureDoctorDomain{" +
+                "avatarUlr='" + avatarUlr + '\'' +
+                ", name='" + name + '\'' +
+                ", rating=" + rating +
+                ", price=" + price +
+                '}';
     }
 }

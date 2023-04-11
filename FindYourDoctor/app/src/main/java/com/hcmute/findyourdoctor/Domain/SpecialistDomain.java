@@ -24,4 +24,12 @@ public class SpecialistDomain {
     public void setPic(String pic) {
         this.pic = pic;
     }
+
+    @Override
+    public String toString() {
+        return "SpecialistDomain{" +
+                "title='" + title + '\'' +
+                ", pic='" + pic + '\'' +
+                '}';
+    }
 }
