@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import Patient from "../models/patient.model.js";
 import Doctor from "../models/doctor.model.js";
 import { sendEmail } from './../utils/sendEmail.js';
+import Booking from "../models/booking.model.js";
+import Schedule from "../models/schedule.model.js"
 
 
 export const sendCodeVerify = async (req, res, next) => {
@@ -19,6 +21,45 @@ export const sendCodeVerify = async (req, res, next) => {
         next(error);
     }
 };
+
+export const createSchedule = async (req, res, next) => {
+    try {
+        const doctorId = req.body.doctorId;
+
+        const doctor = await Doctor.findById(doctorId);
+        if (!doctor) {
+            return res.status(404).json({ success: false, message: `Dont find doctor ${doctorId}` });
+        }
+
+        const date = new Date(req.body.date);
+        const today = new Date();
+        const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+        const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 8);
+
+        if (date <= tomorrow || date >= nextWeek) {
+            return res.status(200).json({ success: false, message: "Date is invalid" })
+        }
+
+        const schedule = new Schedule({
+            ...req.body
+        });
+        await schedule.save();
+        res.status(200).json({ success: true, message: "Created Schedule", result: schedule })
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const createBooking = async (req, res, next) => {
+    try {
+        const booking = new Booking({ ...req.body });
+        await booking.save();
+        res.status(200).json({ success: true, message: "Creared booking", result: booking });
+    } catch (error) {
+        next(error);
+    }
+}
 
 
 // register a new patient

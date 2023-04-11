@@ -11,4 +11,5 @@ router.get("/list", getAllSpecialists);
 router.delete("/remove/:specialistId", removeSpecialist);
 router.patch("/update/:specialistId", updateSpecialist);
 
+
 export default router;
