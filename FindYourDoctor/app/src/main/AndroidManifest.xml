@@ -23,54 +23,10 @@
         <activity android:name=".Activity.DoctorDetail" android:exported="true">
             <meta-data android:name="android.app.lib_name" android:value="" />
         </activity>
-        <activity
-      android:name=".Activity.doctorSelectTimeDetailActivity"
-      android:exported="false"
-    >
-            <meta-data android:name="android.app.lib_name" android:value="" />
-        </activity>
-        <activity
-      android:name=".Activity.doctorSelectTimeActivity"
-      android:exported="false"
-    >
-            <meta-data android:name="android.app.lib_name" android:value="" />
-        </activity>
-        <activity
-      android:name=".Activity.LoginDoctorActivity"
-      android:exported="true"
-    >
-            <meta-data android:name="android.app.lib_name" android:value="" />
-        </activity>
-        <activity
-      android:name=".Activity.DoctorListActitvity"
-      android:exported="false"
-    >
-            <meta-data android:name="android.app.lib_name" android:value="" />
-        </activity>
-        <activity
-      android:name=".Activity.HistoryDetailsActivity"
-      android:exported="false"
-    />
-        <activity
-      android:name=".Activity.AppointmentDetailsActivity"
-      android:exported="false"
-    />
-        <activity
-      android:name=".Activity.LoginActivity"
-      android:exported="true"
-    >
 
 
-        </activity>
-<<<<<<< HEAD
-        <activity
-            android:name=".Activity.MainActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
 
-        </activity>
+
         <activity
             android:name=".Activity.doctorSelectTimeActivity"
             android:exported="true">
@@ -96,10 +52,15 @@
         </activity>
         <activity
             android:name=".Activity.HistoryDetailsActivity"
-            android:exported="true" >
-=======
+            android:exported="true" />
         <activity android:name=".Activity.MainActivity" android:exported="true">
->>>>>>> 3b8b507616c7012af956bcd3a17037b58c52e76b
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
 
         </activity>
         <activity
@@ -114,11 +75,6 @@
         <activity
             android:name=".Activity.doctorSelectTimeDetailActivity"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
       android:name=".Activity.VerifyCodeActivity"
