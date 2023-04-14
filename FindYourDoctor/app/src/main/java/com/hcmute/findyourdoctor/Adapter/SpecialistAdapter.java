@@ -1,22 +1,20 @@
 package com.hcmute.findyourdoctor.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
-import com.hcmute.findyourdoctor.Model.doctorList;
 import com.hcmute.findyourdoctor.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.ViewHolder> {
@@ -78,11 +76,15 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.Sp
     @Override
     public void onBindViewHolder(@NonNull SpecialistAdapter.SpecialListViewHolder holder, int position) {
         SpecialistDomain specialist_pt = mListSpecialist.get(position);
+        Log.d("nva", "SpecialListViewHolder: " + mListSpecialist.size());
         if (specialist_pt == null)
         {
             return;
         }
         holder.specialist_title.setText(specialist_pt.getTitle());
+        Glide.with(holder.ivSpecialist.getContext())
+                .load(specialist_pt.getPic())
+                .into(holder.ivSpecialist);
 //      holder.info.setText(specialist_pt.getInfo());
     }
 
@@ -99,6 +101,8 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.Sp
 
     public static class SpecialListViewHolder extends RecyclerView.ViewHolder {
         private TextView specialist_title;
+        private ImageView ivSpecialist;
+        private LinearLayout layoutSpecialist;
 //        private TextView info;
 
 
@@ -106,6 +110,8 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.Sp
             super(itemView);
 
             specialist_title = itemView.findViewById(R.id.specialist_title2);
+            ivSpecialist = itemView.findViewById(R.id.iv_specialist);
+            layoutSpecialist = itemView.findViewById(R.id.layout_specialist);
 //            info = itemView.findViewById(R.id.txtDocListInfo);
         }
     }

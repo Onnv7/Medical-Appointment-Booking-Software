@@ -57,6 +57,10 @@ app.use((err, req, res, next) => {
         stack: err.stack,
     });
 });
+
+// app.get('/list',(req,res)=>{
+//     res.send("vao")
+// })
 const PORT = process.env.PORT || 8080
 app.listen(PORT, () => {
     connect();

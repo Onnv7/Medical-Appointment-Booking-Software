@@ -1,4 +1,5 @@
 import Booking from "../models/booking.model.js";
+import Doctor from "../models/doctor.model.js";
 
 export const updateBooking = async (req, res, next) => {
     try {
@@ -22,7 +23,7 @@ export const createBooking = async (req, res, next) => {
     }
 }
 
-export const listBookingForPatient = async (req, res, next) => {
+export const listBookingByPatient = async (req, res, next) => {
     try {
         const bookingList = await Booking.find(
             {
@@ -54,7 +55,7 @@ export const listBookingForPatient = async (req, res, next) => {
     }
 }
 
-export const listBookingForDoctor = async (req, res, next) => {
+export const listBookingByDoctor = async (req, res, next) => {
     console.log("object")
     try {
         const bookingList = await Booking.find(
@@ -89,3 +90,4 @@ export const getAllBooking = async (req, res, next) => {
 
     }
 }
+

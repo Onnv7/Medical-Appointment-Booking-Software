@@ -1,5 +1,5 @@
 import Specialist from "../models/specialist.model.js";
-
+import cloudinary from "../utils/cloudinary.js";
 
 export const getAllSpecialists = async (req, res, next) => {
     try {
@@ -12,8 +12,22 @@ export const getAllSpecialists = async (req, res, next) => {
 
 export const createSpecialist = async (req, res, next) => {
     try {
+        console.log(req.body)
+        const name = req.body.name
+        let type;
+        let image, avatarUrl = "";
+        if (req.file) {
+            type = req.file.mimetype
+            image = `data:${type};base64,` + req.file.buffer.toString('base64');
+            const uploadedResponse = await cloudinary.uploader.upload(image, {
+                public_id: name,
+                upload_preset: 'specialist'
+            })
+            avatarUrl = uploadedResponse.url
+        }
+        const imageUrl = avatarUrl
         const specialist = new Specialist(
-            { ...req.body }
+            { ...req.body, imageUrl }
         );
         await specialist.save();
         res.status(200).json({ success: true, message: "Created specialist", result: specialist })

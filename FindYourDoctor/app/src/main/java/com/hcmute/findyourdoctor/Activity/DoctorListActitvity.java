@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.hcmute.findyourdoctor.Adapter.doctorListAdapter;
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.Model.doctorList;
+import com.hcmute.findyourdoctor.Domain.PopularDoctorDomain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 public class DoctorListActitvity extends AppCompatActivity {
 
     RecyclerView listDoctors;
-    List<doctorList> mdoctorList;
+    List<PopularDoctorDomain> mdoctorList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +35,14 @@ public class DoctorListActitvity extends AppCompatActivity {
     }
 
     public void addReview() {
-        doctorList doctorList1 = new doctorList("Patient1", "ok luôn");
-        doctorList doctorList2 = new doctorList("Patient2", "ok");
-        doctorList doctorList3 = new doctorList("Patient2", "ok luôn");
-        doctorList doctorList4 = new doctorList("Patient2", "ok");
-        mdoctorList.add(doctorList1);
-        mdoctorList.add(doctorList2);
-        mdoctorList.add(doctorList3);
-        mdoctorList.add(doctorList4);
+//        PopularDoctorDomain popularDoctorDomain1 = new PopularDoctorDomain("Patient1", "ok luôn");
+//        PopularDoctorDomain popularDoctorDomain2 = new PopularDoctorDomain("Patient2", "ok");
+//        PopularDoctorDomain popularDoctorDomain3 = new PopularDoctorDomain("Patient2", "ok luôn");
+//        PopularDoctorDomain popularDoctorDomain4 = new PopularDoctorDomain("Patient2", "ok");
+//        mdoctorList.add(popularDoctorDomain1);
+//        mdoctorList.add(popularDoctorDomain2);
+//        mdoctorList.add(popularDoctorDomain3);
+//        mdoctorList.add(popularDoctorDomain4);
 
         doctorListAdapter doctorListAdapter = new doctorListAdapter(mdoctorList);
         listDoctors.setAdapter(doctorListAdapter);
