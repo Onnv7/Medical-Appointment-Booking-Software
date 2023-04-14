@@ -117,7 +117,7 @@
                             android:layout_height="0dp">
 
                             <TextView
-                                android:id="@+id/txtNameDoctorList"
+                                android:id="@+id/tv_name_select_time"
                                 android:layout_width="match_parent"
                                 android:text="Dr.Pediatrician"
                                 android:textStyle="bold"
@@ -133,7 +133,7 @@
                             android:layout_weight="2">
 
                             <TextView
-                                android:id="@+id/txtDocListInfo"
+                                android:id="@+id/tv_specialist_select_time"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:textSize="10dp"

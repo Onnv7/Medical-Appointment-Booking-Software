@@ -12,13 +12,13 @@ import com.hcmute.findyourdoctor.Model.selectTimeDetail;
 
 import java.util.List;
 
-public class selecTimeDetailAdapter extends BaseAdapter {
+public class SelectTimeDetailAdapter extends BaseAdapter {
 
     private Context context;
     private int layout;
     private List<selectTimeDetail> handList;
 
-    public selecTimeDetailAdapter(Context context, int layout, List<selectTimeDetail> handList) {
+    public SelectTimeDetailAdapter(Context context, int layout, List<selectTimeDetail> handList) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;

@@ -27,22 +27,22 @@ export const listBookingByPatient = async (req, res, next) => {
     try {
         const bookingList = await Booking.find(
             {
-                patientId: req.params.patientId,
-                status: { $in: ['waiting', 'aaccepted'] }
+                patient: req.params.patientId,
+                status: { $in: ['waiting', 'accepted'] }
             }
         )
             .populate({
-                path: 'doctorId',
+                path: 'doctor',
                 select: {
                     'name': 1,
                     'avatarUrl': 1
                 }
             })
             .populate({
-                path: 'scheduleId',
+                path: 'schedule',
                 select: 'date',
                 populate: {
-                    path: 'doctorId',
+                    path: 'doctor',
                     select: {
                         'name': 1,
                         'avatarUrl': 1
@@ -60,19 +60,19 @@ export const listBookingByDoctor = async (req, res, next) => {
     try {
         const bookingList = await Booking.find(
             {
-                doctorId: req.params.doctorId,
+                doctor: req.params.doctorId,
                 // status: { $in: ['waiting', 'aaccepted'] }
             }
         )
             .populate({
-                path: 'patientId',
+                path: 'patient',
                 select: {
                     'name': 1,
                     'avatarUrl': 1
                 }
             })
             .populate({
-                path: 'scheduleId',
+                path: 'schedule',
                 select: 'date',
             });
         res.status(200).json({ success: true, message: `Get booking list for ${req.params.patientId}`, result: bookingList });
@@ -90,4 +90,5 @@ export const getAllBooking = async (req, res, next) => {
 
     }
 }
+
 

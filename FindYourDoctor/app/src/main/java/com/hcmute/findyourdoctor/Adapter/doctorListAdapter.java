@@ -59,8 +59,8 @@ public class doctorListAdapter extends RecyclerView.Adapter<doctorListAdapter.do
         public doctorListViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.txtNameDoctorList);
-            info = itemView.findViewById(R.id.txtDocListInfo);
+            name = itemView.findViewById(R.id.tv_name_select_time);
+            info = itemView.findViewById(R.id.tv_specialist_select_time);
         }
     }
 }

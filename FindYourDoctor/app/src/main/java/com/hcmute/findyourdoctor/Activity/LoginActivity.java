@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        init();
+        initView();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                             JsonObject res = response.body();
-                            Log.d("nva", response.toString());
                             if(response.isSuccessful()){
                                 String id = res.getAsJsonObject("result").get("_id").getAsString();
                                 String name = res.getAsJsonObject("result").get("name").getAsString();
@@ -118,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
-    private void init() {
+    private void initView() {
         tvEmail = (EditText) findViewById(R.id.edt_email_log);
         tvPassword = (EditText) findViewById(R.id.edt_password_log);
         btnLogin = (TextView) findViewById(R.id.btn_login);

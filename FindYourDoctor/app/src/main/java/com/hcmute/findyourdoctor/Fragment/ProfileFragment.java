@@ -3,12 +3,10 @@ package com.hcmute.findyourdoctor.Fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -39,24 +37,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Activity.LoginActivity;
-import com.hcmute.findyourdoctor.Api.ApiService;
 import com.hcmute.findyourdoctor.Api.PatientApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Utils.RealPathUtil;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -64,7 +54,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Body;
 
 
 public class ProfileFragment extends Fragment {
@@ -324,7 +313,7 @@ public class ProfileFragment extends Fragment {
     private void init(View view) {
         btnUploadImage = view.findViewById(R.id.btn_upload_image_pf);
         btnUpadte = view.findViewById(R.id.btn_update_pf);
-        ivAvatar = view.findViewById(R.id.iv_avatar);
+        ivAvatar = view.findViewById(R.id.iv_avatar_doctor_details);
 
         edtName = view.findViewById(R.id.edt_name_pf);
         edtEmail = view.findViewById(R.id.edt_email_pf);

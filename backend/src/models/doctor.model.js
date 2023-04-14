@@ -17,7 +17,7 @@ const doctorSchema = mongoose.Schema({
         enum: ["male", "female"],
     },
     birthDate: {
-        type: String
+        type: Date
     },
     avatarUrl: {
         type: String
@@ -37,7 +37,7 @@ const doctorSchema = mongoose.Schema({
     price: {
         type: Number
     },
-    specialistId: {
+    specialist: {
         type: mongoose.Types.ObjectId,
         ref: "Specialist"
     },

@@ -64,13 +64,12 @@ export const createBooking = async (req, res, next) => {
 
 // register a new patient
 export const registerNewPatient = async (req, res, next) => {
-    // TODO: sửa lỗi chỗ ngày sinh trong mongoose khác với date tong js => sử dụng 'yyyy-mm-dd để fix
     try {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
         const newPatient = new Patient({
             birthDate: "",
-            avatarUrl: "",
+            avatarUrl: "https://res.cloudinary.com/dtvnsczg8/image/upload/v1681464004/Clinic/avatar/patient/patient_avatar_default.png",
             phone: "",
             address: "",
             ...req.body,
