@@ -1,10 +1,12 @@
 package com.hcmute.findyourdoctor.Model;
 
-public class selectTime {
-    private String date;
-    private String slot;
+import java.io.Serializable;
 
-    public selectTime(String date, String slot) {
+public class selectTime implements Serializable {
+    private String date;
+    private int slot;
+
+    public selectTime(String date, int slot) {
         this.date = date;
         this.slot = slot;
     }
@@ -17,11 +19,11 @@ public class selectTime {
         this.date = date;
     }
 
-    public String getSlot() {
+    public int getSlot() {
         return slot;
     }
 
-    public void setSlot(String slot) {
+    public void setSlot(int slot) {
         this.slot = slot;
     }
 }

@@ -33,7 +33,7 @@
 
 
                     <ImageView
-                        android:id="@+id/img_popularDoctor"
+                        android:id="@+id/iv_avatar_popular_doctor"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_weight="1"
@@ -54,7 +54,7 @@
                         android:layout_weight="3.3">
 
                         <TextView
-                            android:id="@+id/txtPopularDoctorName"
+                            android:id="@+id/tv_name_popular_doctor"
                             android:layout_width="match_parent"
                             android:layout_height="26dp"
                             android:text="Dr. Fillerup Grab"
@@ -70,7 +70,7 @@
                         android:layout_weight="3.3">
 
                         <TextView
-                            android:id="@+id/txtPopularDoctorDes"
+                            android:id="@+id/tv_specialist_popular_doctor"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Medicine Specialist"

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/bgandroid"
     android:layout_height="match_parent"
-    tools:context=".Activity.DoctorDetail">
+    tools:context=".Activity.DoctorDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -104,7 +104,7 @@
 
 
                         <ImageView
-                            android:id="@+id/iv_avatar"
+                            android:id="@+id/iv_avatar_doctor_details"
                             android:layout_width="85dp"
                             android:layout_height="85dp"
                             android:layout_gravity="center"
@@ -129,7 +129,7 @@
                             android:layout_height="0dp">
 
                             <TextView
-                                android:id="@+id/tv_name"
+                                android:id="@+id/tv_name_doctor_details"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="20dp"
@@ -147,7 +147,7 @@
                             android:layout_height="0dp">
 
                             <TextView
-                                android:id="@+id/tv_specialist"
+                                android:id="@+id/tv_specialist_doctor_details"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="Specialist Cardiologist"
@@ -182,7 +182,7 @@
                                 android:layout_weight="5">
 
                                 <TextView
-                                    android:id="@+id/tv_price"
+                                    android:id="@+id/tv_price_doctor_details"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text="$ 28.00/hr">
@@ -200,7 +200,7 @@
                     android:layout_height="0dp">
 
                     <Button
-                        android:id="@+id/btn_booking"
+                        android:id="@+id/btn_booking_doctor_details"
                         android:layout_width="130dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="120dp"
@@ -320,7 +320,7 @@
                     android:layout_height="0dp">
 
                     <TextView
-                        android:id="@+id/tv_clinic_name"
+                        android:id="@+id/tv_clinic_name_doctor_details"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
@@ -337,7 +337,7 @@
                     android:layout_height="0dp">
 
                     <TextView
-                        android:id="@+id/tv_address_clinic"
+                        android:id="@+id/tv_clinic_address_doctor_details"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
@@ -384,7 +384,7 @@
                 android:layout_height="0dp">
 
                 <TextView
-                    android:id="@+id/tv_introduce"
+                    android:id="@+id/tv_introduce_doctor_details"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"

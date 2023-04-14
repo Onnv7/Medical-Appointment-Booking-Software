@@ -1,5 +1,6 @@
 package com.hcmute.findyourdoctor.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,15 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 //import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
 import com.hcmute.findyourdoctor.Adapter.FeatureDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.PopularDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
@@ -26,6 +26,8 @@ import com.hcmute.findyourdoctor.Api.SpecialistApiService;
 import com.hcmute.findyourdoctor.Domain.FeatureDoctorDomain;
 import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
 import com.hcmute.findyourdoctor.Domain.PopularDoctorDomain;
+import com.hcmute.findyourdoctor.Listener.OnDocterCardClickListener;
+import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
 
 import java.util.ArrayList;
@@ -36,14 +38,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnDocterCardClickListener {
 
     private RecyclerView rcv_specialist;
     private RecyclerView rcv_popularDoctor;
     private RecyclerView rcv_featureDoctor;
     List<SpecialistDomain> mSpecialist;
-    List<PopularDoctorDomain> mPopularList;
-    List<FeatureDoctorDomain> mFeatureDoctor;
+    List<Doctor> mPopularList;
+    List<Doctor> mFeatureDoctor;
 
     SpecialistApiService specialistApiService;
     DoctorApiService doctorApiService;
@@ -63,7 +65,6 @@ public class HomeFragment extends Fragment {
         doctorApiService = RetrofitClient.getRetrofit().create(DoctorApiService.class);
 
 
-//        Log.d("FRAG", "home");
 //        recyclerViewSpecialist();
 
         rcv_specialist =  view.findViewById(R.id.rcv_specialist);
@@ -95,7 +96,6 @@ public class HomeFragment extends Fragment {
                         SpecialistDomain obj = new SpecialistDomain(specialist.get("name").getAsString(), specialist.get("imageUrl").getAsString());
                         mSpecialist.add(obj);
                     }
-
                     SpecialistAdapter specialistAdapter = new SpecialistAdapter(mSpecialist);
                     rcv_specialist.setAdapter(specialistAdapter);
                 }
@@ -112,15 +112,20 @@ public class HomeFragment extends Fragment {
                 JsonObject res = response.body();
                 if(res.get("success").getAsBoolean()) {
                     JsonArray topDoctors = res.getAsJsonArray("result");
-                    Log.d("nva", "onResponse: " + topDoctors.toString());
                     int size = topDoctors.size();
                     for (int i = 0; i < size; i++) {
                         JsonObject doctor = topDoctors.get(i).getAsJsonObject();
-                        mPopularList.add(new PopularDoctorDomain(doctor.get("id").getAsString(), doctor.get("name").getAsString(), doctor.get("specialist").getAsString(),
-                                doctor.get("rating").getAsFloat(), doctor.get("avatarUrl").getAsString()));
+                        Doctor element = new Doctor();
+                        element.setId(doctor.get("id").getAsString());
+                        element.setName(doctor.get("name").getAsString());
+                        element.setSpecialist(doctor.get("specialist").getAsString());
+                        element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
+                        element.setRating(doctor.get("rating").getAsFloat());
+                        mPopularList.add(element);
                     }
 
                     PopularDoctorAdapter popularDoctorAdapter = new PopularDoctorAdapter(mPopularList);
+                    popularDoctorAdapter.setOnDocterCardClickListener(HomeFragment.this);
                     rcv_popularDoctor.setAdapter(popularDoctorAdapter);
                 }
             }
@@ -136,14 +141,19 @@ public class HomeFragment extends Fragment {
                 JsonObject res = response.body();
                 if(res.get("success").getAsBoolean()) {
                     JsonArray someDoctors = res.getAsJsonArray("result");
-                    Log.d("nva", "onResponse: " + someDoctors.toString());
                     int size = someDoctors.size();
                     for (int i = 0; i < size; i++) {
                         JsonObject doctor = someDoctors.get(i).getAsJsonObject();
-                        mFeatureDoctor.add(new FeatureDoctorDomain(doctor.get("id").getAsString(), doctor.get("avatarUrl").getAsString(), doctor.get("name").getAsString(),
-                                doctor.get("rating").getAsFloat(), doctor.get("price").getAsFloat()));
+                        Doctor element = new Doctor();
+                        element.setId(doctor.get("id").getAsString());
+                        element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
+                        element.setName(doctor.get("name").getAsString());
+                        element.setRating(doctor.get("rating").getAsFloat());
+                        element.setPrice(doctor.get("price").getAsFloat());
+                        mFeatureDoctor.add(element);
                     }
                     FeatureDoctorAdapter featureDoctorAdapter = new FeatureDoctorAdapter(mFeatureDoctor);
+                    featureDoctorAdapter.setOnDocterCardClickListener(HomeFragment.this);
                     rcv_featureDoctor.setAdapter(featureDoctorAdapter);
                 }
             }
@@ -155,5 +165,12 @@ public class HomeFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onDoctorCardClick(Doctor doctor) {
+        Intent intent = new Intent(HomeFragment.this.getContext(), DoctorDetailActivity.class);
+        intent.putExtra("id", doctor.getId());
+        startActivity(intent);
     }
 }

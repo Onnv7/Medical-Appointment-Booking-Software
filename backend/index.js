@@ -9,6 +9,7 @@ import doctorRoute from "./src/routers/doctor.route.js";
 import specialistRoute from "./src/routers/specialist.route.js";
 import bookingRoute from "./src/routers/booking.route.js";
 import scheduleRoute from "./src/routers/schedule.route.js";
+import adminRoute from "./src/routers/admin.route.js";
 
 
 import bodyParser from 'body-parser';
@@ -40,6 +41,7 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+app.use("/api/admin", adminRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/patient", patientRoute);
 app.use("/api/doctor", doctorRoute);

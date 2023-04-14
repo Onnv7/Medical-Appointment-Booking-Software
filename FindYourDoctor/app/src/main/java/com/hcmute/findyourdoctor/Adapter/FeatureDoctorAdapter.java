@@ -12,14 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hcmute.findyourdoctor.Domain.FeatureDoctorDomain;
+import com.hcmute.findyourdoctor.Listener.OnDocterCardClickListener;
+import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
 
 import java.util.List;
 
 public class FeatureDoctorAdapter extends RecyclerView.Adapter<FeatureDoctorAdapter.FeatureDoctorViewHolder> {
-    private List<FeatureDoctorDomain> mListFeatureDoctor;
+    private List<Doctor> mListFeatureDoctor;
+    private OnDocterCardClickListener listener;
 
-    public FeatureDoctorAdapter(List<FeatureDoctorDomain> mListFeatureDoctor) {
+    public void setOnDocterCardClickListener(OnDocterCardClickListener listener) {
+        this.listener = listener;
+    }
+
+    public FeatureDoctorAdapter(List<Doctor> mListFeatureDoctor) {
         this.mListFeatureDoctor = mListFeatureDoctor;
     }
 
@@ -34,7 +41,7 @@ public class FeatureDoctorAdapter extends RecyclerView.Adapter<FeatureDoctorAdap
 
     @Override
     public void onBindViewHolder(@NonNull FeatureDoctorAdapter.FeatureDoctorViewHolder holder, int position) {
-        FeatureDoctorDomain feature_doctor = mListFeatureDoctor.get(position);
+        Doctor feature_doctor = mListFeatureDoctor.get(position);
         if (feature_doctor == null)
         {
             return;
@@ -43,8 +50,17 @@ public class FeatureDoctorAdapter extends RecyclerView.Adapter<FeatureDoctorAdap
         holder.numberStar.setText(feature_doctor.getRating() + "");
         holder.priceFDoctor.setText(feature_doctor.getPrice() + "");
         Glide.with(holder.layoutMain.getContext())
-                .load(feature_doctor.getAvatarUlr())
+                .load(feature_doctor.getAvatarUrl())
                 .into(holder.ivDoctorAvatar);
+        holder.layoutMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(listener != null){
+                    System.out.println("lmao");
+                    listener.onDoctorCardClick(feature_doctor);
+                }
+            }
+        });
     }
 
     @Override

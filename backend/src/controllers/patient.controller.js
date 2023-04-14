@@ -1,25 +1,25 @@
 import Patient from "../models/patient.model.js";
 import Booking from "../models/booking.model.js";
 import cloudinary from "../utils/cloudinary.js";
-export const bookingAppointment = async (req, res, next) => {
-    try {
-        const advice = req.body.advice;
-        const patientId = req.body.patientId;
-        const timeId = req.body.timeId;
-        await Booking.findByIdAndUpdate(
-            req.params.bookingId,
-            {
-                advice: advice,
-                patientId: patientId,
-                timeId: timeId
-            },
-            { new: true },
-        );
-        res.status(200).json({ success: true, message: "Booking updated successfully" })
-    } catch (error) {
-        next(error);
-    }
-}
+// export const bookingAppointment = async (req, res, next) => {
+//     try {
+//         const advice = req.body.advice;
+//         const patientId = req.body.patientId;
+//         const timeId = req.body.timeId;
+//         await Booking.findByIdAndUpdate(
+//             req.params.bookingId,
+//             {
+//                 advice: advice,
+//                 patient: patientId,
+//                 time: timeId
+//             },
+//             { new: true },
+//         );
+//         res.status(200).json({ success: true, message: "Booking updated successfully" })
+//     } catch (error) {
+//         next(error);
+//     }
+// }
 
 export const updateProfile = async (req, res, next) => {
     try {

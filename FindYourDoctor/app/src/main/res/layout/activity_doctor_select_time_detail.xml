@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:weightSum="10"
     android:orientation="vertical"
-    tools:context=".Activity.doctorSelectTimeDetailActivity">
+    tools:context=".Activity.DoctorSelectTimeDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -97,9 +97,10 @@
                             android:layout_height="70dp">
 
                             <ImageView
+                                android:id="@+id/iv_avatar_select_time"
                                 android:layout_width="70dp"
-                                android:src="@drawable/image"
-                                android:layout_height="70dp">
+                                android:layout_height="70dp"
+                                android:src="@drawable/image">
 
                             </ImageView>
                         </androidx.cardview.widget.CardView>
@@ -118,7 +119,7 @@
                             android:layout_height="0dp">
 
                             <TextView
-                                android:id="@+id/txtNameDoctorList"
+                                android:id="@+id/tv_name_select_time"
                                 android:layout_width="match_parent"
                                 android:text="Dr.Pediatrician"
                                 android:textStyle="bold"
@@ -134,7 +135,7 @@
                             android:layout_weight="2">
 
                             <TextView
-                                android:id="@+id/txtDocListInfo"
+                                android:id="@+id/tv_specialist_select_time"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:textSize="10dp"
@@ -198,7 +199,7 @@
             android:layout_height="100dp">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rc_selectTime_detail"
+                android:id="@+id/rcv_date_time_select_time"
                 android:paddingLeft="30dp"
                 android:paddingRight="25dp"
                 android:layout_width="match_parent"
