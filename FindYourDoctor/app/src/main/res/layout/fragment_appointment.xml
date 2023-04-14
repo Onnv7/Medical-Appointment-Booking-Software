@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.AppointmentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,80 +44,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout_editor_absoluteX="44dp"
-                tools:layout_editor_absoluteY="258dp">
+                android:layout_height="match_parent">
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listAppointment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="108dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="12dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/notification_tab_background"
-                        android:orientation="horizontal"
-                        android:weightSum="5">
+                </androidx.recyclerview.widget.RecyclerView>
+            </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="match_parent"
-                            android:layout_height="68dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_weight="4"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/avt_doctor" />
-
-                        <LinearLayout
-                            android:layout_width="308dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textView12"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Dr.Mahmud Nik Hasan"
-                                android:textColor="#5B6889"
-                                android:textSize="19sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/btn_submit"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Status: accepted"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/textView13"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="26 January 2023, 7:00 - 7:30 AM"
-                                android:textColor="#4E4848"
-                                android:textSize="14sp" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-            </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="135dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        app:cardBackgroundColor="#F3F2F2"
+        android:layout_marginRight="20dp"
+        app:cardCornerRadius="20dp"
+        android:layout_height="120dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/imv_AppointmentHistory"
+                        android:layout_width="match_parent"
+                        android:src="@drawable/avt_doctor"
+                        android:scaleType="fitXY"
+                        android:layout_height="match_parent">
+
+                    </ImageView>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:orientation="vertical"
+                android:weightSum="10"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="5"
+                    android:layout_height="0dp">
+
+                    <TextView
+                        android:id="@+id/tv_nameAppointmentHistory"
+                        android:layout_width="match_parent"
+                        android:text="Dr.Mahmud Nik Hasan"
+                        android:layout_marginTop="20dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_height="match_parent">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="5"
+                    android:layout_height="0dp">
+
+                    <TextView
+                        android:id="@+id/tv_timeAppointmentHistory"
+                        android:layout_width="match_parent"
+                        android:text="26 January 2023, 7:00 - 7:30 AM"
+                        android:textSize="16sp"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="match_parent">
+
+                    </TextView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
