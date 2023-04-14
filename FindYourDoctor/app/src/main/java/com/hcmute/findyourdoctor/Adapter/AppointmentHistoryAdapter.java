@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hcmute.findyourdoctor.Domain.AppointmentDomain;
-import com.hcmute.findyourdoctor.Model.doctorList;
 import com.hcmute.findyourdoctor.R;
 
 import java.util.List;

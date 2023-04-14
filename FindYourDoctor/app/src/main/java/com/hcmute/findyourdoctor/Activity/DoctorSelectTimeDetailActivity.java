@@ -222,6 +222,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                         for(int i = 0; i < afternoon.size(); i++) {
                             handArrayListFive.add( new selectTimeDetail(afternoon.get(i).toString() + " PM"));
                         }
+                        adapterFive.notifyDataSetChanged();
 
 
                     }

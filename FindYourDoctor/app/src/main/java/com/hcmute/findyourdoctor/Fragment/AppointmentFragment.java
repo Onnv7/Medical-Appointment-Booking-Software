@@ -16,7 +16,6 @@ import com.hcmute.findyourdoctor.Adapter.PopularDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
 import com.hcmute.findyourdoctor.Adapter.doctorListAdapter;
 import com.hcmute.findyourdoctor.Domain.AppointmentDomain;
-import com.hcmute.findyourdoctor.Model.doctorList;
 import com.hcmute.findyourdoctor.Model.review;
 import com.hcmute.findyourdoctor.R;
 
