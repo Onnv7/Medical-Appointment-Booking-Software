@@ -20,7 +20,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="156dp"
                 android:background="@drawable/greeb_gradient_background"
-                android:src="@drawable/greeb_gradient_background" />
+                android:src="@drawable/greeb_gradient_background" >
+
+            </ImageView>
 
             <TextView
                 android:id="@+id/textView5"

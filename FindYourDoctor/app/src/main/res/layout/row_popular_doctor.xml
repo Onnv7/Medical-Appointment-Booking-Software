@@ -38,7 +38,7 @@
                         android:layout_height="100dp"
                         android:scaleType="fitXY"
                         android:layout_weight="1"
-                        android:src="@drawable/anhdaidien"/>
+                        android:src="@drawable/avt_doctor"/>
                 </LinearLayout>
 
                 <LinearLayout
