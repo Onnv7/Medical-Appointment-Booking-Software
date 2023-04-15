@@ -8,29 +8,26 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.hcmute.findyourdoctor.Adapter.PopularDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.SelectTimeDetailAdapter;
 import com.hcmute.findyourdoctor.Adapter.SelectTimeAdapter;
 import com.hcmute.findyourdoctor.Api.ApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.ScheduleApiService;
 import com.hcmute.findyourdoctor.Domain.BookingDomain;
-import com.hcmute.findyourdoctor.Fragment.HomeFragment;
 import com.hcmute.findyourdoctor.Listener.OnAvailableDateClickListener;
 import com.hcmute.findyourdoctor.Model.BookingModel;
 import com.hcmute.findyourdoctor.Model.Doctor;
@@ -40,7 +37,6 @@ import com.hcmute.findyourdoctor.Model.selectTimeDetail;
 import com.hcmute.findyourdoctor.Utils.DateTimeUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,11 +45,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements OnAvailableDateClickListener {
-
+    String date, time;
+    TextView tvAfternoonSlotNumber, tvEveningSlotNumber;
     Button btn_confirmBook;
-    GridView gw_timSeven, gw_timFive;
-    List<selectTimeDetail> handArrayListSeven, handArrayListFive;
-    SelectTimeDetailAdapter adapterSeven, adapterFive;
+    GridView gvAfternoon, gvEvening;
+    List<selectTimeDetail> afternoonSlotList, eveningSlotList;
+    SelectTimeDetailAdapter afternoonAdapter, eveningAdapter;
     RecyclerView rcvSelectTimeDetail;
     List<selectTime> mselectTimeListDetail;
     SelectTimeAdapter selectTimeAdapterDetail;
@@ -64,38 +61,30 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_select_time_detail);
         init();
-        AnhxaSeven();
-        AnhxaFive();
         Intent intent = getIntent();
+
         doctor = (Doctor) intent.getSerializableExtra("doctor");
-
-        adapterSeven = new SelectTimeDetailAdapter(DoctorSelectTimeDetailActivity.this, R.layout.row_time_detail, handArrayListSeven);
-        adapterFive = new SelectTimeDetailAdapter(DoctorSelectTimeDetailActivity.this, R.layout.row_time_detail, handArrayListFive);
-
         setRecyclerViewSelectDate(doctor.getId());
-        gw_timSeven.setAdapter(adapterSeven);
-//        gw_timFive.setAdapter(adapterFive);
-        System.out.println("lamo");
-
-
-//        selectTimeAdapterDetail = new SelectTimeAdapter(mselectTimeListDetail);
-
-//        rcvSelectTimeDetail.setHasFixedSize(true);
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-//        rcvSelectTimeDetail.setLayoutManager(layoutManager);
-//        rcvSelectTimeDetail.setAdapter(selectTimeAdapterDetail);
-//
-//        selectTimeAdapterDetail.notifyDataSetChanged();
-
         CreateBook();
     }
     private void init() {
         mselectTimeListDetail = new ArrayList<>();
         rcvSelectTimeDetail = (RecyclerView) findViewById(R.id.rcv_date_time_select_time);
-        gw_timFive = (GridView) findViewById(R.id.gw_timFive);
+        gvEvening = (GridView) findViewById(R.id.gv_evening_select_time);
+        gvAfternoon = (GridView) findViewById(R.id.gv_afternoon_select_time);
+        tvEveningSlotNumber = findViewById(R.id.tv_evening_slot_num_select_time);
+        tvAfternoonSlotNumber = findViewById(R.id.tv_affternoon_slot_num_select_time);
         
     }
-
+    private void setGridView(){
+        gvEvening.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(DoctorSelectTimeDetailActivity.this, "lmmmm", Toast.LENGTH_SHORT).show();
+//                gvEvening.getChildAt(i).setBackgroundResource(R.drawable.background_details_time_selected);
+            }
+        });
+    }
     private void CreateBook() {
         btn_confirmBook = findViewById(R.id.btn_confirmBook);
         btn_confirmBook.setOnClickListener(new View.OnClickListener() {
@@ -140,30 +129,6 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         dialog.show();
     }
 
-    private void AnhxaSeven() {
-        gw_timSeven = (GridView) findViewById(R.id.gw_timSeven);
-        handArrayListSeven = new ArrayList<>();
-
-        handArrayListSeven.add( new selectTimeDetail("1:00 PM"));
-        handArrayListSeven.add( new selectTimeDetail("1:30 PM"));
-        handArrayListSeven.add( new selectTimeDetail("2:00 PM"));
-        handArrayListSeven.add( new selectTimeDetail("2:30 PM"));
-        handArrayListSeven.add( new selectTimeDetail("3:00 PM"));
-        handArrayListSeven.add( new selectTimeDetail("3:30 PM"));
-        handArrayListSeven.add( new selectTimeDetail("4:00 PM"));
-
-    }
-    private void AnhxaFive() {
-//        gw_timFive = (GridView) findViewById(R.id.gw_timFive);
-//        handArrayListFive = new ArrayList<>();
-//
-//        handArrayListFive.add( new selectTimeDetail("1:00 PM"));
-//        handArrayListFive.add( new selectTimeDetail("1:30 PM"));
-//        handArrayListFive.add( new selectTimeDetail("2:00 PM"));
-//        handArrayListFive.add( new selectTimeDetail("2:30 PM"));
-//        handArrayListFive.add( new selectTimeDetail("3:00 PM"));
-
-    }
 
     private void setRecyclerViewSelectDate(String doctorId){
         List<selectTime> availableDate = new ArrayList<>();
@@ -211,19 +176,40 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
             scheduleApiService.getAvailableSlotSchedule(doctor.getId(), date).enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    handArrayListFive = new ArrayList<>();
                     JsonObject res = response.body();
                     if(res.get("success").getAsBoolean()) {
                         JsonObject result = res.getAsJsonObject("result");
                         JsonArray morning = result.getAsJsonArray("morning");
                         JsonArray afternoon = result.getAsJsonArray("afternoon");
                         JsonArray evening = result.getAsJsonArray("evening");
-                        System.out.println(afternoon.get(1).toString());
-                        for(int i = 0; i < afternoon.size(); i++) {
-                            handArrayListFive.add( new selectTimeDetail(afternoon.get(i).toString() + " PM"));
-                        }
-                        adapterFive.notifyDataSetChanged();
 
+
+                        if(afternoon.size() > 0) {
+                            gvAfternoon.setVisibility(View.VISIBLE);
+                            tvAfternoonSlotNumber.setVisibility(View.VISIBLE);
+                            tvAfternoonSlotNumber.setText("Afternoon " + afternoon.size() + " slots");
+                            setDataForSlotGridView(afternoon, afternoonSlotList, afternoonAdapter, gvAfternoon);
+
+                        }
+                        else {
+                            gvAfternoon.setVisibility(View.GONE);
+                            tvEveningSlotNumber.setVisibility(View.GONE);
+                        }
+
+                        if(evening.size() > 0) {
+                            gvEvening.setVisibility(View.VISIBLE);
+                            tvEveningSlotNumber.setVisibility(View.VISIBLE);
+                            tvEveningSlotNumber.setText("Evening " + evening.size() + " slots");
+                            setDataForSlotGridView(evening, eveningSlotList, eveningAdapter, gvEvening);
+                            System.out.println("eve");
+                        }
+                        else {
+                            gvEvening.setVisibility(View.GONE);
+                            tvEveningSlotNumber.setVisibility(View.GONE);
+                        }
+
+                    }
+                    else {
 
                     }
                 }
@@ -237,5 +223,21 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         catch (Exception e) {
             System.out.println(e.toString());
         }
+    }
+    private void setDataForSlotGridView(JsonArray jsonArray, List<selectTimeDetail> dataList, SelectTimeDetailAdapter adapter, GridView gridView){
+        dataList = new ArrayList<>();
+        for(int i = 0; i < jsonArray.size(); i++) {
+            dataList.add( new selectTimeDetail(jsonArray.get(i).getAsString() + " PM"));
+        }
+
+        adapter = new SelectTimeDetailAdapter(DoctorSelectTimeDetailActivity.this, R.layout.row_time_detail, dataList);
+        adapter.notifyDataSetChanged();
+        gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(DoctorSelectTimeDetailActivity.this, "beuh ânna", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

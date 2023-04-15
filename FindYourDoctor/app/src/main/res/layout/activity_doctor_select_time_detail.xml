@@ -254,13 +254,14 @@
         android:layout_height="0dp">
 
         <TextView
-            android:paddingLeft="25dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@color/black"
+            android:id="@+id/tv_affternoon_slot_num_select_time"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="25dp"
             android:text="Afternoon 7 slots"
-            android:layout_height="match_parent">
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold">
 
         </TextView>
     </LinearLayout>
@@ -272,7 +273,7 @@
         <GridView
             android:paddingLeft="24dp"
             android:verticalSpacing="20dp"
-            android:id="@+id/gw_timSeven"
+            android:id="@+id/gv_afternoon_select_time"
             android:numColumns="4"
             android:horizontalSpacing="5dp"
             android:paddingRight="20dp"
@@ -288,13 +289,14 @@
         android:layout_height="0dp">
 
         <TextView
-            android:paddingLeft="25dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@color/black"
+            android:id="@+id/tv_evening_slot_num_select_time"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="25dp"
             android:text="Evening 5 slots"
-            android:layout_height="match_parent">
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold">
 
         </TextView>
     </LinearLayout>
@@ -306,7 +308,7 @@
         <GridView
             android:paddingLeft="24dp"
             android:verticalSpacing="20dp"
-            android:id="@+id/gw_timFive"
+            android:id="@+id/gv_evening_select_time"
             android:numColumns="4"
             android:horizontalSpacing="5dp"
             android:paddingRight="20dp"
