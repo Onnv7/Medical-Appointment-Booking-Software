@@ -5,7 +5,7 @@
     android:layout_width="150dp"
     android:layout_height="54dp"
     android:layout_margin="6dp"
-    android:background="@drawable/available_date_selector"
+    android:background="@drawable/selector_available_date"
     android:orientation="vertical"
     android:weightSum="10">
 

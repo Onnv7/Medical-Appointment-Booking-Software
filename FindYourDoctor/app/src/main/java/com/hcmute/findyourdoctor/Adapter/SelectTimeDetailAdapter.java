@@ -1,11 +1,15 @@
 package com.hcmute.findyourdoctor.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Model.selectTimeDetail;
@@ -16,16 +20,20 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
 
     private Context context;
     private int layout;
+    private int selectedIndex = -1;
     private List<selectTimeDetail> handList;
 
     public SelectTimeDetailAdapter(Context context, int layout, List<selectTimeDetail> handList) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
+        System.out.println("AA=============" + handList.size() );
     }
 
     @Override
     public int getCount() {
+        if(handList == null)
+            return 0;
         return handList.size();
     }
 
@@ -41,6 +49,7 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
 
     private class ViewHolder
     {
+        LinearLayout layoutMain;
         TextView DetailTime;
     }
     @Override
@@ -51,13 +60,10 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
         if (view == null)
         {
             viewHolder = new ViewHolder();
-
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            view = inflater.inflate(layout,null);
-
+            LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+            view = inflater.inflate(layout, viewGroup, false);
             viewHolder.DetailTime = (TextView) view.findViewById(R.id.DetailTime);
-
+            viewHolder.layoutMain = view.findViewById(R.id.layout_time_details);
             view.setTag(viewHolder);
         }
         else
@@ -65,9 +71,25 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
+        if (i == selectedIndex) {
+            viewHolder.DetailTime.setTextColor(Color.BLACK);
+            view.setBackgroundResource(R.drawable.background_details_time_selected);
+        } else {
+            int color = context.getResources().getColor(R.color.primary_green);
+            viewHolder.DetailTime.setTextColor(color);
+            view.setBackgroundResource(R.drawable.background_details_time);
+        }
         selectTimeDetail selectTimeDetail = handList.get(i);
 
         viewHolder.DetailTime.setText(selectTimeDetail.getTime());
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedIndex = i;
+                notifyDataSetChanged();
+            }
+        });
 
         return view;
     }
