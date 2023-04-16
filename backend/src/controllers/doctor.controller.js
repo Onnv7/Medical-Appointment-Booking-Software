@@ -34,6 +34,7 @@ export const updateProfile = async (req, res, next) => {
 export const getProfileById = async (req, res, next) => {
     try {
         const doctor = await Doctor.findById(req.params.doctorId);
+
         const { password, ...others } = doctor._doc;
         let rating = await doctor.rating;
         res.status(200).json({ success: true, message: "Find successfully", result: { ...others, rating } });
@@ -109,6 +110,7 @@ export const getInfoDoctorById = async (req, res, next) => {
             select: { name: 1 }
         });
         const { password, ...others } = doctor._doc;
+
         const rating = await doctor.rating;
         const data = {
             name: others.name,

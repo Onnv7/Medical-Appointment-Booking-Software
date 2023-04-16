@@ -24,14 +24,14 @@ import com.hcmute.findyourdoctor.Model.selectTimeDetail;
 
 import java.util.List;
 
-public class SelectTimeDetailAdapter extends BaseAdapter {
+public class SelectTimeDetailEveningAdapter extends BaseAdapter {
 
     private Context context;
     private int layout;
     private int selectedIndex = -1;
     private List<selectTimeDetail> handList;
 
-    public SelectTimeDetailAdapter(Context context, int layout, List<selectTimeDetail> handList) {
+    public SelectTimeDetailEveningAdapter(Context context, int layout, List<selectTimeDetail> handList) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
@@ -107,26 +107,25 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
                     do {
                         @SuppressLint("Range") String isCheckedAfternoon = cursor.getString(cursor.getColumnIndex("isCheckedAfternoon"));
                         @SuppressLint("Range") String isCheckedEvening = cursor.getString(cursor.getColumnIndex("isCheckedEvening"));
-                    
-                        if (Integer.parseInt(isCheckedEvening) == 0)
+
+                        if (Integer.parseInt(isCheckedAfternoon) == 0)
                         {
                             selectedIndex = i;
                             notifyDataSetChanged();
 
-                            isCheckedAfternoon = "1";
+                            isCheckedEvening = "1";
 
-                            String updateQuery = "UPDATE myCheckSelectTime SET isCheckedAfternoon = '" + Integer.parseInt(isCheckedAfternoon) + "'";
+                            String updateQuery = "UPDATE myCheckSelectTime SET isCheckedEvening = '" + Integer.parseInt(isCheckedEvening) + "'";
 
                             db.execSQL(updateQuery);
 
                         }
                         else
                         {
-                            Toast.makeText(context, "Bạn đã chọn lịch buổi chiều", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Bạn đã chọn lịch buổi trưa", Toast.LENGTH_SHORT).show();
                         }
                     } while (cursor.moveToNext());
                 }
-
             }
         });
 
