@@ -15,9 +15,7 @@ public class ConnectionDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//         String createTableCart = "CREATE TABLE IF NOT EXISTS myCart(id VARCHAR(200), meal VARCHAR(200), area VARCHAR(200), category VARCHAR(200), instructions VARCHAR(200), strmealthumb VARCHAR(200), price VARCHAR(200), quantity VARCHAR(200))";
-//
-//         db.execSQL(createTableCart);
+
     }
 
     @Override

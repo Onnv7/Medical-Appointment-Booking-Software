@@ -22,6 +22,7 @@ import com.hcmute.findyourdoctor.Database.ConnectionDatabase;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Model.selectTimeDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelectTimeDetailEveningAdapter extends BaseAdapter {
@@ -30,6 +31,7 @@ public class SelectTimeDetailEveningAdapter extends BaseAdapter {
     private int layout;
     private int selectedIndex = -1;
     private List<selectTimeDetail> handList;
+    Integer countClick = 0;
 
     public SelectTimeDetailEveningAdapter(Context context, int layout, List<selectTimeDetail> handList) {
         this.context = context;
@@ -79,13 +81,15 @@ public class SelectTimeDetailEveningAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        if (i == selectedIndex) {
+        if (i == selectedIndex && countClick %2 != 0 ) {
             viewHolder.DetailTime.setTextColor(Color.BLACK);
             view.setBackgroundResource(R.drawable.background_details_time_selected);
+
         } else {
             int color = context.getResources().getColor(R.color.primary_green);
             viewHolder.DetailTime.setTextColor(color);
             view.setBackgroundResource(R.drawable.background_details_time);
+
         }
         selectTimeDetail selectTimeDetail = handList.get(i);
 
@@ -106,28 +110,47 @@ public class SelectTimeDetailEveningAdapter extends BaseAdapter {
                 if (cursor != null && cursor.moveToFirst()) {
                     do {
                         @SuppressLint("Range") String isCheckedAfternoon = cursor.getString(cursor.getColumnIndex("isCheckedAfternoon"));
-                        @SuppressLint("Range") String isCheckedEvening = cursor.getString(cursor.getColumnIndex("isCheckedEvening"));
 
                         if (Integer.parseInt(isCheckedAfternoon) == 0)
                         {
-                            selectedIndex = i;
-                            notifyDataSetChanged();
-
-                            isCheckedEvening = "1";
-
-                            String updateQuery = "UPDATE myCheckSelectTime SET isCheckedEvening = '" + Integer.parseInt(isCheckedEvening) + "'";
-
-                            db.execSQL(updateQuery);
-
+                            if (selectedIndex != i)
+                            {
+                                selectedIndex = i;
+                                notifyDataSetChanged();
+                                countClick = 0;
+                                countClick++;
+                            }
+                            else
+                            {
+                                selectedIndex = i;
+                                notifyDataSetChanged();
+                                countClick++;
+                            }
                         }
+
                         else
                         {
                             Toast.makeText(context, "Bạn đã chọn lịch buổi trưa", Toast.LENGTH_SHORT).show();
                         }
+
                     } while (cursor.moveToNext());
+
+                    if(countClick %2 != 0)
+                    {
+                        String isCheckedEvening = "1";
+                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedEvening = '" + Integer.parseInt(isCheckedEvening) + "'";
+                        db.execSQL(updateQuery);
+                    }
+                    else {
+                        String isCheckedEvening = "0";
+                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedEvening = '" + Integer.parseInt(isCheckedEvening) + "'";
+                        db.execSQL(updateQuery);
+                    }
                 }
             }
         });
+
+        Log.d(TAG, "getView: " + countClick);
 
         return view;
     }

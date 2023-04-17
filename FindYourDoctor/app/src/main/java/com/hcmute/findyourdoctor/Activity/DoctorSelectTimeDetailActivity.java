@@ -77,6 +77,8 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         doctor = (Doctor) intent.getSerializableExtra("doctor");
 
         setRecyclerViewSelectDate(doctor.getId());
+
+        Log.d(TAG, "onCreate: " + doctor.getId());
         CreateBook();
     }
     private void init() {
