@@ -22,9 +22,10 @@ import com.hcmute.findyourdoctor.Database.ConnectionDatabase;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Model.selectTimeDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SelectTimeDetailAdapter extends BaseAdapter {
+public class SelectTimeDetailEveningAdapter extends BaseAdapter {
 
     private Context context;
     private int layout;
@@ -32,7 +33,7 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
     private List<selectTimeDetail> handList;
     Integer countClick = 0;
 
-    public SelectTimeDetailAdapter(Context context, int layout, List<selectTimeDetail> handList) {
+    public SelectTimeDetailEveningAdapter(Context context, int layout, List<selectTimeDetail> handList) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
@@ -83,10 +84,12 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
         if (i == selectedIndex && countClick %2 != 0 ) {
             viewHolder.DetailTime.setTextColor(Color.BLACK);
             view.setBackgroundResource(R.drawable.background_details_time_selected);
+
         } else {
             int color = context.getResources().getColor(R.color.primary_green);
             viewHolder.DetailTime.setTextColor(color);
             view.setBackgroundResource(R.drawable.background_details_time);
+
         }
         selectTimeDetail selectTimeDetail = handList.get(i);
 
@@ -106,9 +109,9 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
                 }
                 if (cursor != null && cursor.moveToFirst()) {
                     do {
-                        @SuppressLint("Range") String isCheckedEvening = cursor.getString(cursor.getColumnIndex("isCheckedEvening"));
+                        @SuppressLint("Range") String isCheckedAfternoon = cursor.getString(cursor.getColumnIndex("isCheckedAfternoon"));
 
-                        if (Integer.parseInt(isCheckedEvening) == 0)
+                        if (Integer.parseInt(isCheckedAfternoon) == 0)
                         {
                             if (selectedIndex != i)
                             {
@@ -134,18 +137,20 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
 
                     if(countClick %2 != 0)
                     {
-                        String isCheckedAfternoon = "1";
-                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedAfternoon = '" + Integer.parseInt(isCheckedAfternoon) + "'";
+                        String isCheckedEvening = "1";
+                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedEvening = '" + Integer.parseInt(isCheckedEvening) + "'";
                         db.execSQL(updateQuery);
                     }
                     else {
-                        String isCheckedAfternoon = "0";
-                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedAfternoon = '" + Integer.parseInt(isCheckedAfternoon) + "'";
+                        String isCheckedEvening = "0";
+                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedEvening = '" + Integer.parseInt(isCheckedEvening) + "'";
                         db.execSQL(updateQuery);
                     }
                 }
             }
         });
+
+        Log.d(TAG, "getView: " + countClick);
 
         return view;
     }
