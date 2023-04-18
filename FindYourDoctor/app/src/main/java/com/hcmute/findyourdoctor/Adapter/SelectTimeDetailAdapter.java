@@ -71,25 +71,25 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        if (i == selectedIndex) {
-            viewHolder.DetailTime.setTextColor(Color.BLACK);
-            view.setBackgroundResource(R.drawable.background_details_time_selected);
-        } else {
-            int color = context.getResources().getColor(R.color.primary_green);
-            viewHolder.DetailTime.setTextColor(color);
-            view.setBackgroundResource(R.drawable.background_details_time);
-        }
+//        if (i == selectedIndex) {
+//            viewHolder.DetailTime.setTextColor(Color.BLACK);
+//            view.setBackgroundResource(R.drawable.background_details_time_selected);
+//        } else {
+//            int color = context.getResources().getColor(R.color.primary_green);
+//            viewHolder.DetailTime.setTextColor(color);
+//            view.setBackgroundResource(R.drawable.background_details_time);
+//        }
         selectTimeDetail selectTimeDetail = handList.get(i);
 
         viewHolder.DetailTime.setText(selectTimeDetail.getTime());
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedIndex = i;
-                notifyDataSetChanged();
-            }
-        });
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                selectedIndex = i;
+//                notifyDataSetChanged();
+//            }
+//        });
 
         return view;
     }
