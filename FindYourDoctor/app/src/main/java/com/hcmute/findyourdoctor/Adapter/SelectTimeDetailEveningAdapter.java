@@ -22,9 +22,10 @@ import com.hcmute.findyourdoctor.Database.ConnectionDatabase;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Model.selectTimeDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SelectTimeDetailAdapter extends BaseAdapter {
+public class SelectTimeDetailEveningAdapter extends BaseAdapter {
 
     private Context context;
     private int layout;
@@ -32,16 +33,16 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
     private List<selectTimeDetail> handList;
     Integer countClick = 0;
 
-    public SelectTimeDetailAdapter(Context context, int layout, List<selectTimeDetail> handList) {
+    public SelectTimeDetailEveningAdapter(Context context, int layout, List<selectTimeDetail> handList) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
-        System.out.println("AA=============" + handList.size());
+        System.out.println("AA=============" + handList.size() );
     }
 
     @Override
     public int getCount() {
-        if (handList == null)
+        if(handList == null)
             return 0;
         return handList.size();
     }
@@ -56,34 +57,39 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
         return 0;
     }
 
-    private class ViewHolder {
+    private class ViewHolder
+    {
         LinearLayout layoutMain;
         TextView DetailTime;
     }
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
         ViewHolder viewHolder;
 
-        if (view == null) {
+        if (view == null)
+        {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
             view = inflater.inflate(layout, viewGroup, false);
             viewHolder.DetailTime = (TextView) view.findViewById(R.id.DetailTime);
             viewHolder.layoutMain = view.findViewById(R.id.layout_time_details);
             view.setTag(viewHolder);
-        } else {
+        }
+        else
+        {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        if (i == selectedIndex && countClick % 2 != 0) {
+        if (i == selectedIndex && countClick %2 != 0 ) {
             viewHolder.DetailTime.setTextColor(Color.BLACK);
             view.setBackgroundResource(R.drawable.background_details_time_selected);
+
         } else {
             int color = context.getResources().getColor(R.color.primary_green);
             viewHolder.DetailTime.setTextColor(color);
             view.setBackgroundResource(R.drawable.background_details_time);
+
         }
         selectTimeDetail selectTimeDetail = handList.get(i);
 
@@ -97,47 +103,54 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
 
                 Cursor cursor = db.rawQuery("SELECT * FROM myCheckSelectTime", null);
 
-                if (cursor == null) {
-                    Log.d(TAG, "rỗng ");
+                if (cursor == null)
+                {
+                    Log.d(TAG, "rỗng " );
                 }
                 if (cursor != null && cursor.moveToFirst()) {
                     do {
-                        @SuppressLint("Range")
-                        String isCheckedEvening = cursor.getString(cursor.getColumnIndex("isCheckedEvening"));
+                        @SuppressLint("Range") String isCheckedAfternoon = cursor.getString(cursor.getColumnIndex("isCheckedAfternoon"));
 
-                        if (Integer.parseInt(isCheckedEvening) == 0) {
-                            if (selectedIndex != i) {
+                        if (Integer.parseInt(isCheckedAfternoon) == 0)
+                        {
+                            if (selectedIndex != i)
+                            {
                                 selectedIndex = i;
                                 notifyDataSetChanged();
                                 countClick = 0;
                                 countClick++;
-                            } else {
+                            }
+                            else
+                            {
                                 selectedIndex = i;
                                 notifyDataSetChanged();
                                 countClick++;
                             }
                         }
 
-                        else {
+                        else
+                        {
                             Toast.makeText(context, "Bạn đã chọn lịch buổi trưa", Toast.LENGTH_SHORT).show();
                         }
 
                     } while (cursor.moveToNext());
 
-                    if (countClick % 2 != 0) {
-                        String isCheckedAfternoon = "1";
-                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedAfternoon = '"
-                                + Integer.parseInt(isCheckedAfternoon) + "'";
+                    if(countClick %2 != 0)
+                    {
+                        String isCheckedEvening = "1";
+                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedEvening = '" + Integer.parseInt(isCheckedEvening) + "'";
                         db.execSQL(updateQuery);
-                    } else {
-                        String isCheckedAfternoon = "0";
-                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedAfternoon = '"
-                                + Integer.parseInt(isCheckedAfternoon) + "'";
+                    }
+                    else {
+                        String isCheckedEvening = "0";
+                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedEvening = '" + Integer.parseInt(isCheckedEvening) + "'";
                         db.execSQL(updateQuery);
                     }
                 }
             }
         });
+
+        Log.d(TAG, "getView: " + countClick);
 
         return view;
     }

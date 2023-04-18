@@ -1,11 +1,16 @@
 package com.hcmute.findyourdoctor.Activity;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,9 +29,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Adapter.SelectTimeDetailAdapter;
 import com.hcmute.findyourdoctor.Adapter.SelectTimeAdapter;
+import com.hcmute.findyourdoctor.Adapter.SelectTimeDetailEveningAdapter;
 import com.hcmute.findyourdoctor.Api.ApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.ScheduleApiService;
+import com.hcmute.findyourdoctor.Database.ConnectionDatabase;
 import com.hcmute.findyourdoctor.Domain.BookingDomain;
 import com.hcmute.findyourdoctor.Listener.OnAvailableDateClickListener;
 import com.hcmute.findyourdoctor.Model.BookingModel;
@@ -50,12 +57,14 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     Button btn_confirmBook;
     GridView gvAfternoon, gvEvening;
     List<selectTimeDetail> afternoonSlotList, eveningSlotList;
-    SelectTimeDetailAdapter afternoonAdapter, eveningAdapter;
+    SelectTimeDetailAdapter afternoonAdapter;
+    SelectTimeDetailEveningAdapter eveningAdapter;
     RecyclerView rcvSelectTimeDetail;
     List<selectTime> mselectTimeListDetail;
     SelectTimeAdapter selectTimeAdapterDetail;
     RetrofitClient retrofitClient;
     Doctor doctor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +72,13 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         init();
         Intent intent = getIntent();
 
+        check();
+
         doctor = (Doctor) intent.getSerializableExtra("doctor");
+
         setRecyclerViewSelectDate(doctor.getId());
+
+        Log.d(TAG, "onCreate: " + doctor.getId());
         CreateBook();
     }
     private void init() {
@@ -149,7 +163,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                         selectTime date = new selectTime(schedule.get("date").getAsString(), schedule.get("available").getAsInt());
                         availableDate.add(date);
                     }
-                    selectTimeAdapterDetail = new SelectTimeAdapter(availableDate, DoctorSelectTimeDetailActivity.this);
+                    selectTimeAdapterDetail = new SelectTimeAdapter(availableDate, DoctorSelectTimeDetailActivity.this, DoctorSelectTimeDetailActivity.this);
 
                     rcvSelectTimeDetail.setHasFixedSize(true);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DoctorSelectTimeDetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -200,7 +214,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                             gvEvening.setVisibility(View.VISIBLE);
                             tvEveningSlotNumber.setVisibility(View.VISIBLE);
                             tvEveningSlotNumber.setText("Evening " + evening.size() + " slots");
-                            setDataForSlotGridView(evening, eveningSlotList, eveningAdapter, gvEvening);
+                            setDataForSlotGridViewEvening(evening, eveningSlotList, eveningAdapter, gvEvening);
                             System.out.println("eve");
                         }
                         else {
@@ -239,5 +253,51 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                 Toast.makeText(DoctorSelectTimeDetailActivity.this, "beuh ânna", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    private void setDataForSlotGridViewEvening(JsonArray jsonArray, List<selectTimeDetail> dataList, SelectTimeDetailEveningAdapter adapter, GridView gridView){
+        dataList = new ArrayList<>();
+        for(int i = 0; i < jsonArray.size(); i++) {
+            dataList.add( new selectTimeDetail(jsonArray.get(i).getAsString() + " PM"));
+        }
+
+        adapter = new SelectTimeDetailEveningAdapter(DoctorSelectTimeDetailActivity.this, R.layout.row_time_detail, dataList);
+        adapter.notifyDataSetChanged();
+        gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(DoctorSelectTimeDetailActivity.this, "beuh ânna", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void check()
+    {
+
+        ConnectionDatabase dbHelper = new ConnectionDatabase(DoctorSelectTimeDetailActivity.this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String tableName = "myCheckSelectTime";
+//        String createCheckSelectTime = "CREATE TABLE IF NOT EXISTS myCheckSelectTime(isCheckedAfternoon INTEGER DEFAULT 0, isCheckedEvening INTEGER DEFAULT 0)";
+
+        String createCheckSelectTime = "CREATE TABLE IF NOT EXISTS myCheckSelectTime(isCheckedAfternoon INTEGER DEFAULT 0, isCheckedEvening INTEGER DEFAULT 0)";
+        db.execSQL(createCheckSelectTime);
+
+        boolean tableExists = false;
+        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", new String[]{tableName});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                tableExists = true;
+            }
+            cursor.close();
+        }
+
+        if (tableExists) {
+//                    Toast.makeText(DoctorSelectTimeDetailActivity.this, "Đã tồn tại", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(DoctorSelectTimeDetailActivity.this, "Chưa tồn tại tồn tại", Toast.LENGTH_LONG).show();
+        }
+
     }
 }
