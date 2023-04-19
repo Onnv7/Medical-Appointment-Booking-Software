@@ -68,16 +68,6 @@ public class SelectTimeAdapter extends RecyclerView.Adapter<SelectTimeAdapter.se
                 int index = holder.getAdapterPosition();
                 indexSelected = index;
                 notifyDataSetChanged();
-
-                ConnectionDatabase dbHelper = new ConnectionDatabase((DoctorSelectTimeDetailActivity) context);
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-                String isCheckedEvening = "0";
-                String isCheckedAfternoon= "0";
-
-                String updateQuery = "UPDATE myCheckSelectTime SET isCheckedEvening = '" + Integer.parseInt(isCheckedEvening) + "' , isCheckedAfternoon = '"+ Integer.parseInt(isCheckedAfternoon) + "'";
-
-                db.execSQL(updateQuery);
             }
         });
     }

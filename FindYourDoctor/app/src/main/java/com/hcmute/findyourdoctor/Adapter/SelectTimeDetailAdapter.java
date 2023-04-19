@@ -3,6 +3,7 @@ package com.hcmute.findyourdoctor.Adapter;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -18,26 +20,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hcmute.findyourdoctor.Activity.DoctorSelectTimeDetailActivity;
+import com.hcmute.findyourdoctor.AdapterObserver;
 import com.hcmute.findyourdoctor.Database.ConnectionDatabase;
+import com.hcmute.findyourdoctor.Listener.OnSelectedTimeSlot;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Model.selectTimeDetail;
 
 import java.util.List;
 
 public class SelectTimeDetailAdapter extends BaseAdapter {
-
+    private AdapterObserver dataObserver;
+    private OnSelectedTimeSlot onSelectedTimeSlot;
+    private String type;
     private Context context;
     private int layout;
-    private int selectedIndex = -1;
-    private List<selectTimeDetail> handList;
-    Integer countClick = 0;
 
-    public SelectTimeDetailAdapter(Context context, int layout, List<selectTimeDetail> handList) {
+    private List<selectTimeDetail> handList;
+
+    public SelectTimeDetailAdapter() {
+    }
+
+    public SelectTimeDetailAdapter(Context context, int layout, List<selectTimeDetail> handList, String type, OnSelectedTimeSlot onSelectedTimeSlot, AdapterObserver dataObserver) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
-        System.out.println("AA=============" + handList.size());
+        this.type = type;
+        this.onSelectedTimeSlot = onSelectedTimeSlot;
+        this.dataObserver = dataObserver;
+        dataObserver.registerAdapter(this);
     }
+
 
     @Override
     public int getCount() {
@@ -66,6 +78,7 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
 
         ViewHolder viewHolder;
 
+
         if (view == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
@@ -77,7 +90,7 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        if (i == selectedIndex && countClick % 2 != 0) {
+        if (i == dataObserver.getIndex() && type.equals(dataObserver.getType())) {
             viewHolder.DetailTime.setTextColor(Color.BLACK);
             view.setBackgroundResource(R.drawable.background_details_time_selected);
         } else {
@@ -92,50 +105,9 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConnectionDatabase dbHelper = new ConnectionDatabase((DoctorSelectTimeDetailActivity) context);
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-                Cursor cursor = db.rawQuery("SELECT * FROM myCheckSelectTime", null);
-
-                if (cursor == null) {
-                    Log.d(TAG, "rỗng ");
-                }
-                if (cursor != null && cursor.moveToFirst()) {
-                    do {
-                        @SuppressLint("Range")
-                        String isCheckedEvening = cursor.getString(cursor.getColumnIndex("isCheckedEvening"));
-
-                        if (Integer.parseInt(isCheckedEvening) == 0) {
-                            if (selectedIndex != i) {
-                                selectedIndex = i;
-                                notifyDataSetChanged();
-                                countClick = 0;
-                                countClick++;
-                            } else {
-                                selectedIndex = i;
-                                notifyDataSetChanged();
-                                countClick++;
-                            }
-                        }
-
-                        else {
-                            Toast.makeText(context, "Bạn đã chọn lịch buổi trưa", Toast.LENGTH_SHORT).show();
-                        }
-
-                    } while (cursor.moveToNext());
-
-                    if (countClick % 2 != 0) {
-                        String isCheckedAfternoon = "1";
-                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedAfternoon = '"
-                                + Integer.parseInt(isCheckedAfternoon) + "'";
-                        db.execSQL(updateQuery);
-                    } else {
-                        String isCheckedAfternoon = "0";
-                        String updateQuery = "UPDATE myCheckSelectTime SET isCheckedAfternoon = '"
-                                + Integer.parseInt(isCheckedAfternoon) + "'";
-                        db.execSQL(updateQuery);
-                    }
-                }
+                dataObserver.setType(type);
+                dataObserver.setIndex(i);
+                dataObserver.notifyDataChanged();
             }
         });
 
@@ -165,5 +137,20 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
     public void setHandList(List<selectTimeDetail> handList) {
 
         this.handList = handList;
+    }
+    public String getType() {
+        return type;
+    }
+
+    public OnSelectedTimeSlot getOnSelectedTimeSlot() {
+        return onSelectedTimeSlot;
+    }
+
+    public void setOnSelectedTimeSlot(OnSelectedTimeSlot onSelectedTimeSlot) {
+        this.onSelectedTimeSlot = onSelectedTimeSlot;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
