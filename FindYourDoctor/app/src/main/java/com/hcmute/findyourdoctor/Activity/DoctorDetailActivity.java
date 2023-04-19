@@ -53,7 +53,8 @@ public class DoctorDetailActivity extends AppCompatActivity {
         addReview();
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+//        String id = intent.getStringExtra("id");
+        String id = "643422e3bbe67838f5b1ecf6";
         doctorApiService.getInfoDoctorById(id).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

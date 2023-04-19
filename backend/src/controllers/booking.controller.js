@@ -15,7 +15,9 @@ export const updateBooking = async (req, res, next) => {
 
 export const createBooking = async (req, res, next) => {
     try {
+        console.log(req.body);
         const booking = new Booking({ ...req.body });
+        console.log(booking);
         await booking.save();
         res.status(200).json({ success: true, message: "Creared booking", result: booking });
     } catch (error) {
@@ -38,17 +40,17 @@ export const listBookingByPatient = async (req, res, next) => {
                     'avatarUrl': 1
                 }
             })
-            .populate({
-                path: 'schedule',
-                select: 'date',
-                populate: {
-                    path: 'doctor',
-                    select: {
-                        'name': 1,
-                        'avatarUrl': 1
-                    }
-                }
-            });
+            // .populate({
+            //     // path: 'schedule',
+            //     // select: 'date',
+            //     // populate: {
+            //     //     path: 'doctor',
+            //     //     select: {
+            //     //         'name': 1,
+            //     //         'avatarUrl': 1
+            //     //     }
+            //     // }
+            // });
         res.status(200).json({ success: true, message: `Get booking list for ${req.params.patientId}`, result: bookingList });
     } catch (error) {
         next(error);
