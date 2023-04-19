@@ -62,12 +62,15 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     RetrofitClient retrofitClient;
     Doctor doctor;
     AdapterObserver adapterObserver = new AdapterObserver();
-    SharedPreferences sharedPreferences = DoctorSelectTimeDetailActivity.this.getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
-    String uid = sharedPreferences.getString("id", "");
+    SharedPreferences sharedPreferences;
+    String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences  = DoctorSelectTimeDetailActivity.this.getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
+
+        uid = sharedPreferences.getString("id", "");
         setContentView(R.layout.activity_doctor_select_time_detail);
         init();
         Intent intent = getIntent();

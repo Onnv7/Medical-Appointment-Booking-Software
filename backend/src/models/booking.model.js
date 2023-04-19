@@ -23,7 +23,7 @@ const bookingSchema = mongoose.Schema({
     review: {
         type: String,
     },
-    start: {
+    star: {
         type: Number,
     },
     time: {
