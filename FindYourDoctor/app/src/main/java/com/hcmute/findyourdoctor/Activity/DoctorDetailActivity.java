@@ -1,5 +1,7 @@
 package com.hcmute.findyourdoctor.Activity;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,12 +55,13 @@ public class DoctorDetailActivity extends AppCompatActivity {
         addReview();
 
         Intent intent = getIntent();
-//        String id = intent.getStringExtra("id");
-        String id = "643422e3bbe67838f5b1ecf6";
+        String id = intent.getStringExtra("id");
+
         doctorApiService.getInfoDoctorById(id).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject res = response.body();
+
                 if(res.get("success").getAsBoolean()) {
                     Gson gson = new Gson();
                     doctor = gson.fromJson(res.getAsJsonObject("result"), Doctor.class);
@@ -73,6 +76,8 @@ public class DoctorDetailActivity extends AppCompatActivity {
                             .load(doctor.getAvatarUrl())
                             .into(ivAvatar);
                 }
+
+                Log.d(TAG, "onResponse: detail:" + doctor.getId());
             }
 
             @Override
@@ -85,6 +90,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(DoctorDetailActivity.this, DoctorSelectTimeDetailActivity.class);
                 intent.putExtra("doctor", doctor);
+
                 startActivity(intent);
             }
         });

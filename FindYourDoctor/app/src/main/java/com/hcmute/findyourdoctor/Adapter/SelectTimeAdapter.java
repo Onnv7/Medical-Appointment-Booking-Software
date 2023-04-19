@@ -1,5 +1,7 @@
 package com.hcmute.findyourdoctor.Adapter;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hcmute.findyourdoctor.Activity.DoctorSelectTimeDetailActivity;
+import com.hcmute.findyourdoctor.Database.ConnectionDatabase;
 import com.hcmute.findyourdoctor.Listener.OnAvailableDateClickListener;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Model.selectTime;
@@ -21,12 +25,12 @@ public class SelectTimeAdapter extends RecyclerView.Adapter<SelectTimeAdapter.se
     private List<selectTime> mList;
     private OnAvailableDateClickListener listener;
     private int indexSelected = 0;
-//    private Context context;
+    private Context context;
 
-    public SelectTimeAdapter(List<selectTime> mList, OnAvailableDateClickListener listener) {
+    public SelectTimeAdapter(List<selectTime> mList, OnAvailableDateClickListener listener, Context context) {
         this.mList = mList;
         this.listener = listener;
-//        this.context = context;
+        this.context = context;
     }
 
 
@@ -64,7 +68,6 @@ public class SelectTimeAdapter extends RecyclerView.Adapter<SelectTimeAdapter.se
                 int index = holder.getAdapterPosition();
                 indexSelected = index;
                 notifyDataSetChanged();
-                
             }
         });
     }

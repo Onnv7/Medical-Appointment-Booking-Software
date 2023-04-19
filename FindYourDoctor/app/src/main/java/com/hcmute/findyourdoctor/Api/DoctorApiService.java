@@ -14,6 +14,6 @@ public interface DoctorApiService {
     @GET(BASE_URL + "/some-doctor/{some}")
     Call<JsonObject> getSomeDoctor(@Path("some") int some);
 
-    @GET(BASE_URL + "/info/{id}")
-    Call<JsonObject> getInfoDoctorById(@Path("id") String id);
+    @GET(BASE_URL + "/info/{doctorId}")
+    Call<JsonObject> getInfoDoctorById(@Path("doctorId") String doctorId);
 }

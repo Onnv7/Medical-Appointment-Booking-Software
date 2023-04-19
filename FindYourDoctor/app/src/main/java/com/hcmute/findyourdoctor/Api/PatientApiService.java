@@ -29,5 +29,5 @@ public interface PatientApiService {
     @PUT(BASE_URL + "/update-profile/{patientId}")
     Call<JsonObject> updateProfile(@Path("patientId") String patientId,
                                    @PartMap HashMap<String, RequestBody> body,
-                                    @Part MultipartBody.Part avatar);
+                                   @Part MultipartBody.Part avatar);
 }
