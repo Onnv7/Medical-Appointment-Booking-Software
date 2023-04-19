@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +37,7 @@ import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Model.selectTime;
 import com.hcmute.findyourdoctor.Model.selectTimeDetail;
+import com.hcmute.findyourdoctor.Utils.Constant;
 import com.hcmute.findyourdoctor.Utils.DateTimeUtil;
 
 import java.util.ArrayList;
@@ -46,8 +50,9 @@ import retrofit2.Response;
 
 public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements OnAvailableDateClickListener, OnSelectedTimeSlot {
     String date, time;
-    TextView tvAfternoonSlotNumber, tvEveningSlotNumber, tvMorningSlotNumber;
-    Button btn_confirmBook;
+    TextView tvAfternoonSlotNumber, tvEveningSlotNumber, tvMorningSlotNumber, tvSelectedDate;
+    Button btnConfirm;
+    EditText edtReminder;
     GridView gvAfternoon, gvEvening, gvMorning;
     List<selectTimeDetail> afternoonSlotList, eveningSlotList, morningSlotList;
     SelectTimeDetailAdapter afternoonAdapter, eveningAdapter, morningAdapter;
@@ -57,6 +62,8 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     RetrofitClient retrofitClient;
     Doctor doctor;
     AdapterObserver adapterObserver = new AdapterObserver();
+    SharedPreferences sharedPreferences = DoctorSelectTimeDetailActivity.this.getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
+    String uid = sharedPreferences.getString("id", "");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +90,17 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         tvMorningSlotNumber = findViewById(R.id.tv_morning_slot_num_select_time);
         tvEveningSlotNumber = findViewById(R.id.tv_evening_slot_num_select_time);
         tvAfternoonSlotNumber = findViewById(R.id.tv_affternoon_slot_num_select_time);
+
+        tvSelectedDate =findViewById(R.id.tv_selected_date);
+        btnConfirm = findViewById(R.id.btn_confirmBook);
+
+        edtReminder = findViewById(R.id.edt_reminder_for_doctor);
         
     }
     private void CreateBook() {
-        btn_confirmBook = findViewById(R.id.btn_confirmBook);
-        btn_confirmBook.setOnClickListener(new View.OnClickListener() {
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DoctorSelectTimeDetailActivity.this, "KQ: " + adapterObserver.getType() +adapterObserver.getIndex(), Toast.LENGTH_SHORT).show();
                 if(adapterObserver.getType().equals("morning")) {
                     Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + morningSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
                 }
@@ -100,7 +110,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                 if(adapterObserver.getType().equals("evening")) {
                     Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + eveningSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
                 }
-                BookingDomain book = new BookingDomain("642e7c9fb011248ed77f766f","642e7c52b011248ed77f766d","gap","accepted","vui","hay",2,"642fcd0b2e7e02772c9e5a0d");
+                BookingDomain book = new BookingDomain(uid,doctor.getId(),edtReminder.getText().toString(),"waiting","vui","hay",2,"642fcd0b2e7e02772c9e5a0d");
                 ApiService apiService = RetrofitClient.getRetrofit().create(ApiService.class);
                 Call<BookingModel> call = apiService.createBook(book);
 //                call.enqueue(new Callback<BookingModel>() {
@@ -183,6 +193,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     public void onClick(String date) {
         ScheduleApiService scheduleApiService = RetrofitClient.getRetrofit().create(ScheduleApiService.class);
         try {
+            tvSelectedDate.setText(DateTimeUtil.formatDate(date));
             scheduleApiService.getAvailableSlotSchedule(doctor.getId(), date).enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

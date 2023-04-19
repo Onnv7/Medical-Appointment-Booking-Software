@@ -14,7 +14,7 @@ const bookingSchema = mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["waiting", "accepted", "denied", "over"],
+        enum: ["waiting", "accepted", "denied", "succeeded"],
         default: "waiting"
     },
     advice: {

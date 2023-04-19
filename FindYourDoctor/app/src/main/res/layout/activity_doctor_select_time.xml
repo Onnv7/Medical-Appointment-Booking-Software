@@ -155,12 +155,16 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="5">
 
-                                <ImageView
-                                    android:layout_width="80dp"
-                                    android:src="@drawable/star"
-                                    android:layout_height="20dp">
-
-                                </ImageView>
+                                <RatingBar
+                                    android:id="@+id/rtb_doctor_empty"
+                                    style="@style/Widget.AppCompat.RatingBar.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:isIndicator="false"
+                                    android:numStars="5"
+                                    android:progressTint="#F3E24C"
+                                    android:rating="0"
+                                    android:stepSize="1" />
                             </LinearLayout>
 
                             <LinearLayout

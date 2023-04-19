@@ -168,12 +168,17 @@
                                 android:layout_weight="5"
                                 android:layout_height="match_parent">
 
-                                <ImageView
-                                    android:layout_width="70dp"
-                                    android:src="@drawable/star"
-                                    android:layout_height="20dp">
-
-                                </ImageView>
+                                <RatingBar
+                                    android:id="@+id/rtb_popular_doctor"
+                                    style="@style/Widget.AppCompat.RatingBar.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:isIndicator="true"
+                                    android:max="5"
+                                    android:progressTint="@color/green_star"
+                                    android:secondaryProgressTint="@color/green_star"
+                                    android:rating="0" />
                             </LinearLayout>
 
                             <LinearLayout
