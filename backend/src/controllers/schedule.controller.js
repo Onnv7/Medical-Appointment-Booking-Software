@@ -105,6 +105,7 @@ export const createScheduleTools = async (req, res, next) => {
                 doctor: req.params.doctorId
             }
         );
+        // const delete = await Schedule.find(req.params.doctorId)
         await schedule.save();
         res.status(200).json({ success: true, message: "create successfully", result: schedule })
     } catch (error) {
@@ -168,7 +169,7 @@ export const getTimeSlotInDate = async (req, res, next) => {
             } else if (numericHour >= 12 && numericHour < 18) {
                 afternoon.push(timeString)
             } else {
-                afternoon.push(timeString)
+                evening.push(timeString)
             }
         })
         res.status(200).json({
