@@ -16,6 +16,7 @@ import com.google.android.material.navigation.NavigationBarView;
 //import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Api.ApiService;
+import com.hcmute.findyourdoctor.Api.BookingApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Fragment.AppointmentEmptyFragment;
 import com.hcmute.findyourdoctor.Fragment.AppointmentFragment;
@@ -34,6 +35,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
+    String id_user = "6426762ea34fc9b9b21035ab";
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private ViewPager2 viewPager;
     @Override
@@ -48,13 +50,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupChangeFragment() {
+
+//
+        appoinmentTF("6426762ea34fc9b9b21035ab");
+
+    }
+
+    private void checkFragment(Boolean check){
         fragmentArrayList.add(new HomeFragment());
-//        fragmentArrayList.add(new AppointmentEmptyFragment());
-        fragmentArrayList.add(new AppointmentFragment());
+        if(check)
+            fragmentArrayList.add(new AppointmentFragment());
+        else
+            fragmentArrayList.add(new AppointmentEmptyFragment());
         fragmentArrayList.add(new NotificationsFragment());
         fragmentArrayList.add(new HistoryFragment());
         fragmentArrayList.add(new ProfileFragment());
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, fragmentArrayList);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(MainActivity.this, fragmentArrayList);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -108,6 +119,26 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+    private void appoinmentTF(String id_user) {
+        BookingApiService bookingApiService = RetrofitClient.getRetrofit().create(BookingApiService.class);
+        bookingApiService.getBookingListId(id_user).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(response.body().getAsJsonArray("result").size() == 0){
+
+                    checkFragment(false);
+                }else{
+                   checkFragment(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+
     }
 
 }
