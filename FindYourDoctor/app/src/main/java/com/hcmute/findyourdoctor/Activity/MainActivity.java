@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -35,8 +37,9 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
-    String id_user = "6426762ea34fc9b9b21035ab";
+    String id_user;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+    SharedPreferences sharedPreferences;
     private ViewPager2 viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +54,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupChangeFragment() {
 
+        sharedPreferences = getSharedPreferences(LoginActivity.SHARE, Context.MODE_PRIVATE);
+        id_user = sharedPreferences.getString("id", null);
 //
-        appoinmentTF("6426762ea34fc9b9b21035ab");
+        appoinmentTF(id_user);
 
     }
 
     private void checkFragment(Boolean check){
+
+
         fragmentArrayList.add(new HomeFragment());
         if(check)
             fragmentArrayList.add(new AppointmentFragment());
