@@ -47,10 +47,10 @@
                     android:paddingBottom="12dp">
 
                     <ImageView
-                        android:id="@+id/btn_upload_image"
+                        android:id="@+id/iv_doctor_avatar_history_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="44dp"
+                        android:layout_marginTop="24dp"
                         android:background="@drawable/avatar_background"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -58,17 +58,44 @@
                         app:srcCompat="@drawable/avt_doctor" />
 
                     <TextView
-                        android:id="@+id/textView16"
+                        android:id="@+id/tv_doctor__name_history_details"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="18sp"
                         android:text="Dr.Mahmud Nik Hasan"
                         android:textColor="#5B6889"
                         android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="@+id/btn_upload_image"
-                        app:layout_constraintStart_toStartOf="@+id/btn_upload_image"
-                        app:layout_constraintTop_toBottomOf="@+id/btn_upload_image" />
+                        app:layout_constraintEnd_toEndOf="@+id/iv_doctor_avatar_history_details"
+                        app:layout_constraintStart_toStartOf="@+id/iv_doctor_avatar_history_details"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_doctor_avatar_history_details" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="24dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView31"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Created at"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_created_at_history_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="26 January 2023, 7:00 - 7:30 AM"
+                        android:textColor="#545756" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,7 +116,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView18"
+                        android:id="@+id/tv_appoinment_time_history_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="26 January 2023, 7:00 - 7:30 AM"
@@ -116,7 +143,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView185"
+                        android:id="@+id/tv_status_history_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Waiting"
@@ -142,7 +169,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView183"
+                        android:id="@+id/tv_reminder_history_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Tôi bị đau chân, nhứt đầu mỏi gối tê tay  "
@@ -151,6 +178,35 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lo_doctor_advice_history_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="24dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Doctor's advice"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_doctor_advice_history_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tôi bị đau chân, nhứt đầu mỏi gối tê tay  "
+                        android:textColor="#545756" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lo_review_history_details"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="36dp"
@@ -169,18 +225,19 @@
                         android:textStyle="bold" />
 
                     <RatingBar
-                        android:id="@+id/rtb_doctor_home"
+                        android:id="@+id/rtb_doctor_history_details"
                         style="@style/Widget.AppCompat.RatingBar.Indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:isIndicator="false"
+                        android:isIndicator="true"
                         android:numStars="5"
                         android:progressTint="#F3E24C"
                         android:rating="0"
-                        android:stepSize="1" />
+                        android:stepSize="1"
+                        tools:stepSize="0.1" />
 
                     <TextView
-                        android:id="@+id/textView21"
+                        android:id="@+id/tv_review_history_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Cái này là để khi đã submit thì hiện đánh giá thì hiện lên và ẩn textbox + button"
@@ -189,7 +246,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/edt_num3"
+                    android:id="@+id/edt_review_history_details"
                     android:layout_width="335dp"
                     android:layout_height="54dp"
                     android:layout_gravity="center"
@@ -202,7 +259,7 @@
                     android:textSize="16sp" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btn_submit_history_details"
                     android:layout_width="295dp"
                     android:layout_height="54dp"
                     android:layout_gravity="center"

@@ -47,7 +47,7 @@ public class AppointmentFragment extends Fragment {
         mAppointment = new ArrayList<>();
 
 
-        addAppointment();
+//        addAppointment();
 
 
         return view;
@@ -55,18 +55,18 @@ public class AppointmentFragment extends Fragment {
 
 
     public void addAppointment() {
-        AppointmentDomain apm1 = new AppointmentDomain("Dr.Mahmud Nik Hasan", "Status: waiting", "123", "26 January 2023, 7:00 - 7:30 AM");
-        AppointmentDomain apm2 = new AppointmentDomain("Dr.Mahmud Nik Hasan", "Status: waiting", "123", "26 January 2023, 7:00 - 7:30 AM");
-        AppointmentDomain apm3 = new AppointmentDomain("Dr.Mahmud Nik Hasan", "Status: waiting", "123", "26 January 2023, 7:00 - 7:30 AM");
-        AppointmentDomain apm4 = new AppointmentDomain("Dr.Mahmud Nik Hasan", "Status: waiting", "123", "26 January 2023, 7:00 - 7:30 AM");
-        AppointmentDomain apm5 = new AppointmentDomain("Dr.Mahmud Nik Hasan", "Status: waiting", "123", "26 January 2023, 7:00 - 7:30 AM");
-        mAppointment.add(apm1);
-        mAppointment.add(apm2);
-        mAppointment.add(apm3);
-        mAppointment.add(apm4);
-        mAppointment.add(apm5);
-
-        AppointmentAdapter appointmentAdapter = new AppointmentAdapter(mAppointment);
-        listAppointment.setAdapter(appointmentAdapter);
+//        AppointmentDomain apm1 = new AppointmentDomain("Dr.Mahmud Nik Hasan", "Status: waiting", "123", "26 January 2023, 7:00 - 7:30 AM");
+//        AppointmentDomain apm2 = new AppointmentDomain("Dr.Mahmud Nik Hasan", "Status: waiting", "123", "26 January 2023, 7:00 - 7:30 AM");
+//        AppointmentDomain apm3 = new AppointmentDomain("Dr.Mahmud Nik Hasan", "Status: waiting", "123", "26 January 2023, 7:00 - 7:30 AM");
+//        AppointmentDomain apm4 = new AppointmentDomain("Dr.Mahmud Nik Hasan", "Status: waiting", "123", "26 January 2023, 7:00 - 7:30 AM");
+//        AppointmentDomain apm5 = new AppointmentDomain("Dr.Mahmud Nik Hasan", "Status: waiting", "123", "26 January 2023, 7:00 - 7:30 AM");
+//        mAppointment.add(apm1);
+//        mAppointment.add(apm2);
+//        mAppointment.add(apm3);
+//        mAppointment.add(apm4);
+//        mAppointment.add(apm5);
+//
+//        AppointmentAdapter appointmentAdapter = new AppointmentAdapter(mAppointment);
+//        listAppointment.setAdapter(appointmentAdapter);
     }
 }

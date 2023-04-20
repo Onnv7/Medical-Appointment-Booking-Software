@@ -116,7 +116,7 @@
                             android:weightSum="10">
 
                             <TextView
-                                android:id="@+id/tv_name_select_time"
+                                android:id="@+id/tv_doctor_name_select_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
@@ -156,7 +156,7 @@
                                         android:numStars="5"
                                         android:progressTint="#F3E24C"
                                         android:rating="0"
-                                        android:stepSize="1" />
+                                        android:stepSize="0.1" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -165,9 +165,10 @@
                                     android:layout_weight="5">
 
                                     <TextView
+                                        android:id="@+id/tv_patient_quantity_select_time"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="2.8 (2821 patients)"
+                                        android:text="(2821 patients)"
                                         android:textSize="12sp">
 
                                     </TextView>

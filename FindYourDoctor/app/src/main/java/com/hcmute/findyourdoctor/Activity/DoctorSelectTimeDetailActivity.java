@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,9 +19,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Adapter.SelectTimeDetailAdapter;
@@ -50,9 +54,11 @@ import retrofit2.Response;
 
 public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements OnAvailableDateClickListener, OnSelectedTimeSlot {
     String date, time;
-    TextView tvAfternoonSlotNumber, tvEveningSlotNumber, tvMorningSlotNumber, tvSelectedDate;
+    TextView tvAfternoonSlotNumber, tvEveningSlotNumber, tvMorningSlotNumber, tvSelectedDate, tvDoctorName, tvSpecialist, tvPatientQuantity;
     Button btnConfirm;
     EditText edtReminder;
+    ImageView ivDoctorAvatar;
+    RatingBar ratingBar;
     GridView gvAfternoon, gvEvening, gvMorning;
     List<selectTimeDetail> afternoonSlotList, eveningSlotList, morningSlotList;
     SelectTimeDetailAdapter afternoonAdapter, eveningAdapter, morningAdapter;
@@ -75,9 +81,8 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         init();
         Intent intent = getIntent();
 
-
         doctor = (Doctor) intent.getSerializableExtra("doctor");
-
+        setDoctorInfo();
         setRecyclerViewSelectDate(doctor.getId());
 
         CreateBook();
@@ -98,6 +103,13 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         btnConfirm = findViewById(R.id.btn_confirmBook);
 
         edtReminder = findViewById(R.id.edt_reminder_for_doctor);
+        tvDoctorName = findViewById(R.id.tv_doctor_name_select_time);
+        tvSpecialist = findViewById(R.id.tv_specialist_select_time);
+
+        ratingBar = findViewById(R.id.rtb_doctor_select_time);
+        tvPatientQuantity = findViewById(R.id.tv_patient_quantity_select_time);
+
+        ivDoctorAvatar = findViewById(R.id.iv_avatar_select_time);
         
     }
     private void CreateBook() {
@@ -293,6 +305,13 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     @Override
     public void onSelectedTimeSlot(SelectTimeDetailAdapter adapter) {
     }
-
-
+    private void setDoctorInfo() {
+        tvSpecialist.setText(doctor.getSpecialist());
+        tvDoctorName.setText(doctor.getName());
+        ratingBar.setRating(doctor.getRating());
+        tvPatientQuantity.setText("(" +doctor.getPatientQuantity() + " patients)");
+        Glide.with(this)
+                .load(doctor.getAvatarUrl())
+                .into(ivDoctorAvatar);
+    }
 }

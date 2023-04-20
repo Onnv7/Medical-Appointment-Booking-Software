@@ -1,16 +1,26 @@
 package com.hcmute.findyourdoctor.Domain;
 
 public class AppointmentDomain {
+    private String id;
     private String name;
     private String status;
     private String image;
     private String time;
 
-    public AppointmentDomain(String name, String status, String image, String time) {
+    public AppointmentDomain(String id, String name, String status, String image, String time) {
+        this.id = id;
         this.name = name;
         this.status = status;
         this.image = image;
         this.time = time;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

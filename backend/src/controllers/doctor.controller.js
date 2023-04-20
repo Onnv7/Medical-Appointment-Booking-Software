@@ -124,8 +124,8 @@ export const getInfoDoctorById = async (req, res, next) => {
             clinicAddress: others.clinicAddress,
             introduction: others.introduction,
             specialist: others.specialist?.name || "None",
-            patientNumber: patients.length,
-            successBookingNum: successBooking.length
+            patientQuantity: patients.length,
+            successBookingQuantity: successBooking.length
         }
 
         res.status(200).json({ success: true, message: "Get information doctor successfully", result: data });
