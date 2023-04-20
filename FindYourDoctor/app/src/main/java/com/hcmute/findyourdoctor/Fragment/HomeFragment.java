@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 //import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
 import com.google.gson.JsonArray;
@@ -148,6 +149,7 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
                         element.setId(doctor.get("id").getAsString());
                         element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
                         element.setName(doctor.get("name").getAsString());
+                        System.out.println(doctor.get("id").getAsString());
                         element.setRating(doctor.get("rating").getAsFloat());
                         element.setPrice(doctor.get("price").getAsFloat());
                         mFeatureDoctor.add(element);

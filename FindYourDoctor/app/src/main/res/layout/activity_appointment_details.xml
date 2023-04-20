@@ -57,7 +57,7 @@
                         app:srcCompat="@drawable/avt_doctor" />
 
                     <TextView
-                        android:id="@+id/textView16"
+                        android:id="@+id/tv_doctor__name_history_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"

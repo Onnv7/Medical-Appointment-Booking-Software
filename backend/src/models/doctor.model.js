@@ -51,13 +51,13 @@ doctorSchema.virtual('rating').get(async function () {
     let rating = 0
     try {
         rating = await Booking.aggregate([
-            { $match: { doctorId: this._id } },
-            { $group: { _id: null, avgRating: { $avg: '$rating' } } }
+            { $match: { doctor: this._id } },
+            { $group: { _id: null, avgRating: { $avg: '$star' } } }
         ])
             .exec()
             .then(result => result.length ? result[0].avgRating : 0)
     } catch (error) {
-
+        console.log(error)
     }
     finally {
         return rating;
