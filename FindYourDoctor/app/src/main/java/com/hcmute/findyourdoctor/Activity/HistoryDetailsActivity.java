@@ -16,7 +16,7 @@ public class HistoryDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_details);
 
-        RatingBar ratingBar = findViewById(R.id.rtb_doctor_home);
+        RatingBar ratingBar = findViewById(R.id.rtb_doctor_select_time);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
