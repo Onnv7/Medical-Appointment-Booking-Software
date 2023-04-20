@@ -12,7 +12,7 @@
     <color name="green_star">#4CC81E</color>
     <color name="status_succeeded">#23AAF2</color>
     <color name="status_denied">#902F4E</color>
-    <color name="status_waiting">#D8C30D</color>
+    <color name="status_waiting">#A3930D</color>
     <color name="status_accepted">#78C61C</color>
 
 </resources>

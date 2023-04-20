@@ -16,8 +16,8 @@ export const updateBooking = async (req, res, next) => {
 }
 
 export const createBooking = async (req, res, next) => {
-    try {   
-        const booking = new Booking({ ...req.body });
+    try {
+        const booking = new Booking({ ...req.body, star: 0 });
         await booking.save();
         res.status(200).json({ success: true, message: "Creared booking", result: booking });
     } catch (error) {

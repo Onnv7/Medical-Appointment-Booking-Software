@@ -56,9 +56,8 @@ doctorSchema.virtual('rating').get(async function () {
         ])
             .exec()
             .then(result => result.length ? result[0].avgRating : 0)
-        console.log("KQ", rating)
     } catch (error) {
-        console.log(error, "doctor nẻ")
+        console.log(error)
     }
     finally {
         return rating;

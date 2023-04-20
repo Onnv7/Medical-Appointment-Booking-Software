@@ -85,7 +85,7 @@ export const getSomeDoctor = async (req, res, next) => {
             }
             rs.push({ ...responseData })
         };
-        res.status(200).json({ success: true, message: "Get top doctor successfully", result: rs })
+        res.status(200).json({ success: true, message: "Get some     doctor successfully", result: rs })
     } catch (error) {
         next(error)
     }

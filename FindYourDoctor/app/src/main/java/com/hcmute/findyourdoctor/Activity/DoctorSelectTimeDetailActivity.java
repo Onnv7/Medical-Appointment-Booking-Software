@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -70,6 +71,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     AdapterObserver adapterObserver = new AdapterObserver();
     SharedPreferences sharedPreferences;
     String uid;
+    String selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,31 +118,36 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String time = "";
                 if(adapterObserver.getType().equals("morning")) {
                     Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + morningSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
+                    time = morningSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
                 }
                 if(adapterObserver.getType().equals("afternoon")) {
                     Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + afternoonSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
+                    time = afternoonSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
                 }
                 if(adapterObserver.getType().equals("evening")) {
                     Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + eveningSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
+                    time = eveningSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
                 }
-                BookingDomain book = new BookingDomain(uid,doctor.getId(),edtReminder.getText().toString(),"waiting","vui","hay",2,"642fcd0b2e7e02772c9e5a0d");
+                String message = edtReminder.getText().toString();
+                BookingDomain book = new BookingDomain(uid,doctor.getId(), message,"waiting", time);
                 ApiService apiService = RetrofitClient.getRetrofit().create(ApiService.class);
-                Call<BookingModel> call = apiService.createBook(book);
-//                call.enqueue(new Callback<BookingModel>() {
-//                    @Override
-//                    public void onResponse(Call<BookingModel> call, Response<BookingModel> response) {
-//                        if(response.body().getSuccess().equals(true)){
-//                            openThank(Gravity.CENTER);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<BookingModel> call, Throwable t) {
-//                        Log.e("ok", t.getMessage());
-//                    }
-//                });
+                Call<BookingModel> call = apiService.createBooking(book);
+                call.enqueue(new Callback<BookingModel>() {
+                    @Override
+                    public void onResponse(Call<BookingModel> call, Response<BookingModel> response) {
+                        if(response.body().getSuccess().equals(true)){
+                            openThank(Gravity.CENTER);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<BookingModel> call, Throwable t) {
+                        Log.e("ok", t.getMessage());
+                    }
+                });
             }
         });
     }
@@ -208,7 +215,8 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     public void onClick(String date) {
         ScheduleApiService scheduleApiService = RetrofitClient.getRetrofit().create(ScheduleApiService.class);
         try {
-            tvSelectedDate.setText(DateTimeUtil.formatDate(date));
+            tvSelectedDate.setText(DateTimeUtil.formatDate(date, "EEE, d MMMM"));
+            selectedDate = DateTimeUtil.formatDate(date, "EEE, dd MMMM yyyy");
             scheduleApiService.getAvailableSlotSchedule(doctor.getId(), date).enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

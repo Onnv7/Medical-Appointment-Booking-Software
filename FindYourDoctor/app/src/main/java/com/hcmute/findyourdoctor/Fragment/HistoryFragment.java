@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
 import com.hcmute.findyourdoctor.Activity.HistoryDetailsActivity;
 import com.hcmute.findyourdoctor.Activity.MainActivity;
 //import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
@@ -89,11 +90,12 @@ public class HistoryFragment extends Fragment implements OnHistoryAppointmentCli
                         JsonObject obj = results.get(i).getAsJsonObject();
                         JsonObject doctor = obj.getAsJsonObject("doctor");
                         String id = obj.get("_id").getAsString();
+                        String doctorId = doctor.get("_id").getAsString();
                         String name = doctor.get("name").getAsString();
                         String image = doctor.get("avatarUrl").getAsString();
                         String status = obj.get("status").getAsString();
                         String time = obj.get("time").getAsString();
-                        AppointmentDomain element = new AppointmentDomain(id, name, status, image, time);
+                        AppointmentDomain element = new AppointmentDomain(id, doctorId, name, status, image, time);
                         mAppointmentHistory.add(element);
                     }
 

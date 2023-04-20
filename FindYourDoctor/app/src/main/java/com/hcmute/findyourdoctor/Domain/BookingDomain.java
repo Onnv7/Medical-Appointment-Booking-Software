@@ -1,40 +1,39 @@
 package com.hcmute.findyourdoctor.Domain;
 
-public class BookingDomain {
-    private String patientId;
-    private String doctorId;
+import java.io.Serializable;
+
+public class BookingDomain implements Serializable {
+    private String patient;
+    private String doctor;
     private String message;
     private String status;
     private String advice;
     private String review;
-    private Number start;
-    private String schedule;
+    private float start;
+    private String time;
 
-    public BookingDomain(String patientId, String doctorId, String message, String status, String advice, String review, Number start, String schedule) {
-        this.patientId = patientId;
-        this.doctorId = doctorId;
+    public BookingDomain(String patient, String doctor, String message, String status, String time) {
+        this.patient = patient;
+        this.doctor = doctor;
         this.message = message;
         this.status = status;
-        this.advice = advice;
-        this.review = review;
-        this.start = start;
-        this.schedule = schedule;
+        this.time = time;
     }
 
-    public String getPatientId() {
-        return patientId;
+    public String getPatient() {
+        return patient;
     }
 
-    public void setPatientId(String patientId) {
-        this.patientId = patientId;
+    public void setPatient(String patient) {
+        this.patient = patient;
     }
 
-    public String getDoctorId() {
-        return doctorId;
+    public String getDoctor() {
+        return doctor;
     }
 
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
     }
 
     public String getMessage() {
@@ -69,19 +68,19 @@ public class BookingDomain {
         this.review = review;
     }
 
-    public Number getStart() {
+    public float getStart() {
         return start;
     }
 
-    public void setStart(Number start) {
+    public void setStart(float start) {
         this.start = start;
     }
 
-    public String getSchedule() {
-        return schedule;
+    public String getTime() {
+        return time;
     }
 
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
+    public void setTime(String time) {
+        this.time = time;
     }
 }

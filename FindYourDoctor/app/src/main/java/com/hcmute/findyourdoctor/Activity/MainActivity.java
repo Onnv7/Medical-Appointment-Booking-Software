@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     SharedPreferences sharedPreferences;
     private ViewPager2 viewPager;
+    private int checkedIndex = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +49,13 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_nav);
         viewPager = findViewById(R.id.view_pager);
 
-        setupChangeFragment();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupChangeFragment();
+    }
 
     private void setupChangeFragment() {
 
@@ -58,17 +63,19 @@ public class MainActivity extends AppCompatActivity {
         id_user = sharedPreferences.getString("id", null);
 //
         appoinmentTF(id_user);
+        Toast.makeText(this, "main resume", Toast.LENGTH_SHORT).show();
 
     }
 
     private void checkFragment(Boolean check){
-
-
+        fragmentArrayList = new ArrayList<>();
         fragmentArrayList.add(new HomeFragment());
-        if(check)
+        if(check) {
             fragmentArrayList.add(new AppointmentFragment());
-        else
+        }
+        else {
             fragmentArrayList.add(new AppointmentEmptyFragment());
+        }
         fragmentArrayList.add(new NotificationsFragment());
         fragmentArrayList.add(new HistoryFragment());
         fragmentArrayList.add(new ProfileFragment());
@@ -133,10 +140,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.body().getAsJsonArray("result").size() == 0){
-
+                    Toast.makeText(MainActivity.this, "fag hide", Toast.LENGTH_SHORT).show();
                     checkFragment(false);
                 }else{
-                   checkFragment(true);
+                    Toast.makeText(MainActivity.this, "fag > 0", Toast.LENGTH_SHORT).show();
+                    checkFragment(true);
                 }
             }
 

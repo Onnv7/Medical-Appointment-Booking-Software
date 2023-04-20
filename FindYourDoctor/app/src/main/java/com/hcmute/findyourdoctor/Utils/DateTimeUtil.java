@@ -33,7 +33,7 @@ public class DateTimeUtil {
         }
         return list;
     }
-    public static String formatDate(String inputDate) {
+    public static String formatDate(String inputDate, String pattern) {
         String formattedDate = "";
 
         try {
@@ -49,7 +49,7 @@ public class DateTimeUtil {
                         inputCalendar.get(Calendar.MONTH) == todayCalendar.get(Calendar.MONTH) &&
                         inputCalendar.get(Calendar.DAY_OF_MONTH) == todayCalendar.get(Calendar.DAY_OF_MONTH);
 
-                SimpleDateFormat outputDateFormat = new SimpleDateFormat("EEE, d MMMM", Locale.getDefault());
+                SimpleDateFormat outputDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
 
                 if (isToday) {
                     // Nếu là ngày hôm nay, đặt thành "Today"

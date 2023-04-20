@@ -62,6 +62,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
 //        String id = "643684e44171b72eadb118ef";
 
         String id = intent.getStringExtra("id");
+        System.out.println(id);
 
         doctorApiService.getInfoDoctorById(id).enqueue(new Callback<JsonObject>() {
             @Override
@@ -123,15 +124,6 @@ public class DoctorDetailActivity extends AppCompatActivity {
     }
 
     private void addReview() {
-//        review review1 = new review("Patient1", "ok luôn");
-//        review review2 = new review("Patient2", "ok");
-//        review review3 = new review("Patient2", "ok luôn");
-//        review review4 = new review("Patient2", "ok");
-        // mReview.add(review1);
-        // mReview.add(review2);
-        // mReview.add(review3);
-        // mReview.add(review4);
-
         reviewAdapter userAdapter = new reviewAdapter(mReview);
         listReview.setAdapter(userAdapter);
 

@@ -3,6 +3,7 @@ package com.hcmute.findyourdoctor.Adapter;
 import static java.security.AccessController.getContext;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
 import com.hcmute.findyourdoctor.Domain.AppointmentDomain;
 import com.hcmute.findyourdoctor.Listener.OnHistoryAppointmentClickListener;
 import com.hcmute.findyourdoctor.R;
@@ -52,8 +54,12 @@ public class AppointmentHistoryAdapter extends RecyclerView.Adapter<AppointmentH
         if(status.equals("succeeded")) {
             holder.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.status_succeeded));
         }
-        else {
+        else if(status.equals("denied")) {
             holder.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.status_denied));
+        } else if (status.equals("accepted")) {
+            holder.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.status_accepted));
+        } else if (status.equals("waiting")) {
+            holder.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.status_waiting));
         }
         holder.tvStatus.setText("Status: " + status);
         Glide.with(holder.itemView.getContext())
@@ -64,6 +70,15 @@ public class AppointmentHistoryAdapter extends RecyclerView.Adapter<AppointmentH
             @Override
             public void onClick(View view) {
                 listener.onClickHistoryAppointment(appointmentHistory_pt.getId());
+            }
+        });
+
+        holder.imageAppointmentHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(holder.itemView.getContext(), DoctorDetailActivity.class);
+                intent.putExtra("id", appointmentHistory_pt.getDoctorId());
+                holder.itemView.getContext().startActivity(intent);
             }
         });
     }
