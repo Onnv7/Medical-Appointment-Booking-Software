@@ -85,7 +85,7 @@ export const getSomeDoctor = async (req, res, next) => {
             }
             rs.push({ ...responseData })
         };
-        res.status(200).json({ success: true, message: "Get top doctor successfully", result: rs })
+        res.status(200).json({ success: true, message: "Get some     doctor successfully", result: rs })
     } catch (error) {
         next(error)
     }
@@ -109,6 +109,8 @@ export const getInfoDoctorById = async (req, res, next) => {
             path: 'specialist',
             select: { name: 1 }
         });
+        const patients = await Booking.distinct('patient', { doctor: req.params.doctorId });
+        const successBooking = await Booking.distinct('patient', { doctor: req.params.doctorId, status: 'succeeded' });
         const { password, ...others } = doctor._doc;
 
         const rating = await doctor.rating;
@@ -121,7 +123,9 @@ export const getInfoDoctorById = async (req, res, next) => {
             clinicName: others.clinicName,
             clinicAddress: others.clinicAddress,
             introduction: others.introduction,
-            specialist: others.specialist?.name || "None"
+            specialist: others.specialist?.name || "None",
+            patientQuantity: patients.length,
+            successBookingQuantity: successBooking.length
         }
 
         res.status(200).json({ success: true, message: "Get information doctor successfully", result: data });

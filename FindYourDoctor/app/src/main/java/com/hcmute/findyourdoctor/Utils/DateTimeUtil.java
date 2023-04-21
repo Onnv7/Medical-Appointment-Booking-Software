@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DateTimeUtil {
     public static List<String> getDateForRecyclerView() {
@@ -31,5 +32,37 @@ public class DateTimeUtil {
             list.add(sdf.format(sevenDaysAfter));
         }
         return list;
+    }
+    public static String formatDate(String inputDate, String pattern) {
+        String formattedDate = "";
+
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date date = null;
+                date = inputDateFormat.parse(inputDate);
+                // Kiểm tra xem ngày đầu vào có trùng với ngày hiện tại không
+                Calendar inputCalendar = Calendar.getInstance();
+                inputCalendar.setTime(date);
+                Calendar todayCalendar = Calendar.getInstance();
+                boolean isToday = inputCalendar.get(Calendar.YEAR) == todayCalendar.get(Calendar.YEAR) &&
+                        inputCalendar.get(Calendar.MONTH) == todayCalendar.get(Calendar.MONTH) &&
+                        inputCalendar.get(Calendar.DAY_OF_MONTH) == todayCalendar.get(Calendar.DAY_OF_MONTH);
+
+                SimpleDateFormat outputDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
+
+                if (isToday) {
+                    // Nếu là ngày hôm nay, đặt thành "Today"
+                    formattedDate = "Today, " + outputDateFormat.format(date);
+                } else {
+                    // Ngược lại, định dạng theo mẫu "EEE, d MMMM"
+                    formattedDate = outputDateFormat.format(date);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return formattedDate;
     }
 }

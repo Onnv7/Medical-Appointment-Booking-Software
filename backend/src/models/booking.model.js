@@ -14,7 +14,7 @@ const bookingSchema = mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["waiting", "accepted", "denied", "over"],
+        enum: ["waiting", "accepted", "denied", "succeeded"],
         default: "waiting"
     },
     advice: {
@@ -23,13 +23,13 @@ const bookingSchema = mongoose.Schema({
     review: {
         type: String,
     },
-    start: {
+    star: {
         type: Number,
     },
     time: {
         type: String,
     }
 }, { timestamps: true });
-bookingSchema.index({ doctorId: 1, scheduleId: 1 }, { unique: true });
+bookingSchema.index({ doctor: 1, time: 1 }, { unique: true });
 
 export default mongoose.model("Booking", bookingSchema);

@@ -165,6 +165,7 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
                         element.setId(doctor.get("id").getAsString());
                         element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
                         element.setName(doctor.get("name").getAsString());
+                        System.out.println(doctor.get("id").getAsString());
                         element.setRating(doctor.get("rating").getAsFloat());
                         element.setPrice(doctor.get("price").getAsFloat());
                         mFeatureDoctor.add(element);

@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -34,7 +36,8 @@ import retrofit2.Response;
 public class DoctorDetailActivity extends AppCompatActivity {
     RecyclerView listReview;
     List<review> mReview;
-    TextView tvName, tvSpecialist, tvPrice, tvClinicName, tvClinicAddress, tvIntroduce;
+    TextView tvName, tvSpecialist, tvPrice, tvClinicName, tvClinicAddress, tvIntroduce, tvPatientQuantity, tvSucceededQuantity;
+    RatingBar ratingBar;
     Button btnBooking;
     ImageView ivAvatar;
     DoctorApiService doctorApiService;
@@ -45,7 +48,6 @@ public class DoctorDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_detail);
         init();
-
 
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         listReview.setLayoutManager(linearLayout);
@@ -63,9 +65,10 @@ public class DoctorDetailActivity extends AppCompatActivity {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject res = response.body();
 
-                if(res.get("success").getAsBoolean()) {
+                if (res.get("success").getAsBoolean()) {
                     Gson gson = new Gson();
-                    doctor = gson.fromJson(res.getAsJsonObject("result"), Doctor.class);
+                    JsonObject result = res.getAsJsonObject("result");
+                    doctor = gson.fromJson(result, Doctor.class);
                     doctor.setId(id);
                     tvName.setText(doctor.getName());
                     tvSpecialist.setText(doctor.getSpecialist());
@@ -73,11 +76,14 @@ public class DoctorDetailActivity extends AppCompatActivity {
                     tvClinicAddress.setText(doctor.getClinicAddress());
                     tvClinicName.setText(doctor.getClinicName());
                     tvIntroduce.setText(doctor.getIntroduce());
+                    tvPatientQuantity.setText(doctor.getPatientQuantity() + "");
+                    tvSucceededQuantity.setText(result.get("successBookingQuantity").getAsString());
+                    ratingBar.setStepSize(0.1f);
+                    ratingBar.setRating(doctor.getRating());
                     Glide.with(DoctorDetailActivity.this)
                             .load(doctor.getAvatarUrl())
                             .into(ivAvatar);
                 }
-
                 Log.d(TAG, "onResponse: detail:" + doctor.getId());
             }
 
@@ -91,11 +97,11 @@ public class DoctorDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(DoctorDetailActivity.this, DoctorSelectTimeDetailActivity.class);
                 intent.putExtra("doctor", doctor);
-
                 startActivity(intent);
             }
         });
     }
+
     private void init() {
         tvName = findViewById(R.id.tv_name_doctor_details);
         tvSpecialist = findViewById(R.id.tv_specialist_doctor_details);
@@ -107,17 +113,13 @@ public class DoctorDetailActivity extends AppCompatActivity {
         tvIntroduce = findViewById(R.id.tv_introduce_doctor_details);
         btnBooking = findViewById(R.id.btn_booking_doctor_details);
 
-    }
-    private void addReview(){
-        review review1 = new review("Patient1", "ok luôn");
-        review review2 = new review("Patient2", "ok");
-        review review3 = new review("Patient2", "ok luôn");
-        review review4 = new review("Patient2", "ok");
-//        mReview.add(review1);
-//        mReview.add(review2);
-//        mReview.add(review3);
-//        mReview.add(review4);
+        tvPatientQuantity = findViewById(R.id.tv_patient_quantity);
+        tvSucceededQuantity = findViewById(R.id.tv_successed_quantity);
+        ratingBar = findViewById(R.id.rtb_doctor_details);
 
+    }
+
+    private void addReview() {
         reviewAdapter userAdapter = new reviewAdapter(mReview);
         listReview.setAdapter(userAdapter);
 

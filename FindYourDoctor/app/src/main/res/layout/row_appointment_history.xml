@@ -5,39 +5,40 @@
     android:layout_height="135dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cv_history_appointment"
         android:layout_width="match_parent"
+        android:layout_height="120dp"
         android:layout_marginLeft="20dp"
-        app:cardBackgroundColor="#F3F2F2"
         android:layout_marginRight="20dp"
-        app:cardCornerRadius="20dp"
-        android:layout_height="120dp">
+        app:cardBackgroundColor="#F3F2F2"
+        app:cardCornerRadius="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_height="match_parent">
+            android:weightSum="10">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="3"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="3">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="20dp"
-                    app:cardCornerRadius="10dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_height="match_parent">
+                    app:cardCornerRadius="10dp">
 
                     <ImageView
                         android:id="@+id/imv_AppointmentHistory"
                         android:layout_width="match_parent"
-                        android:src="@drawable/avt_doctor"
+                        android:layout_height="match_parent"
                         android:scaleType="fitXY"
-                        android:layout_height="match_parent">
+                        android:src="@drawable/avt_doctor">
 
                     </ImageView>
                 </androidx.cardview.widget.CardView>
@@ -46,45 +47,41 @@
 
             <LinearLayout
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:orientation="vertical"
-                android:weightSum="10"
-                android:layout_height="match_parent">
+                android:weightSum="10">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_nameAppointmentHistory"
                     android:layout_width="match_parent"
-                    android:layout_weight="5"
-                    android:layout_height="0dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Dr.Mahmud Nik Hasan"
+                    android:textSize="18sp"
+                    android:textStyle="bold">
 
-                    <TextView
-                        android:id="@+id/tv_nameAppointmentHistory"
-                        android:layout_width="match_parent"
-                        android:text="Dr.Mahmud Nik Hasan"
-                        android:layout_marginTop="20dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:layout_height="match_parent">
+                </TextView>
 
-                    </TextView>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_timeAppointmentHistory"
                     android:layout_width="match_parent"
-                    android:layout_weight="5"
-                    android:layout_height="0dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="26 January 2023, 7:00 - 7:30 AM"
+                    android:textSize="16sp">
 
-                    <TextView
-                        android:id="@+id/tv_timeAppointmentHistory"
-                        android:layout_width="match_parent"
-                        android:text="26 January 2023, 7:00 - 7:30 AM"
-                        android:textSize="16sp"
-                        android:layout_marginTop="10dp"
-                        android:layout_height="match_parent">
+                </TextView>
 
-                    </TextView>
+                <TextView
+                    android:id="@+id/tv_status_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Status: Successed"
+                    android:textSize="16sp">
 
-                </LinearLayout>
+                </TextView>
 
             </LinearLayout>
         </LinearLayout>

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import com.google.android.material.navigation.NavigationBarView;
 //import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Api.ApiService;
+import com.hcmute.findyourdoctor.Api.BookingApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Fragment.AppointmentEmptyFragment;
 import com.hcmute.findyourdoctor.Fragment.AppointmentFragment;
@@ -34,8 +37,11 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
+    String id_user;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+    SharedPreferences sharedPreferences;
     private ViewPager2 viewPager;
+    private int checkedIndex = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,18 +49,37 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_nav);
         viewPager = findViewById(R.id.view_pager);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setupChangeFragment();
     }
 
-
     private void setupChangeFragment() {
+
+        sharedPreferences = getSharedPreferences(LoginActivity.SHARE, Context.MODE_PRIVATE);
+        id_user = sharedPreferences.getString("id", null);
+//
+        appoinmentTF(id_user);
+        Toast.makeText(this, "main resume", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void checkFragment(Boolean check){
+        fragmentArrayList = new ArrayList<>();
         fragmentArrayList.add(new HomeFragment());
-//        fragmentArrayList.add(new AppointmentEmptyFragment());
-        fragmentArrayList.add(new AppointmentFragment());
+        if(check) {
+            fragmentArrayList.add(new AppointmentFragment());
+        }
+        else {
+            fragmentArrayList.add(new AppointmentEmptyFragment());
+        }
         fragmentArrayList.add(new NotificationsFragment());
         fragmentArrayList.add(new HistoryFragment());
         fragmentArrayList.add(new ProfileFragment());
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, fragmentArrayList);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(MainActivity.this, fragmentArrayList);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -108,6 +133,27 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+    private void appoinmentTF(String id_user) {
+        BookingApiService bookingApiService = RetrofitClient.getRetrofit().create(BookingApiService.class);
+        bookingApiService.getBookingListId(id_user).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(response.body().getAsJsonArray("result").size() == 0){
+                    Toast.makeText(MainActivity.this, "fag hide", Toast.LENGTH_SHORT).show();
+                    checkFragment(false);
+                }else{
+                    Toast.makeText(MainActivity.this, "fag > 0", Toast.LENGTH_SHORT).show();
+                    checkFragment(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+
     }
 
 }
