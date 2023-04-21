@@ -9,14 +9,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 //import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
+import com.hcmute.findyourdoctor.Activity.SeeallSpecialistActivity;
 import com.hcmute.findyourdoctor.Adapter.FeatureDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.PopularDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
@@ -43,6 +46,7 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
     private RecyclerView rcv_specialist;
     private RecyclerView rcv_popularDoctor;
     private RecyclerView rcv_featureDoctor;
+    private TextView tv_Seeall_Specialty;
     List<SpecialistDomain> mSpecialist;
     List<Doctor> mPopularList;
     List<Doctor> mFeatureDoctor;
@@ -70,6 +74,7 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
         rcv_specialist =  view.findViewById(R.id.rcv_specialist);
         rcv_popularDoctor =  view.findViewById(R.id.rcv_popularDoctor);
         rcv_featureDoctor =  view.findViewById(R.id.rcv_featureDoctor);
+        tv_Seeall_Specialty = view.findViewById(R.id.tv_Seeall_Specialty);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView.LayoutManager layoutManagerPopular = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -83,6 +88,18 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
         mSpecialist = new ArrayList<>();
         mPopularList = new ArrayList<>();
         mFeatureDoctor= new ArrayList<>();
+
+        tv_Seeall_Specialty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("SPECIALIST_LIST", (ArrayList<? extends Parcelable>) new ArrayList<SpecialistDomain>(mSpecialist));
+
+                Intent intent = new Intent(getActivity(), SeeallSpecialistActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
 
         specialistApiService.getAllSpecialists().enqueue(new Callback<JsonObject>() {
             @Override
