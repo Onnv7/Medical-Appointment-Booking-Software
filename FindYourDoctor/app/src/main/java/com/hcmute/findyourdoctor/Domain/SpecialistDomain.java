@@ -1,6 +1,11 @@
 package com.hcmute.findyourdoctor.Domain;
 
-public class SpecialistDomain {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class SpecialistDomain implements Parcelable {
     private String title;
     private String pic;
 
@@ -8,6 +13,23 @@ public class SpecialistDomain {
         this.title = title;
         this.pic = pic;
     }
+
+    protected SpecialistDomain(Parcel in) {
+        title = in.readString();
+        pic = in.readString();
+    }
+
+    public static final Creator<SpecialistDomain> CREATOR = new Creator<SpecialistDomain>() {
+        @Override
+        public SpecialistDomain createFromParcel(Parcel in) {
+            return new SpecialistDomain(in);
+        }
+
+        @Override
+        public SpecialistDomain[] newArray(int size) {
+            return new SpecialistDomain[size];
+        }
+    };
 
     public String getTitle() {
         return title;
@@ -31,5 +53,16 @@ public class SpecialistDomain {
                 "title='" + title + '\'' +
                 ", pic='" + pic + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(pic);
     }
 }

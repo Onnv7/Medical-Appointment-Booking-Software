@@ -111,6 +111,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
+                            android:id="@+id/tv_Seeall_Specialty"
                             android:layout_width="match_parent"
                             android:text="See all >"
                             android:textAlignment="textEnd"
