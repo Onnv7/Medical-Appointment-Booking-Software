@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const bookingSchema = mongoose.Schema({
     patient: {
         type: mongoose.Types.ObjectId,
@@ -21,11 +20,12 @@ const bookingSchema = mongoose.Schema({
         type: String,
     },
     review: {
-        type: String,
+        type: mongoose.Types.ObjectId,
+        ref: "Review"
     },
-    star: {
-        type: Number,
-    },
+    // star: {
+    //     type: Number,
+    // },
     time: {
         type: String,
     }

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +18,14 @@ import android.widget.TextView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
-import com.hcmute.findyourdoctor.Activity.SeeallSpecialistActivity;
+import com.hcmute.findyourdoctor.Activity.ListSpecialistActivity;
 import com.hcmute.findyourdoctor.Adapter.FeatureDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.PopularDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
 import com.hcmute.findyourdoctor.Api.DoctorApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.SpecialistApiService;
-import com.hcmute.findyourdoctor.Domain.FeatureDoctorDomain;
 import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
-import com.hcmute.findyourdoctor.Domain.PopularDoctorDomain;
 import com.hcmute.findyourdoctor.Listener.OnDocterCardClickListener;
 import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
@@ -66,63 +63,35 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         specialistApiService = RetrofitClient.getRetrofit().create(SpecialistApiService.class);
-        doctorApiService = RetrofitClient.getRetrofit().create(DoctorApiService.class);
+        initView(view);
 
+        renderPopularDoctor();
+        renderSpecialists();
+        renderSomeDoctor();
+        setOnClickSeeAll();
+        return view;
+    }
 
-//        recyclerViewSpecialist();
-
-        rcv_specialist =  view.findViewById(R.id.rcv_specialist);
-        rcv_popularDoctor =  view.findViewById(R.id.rcv_popularDoctor);
-        rcv_featureDoctor =  view.findViewById(R.id.rcv_featureDoctor);
-        tv_Seeall_Specialty = view.findViewById(R.id.tv_Seeall_Specialty);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView.LayoutManager layoutManagerPopular = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView.LayoutManager layoutFeaturePopular = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
-
-        rcv_specialist.setLayoutManager(layoutManager);
-        rcv_popularDoctor.setLayoutManager(layoutManagerPopular);
-        rcv_featureDoctor.setLayoutManager(layoutFeaturePopular);
-
-
-        mSpecialist = new ArrayList<>();
-        mPopularList = new ArrayList<>();
-        mFeatureDoctor= new ArrayList<>();
-
+    @Override
+    public void onDoctorCardClick(Doctor doctor) {
+        Intent intent = new Intent(HomeFragment.this.getContext(), DoctorDetailActivity.class);
+        intent.putExtra("id", doctor.getId());
+        startActivity(intent);
+    }
+    private void setOnClickSeeAll() {
         tv_Seeall_Specialty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("SPECIALIST_LIST", (ArrayList<? extends Parcelable>) new ArrayList<SpecialistDomain>(mSpecialist));
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayList("SPECIALIST_LIST", (ArrayList<? extends Parcelable>) new ArrayList<SpecialistDomain>(mSpecialist));
 
-                Intent intent = new Intent(getActivity(), SeeallSpecialistActivity.class);
-                intent.putExtras(bundle);
+                Intent intent = new Intent(getActivity(), ListSpecialistActivity.class);
+//                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
-
-        specialistApiService.getAllSpecialists().enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                JsonObject res = response.body();
-                if(res.get("success").getAsBoolean()) {
-                    JsonArray specialists = res.getAsJsonArray("result");
-                    int size = specialists.size();
-                    for (int i = 0; i < size; i++) {
-                        JsonObject specialist = specialists.get(i).getAsJsonObject();
-                        SpecialistDomain obj = new SpecialistDomain(specialist.get("name").getAsString(), specialist.get("imageUrl").getAsString());
-                        mSpecialist.add(obj);
-                    }
-                    SpecialistAdapter specialistAdapter = new SpecialistAdapter(mSpecialist);
-                    rcv_specialist.setAdapter(specialistAdapter);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-
-            }
-        });
+    }
+    private void renderPopularDoctor() {
         doctorApiService.getTopDoctor(10).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -152,6 +121,9 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
 
             }
         });
+
+    }
+    private void renderSomeDoctor() {
         doctorApiService.getSomeDoctor(10).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -165,7 +137,6 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
                         element.setId(doctor.get("id").getAsString());
                         element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
                         element.setName(doctor.get("name").getAsString());
-                        System.out.println(doctor.get("id").getAsString());
                         element.setRating(doctor.get("rating").getAsFloat());
                         element.setPrice(doctor.get("price").getAsFloat());
                         mFeatureDoctor.add(element);
@@ -181,14 +152,51 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
 
             }
         });
-
-        return view;
     }
+    private void renderSpecialists(){
 
-    @Override
-    public void onDoctorCardClick(Doctor doctor) {
-        Intent intent = new Intent(HomeFragment.this.getContext(), DoctorDetailActivity.class);
-        intent.putExtra("id", doctor.getId());
-        startActivity(intent);
+        specialistApiService.getSomeSpecialists(5).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject res = response.body();
+                if(res.get("success").getAsBoolean()) {
+                    JsonArray specialists = res.getAsJsonArray("result");
+                    int size = specialists.size();
+                    for (int i = 0; i < size; i++) {
+                        JsonObject specialist = specialists.get(i).getAsJsonObject();
+                        SpecialistDomain obj = new SpecialistDomain(specialist.get("name").getAsString(), specialist.get("imageUrl").getAsString());
+                        mSpecialist.add(obj);
+                    }
+                    SpecialistAdapter specialistAdapter = new SpecialistAdapter(mSpecialist);
+                    rcv_specialist.setAdapter(specialistAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+    private void initView(View view) {
+        doctorApiService = RetrofitClient.getRetrofit().create(DoctorApiService.class);
+
+        rcv_specialist =  view.findViewById(R.id.rcv_specialist);
+        rcv_popularDoctor =  view.findViewById(R.id.rcv_popularDoctor);
+        rcv_featureDoctor =  view.findViewById(R.id.rcv_featureDoctor);
+        tv_Seeall_Specialty = view.findViewById(R.id.tv_Seeall_Specialty);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManagerPopular = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutFeaturePopular = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        rcv_specialist.setLayoutManager(layoutManager);
+        rcv_popularDoctor.setLayoutManager(layoutManagerPopular);
+        rcv_featureDoctor.setLayoutManager(layoutFeaturePopular);
+
+
+        mSpecialist = new ArrayList<>();
+        mPopularList = new ArrayList<>();
+        mFeatureDoctor= new ArrayList<>();
     }
 }

@@ -3,7 +3,32 @@ import cloudinary from "../utils/cloudinary.js";
 
 export const getAllSpecialists = async (req, res, next) => {
     try {
-        const list = await Specialist.find();
+        const specialists = await Specialist.aggregate([
+            {
+                $lookup: {
+                    from: "doctors", // Tên collection của Doctor model
+                    localField: "_id",
+                    foreignField: "specialist",
+                    as: "doctors",
+                },
+            },
+            {
+                $project: {
+                    _id: 1,
+                    name: 1,
+                    imageUrl: 1,
+                    doctorQuantity: { $size: "$doctors" }, // Tính kích thước của mảng doctors để lấy số lượng bác sĩ
+                },
+            },
+        ]);
+        res.status(200).json({ success: true, message: "Get all specialist successfully!", result: specialists });
+    } catch (error) {
+        next(error);
+    }
+}
+export const getSomeSpecialists = async (req, res, next) => {
+    try {
+        const list = await Specialist.find().limit(req.params.quantity);
         res.status(200).json({ success: true, message: "Get all specialist successfully!", result: list });
     } catch (error) {
         next(error);

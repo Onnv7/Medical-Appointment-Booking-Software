@@ -28,6 +28,7 @@ import com.hcmute.findyourdoctor.Fragment.NotificationsFragment;
 import com.hcmute.findyourdoctor.Fragment.ProfileFragment;
 import com.hcmute.findyourdoctor.Adapter.ViewPagerAdapter;
 import com.hcmute.findyourdoctor.R;
+import com.hcmute.findyourdoctor.Utils.Constant;
 
 import java.util.ArrayList;
 
@@ -48,18 +49,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         viewPager = findViewById(R.id.view_pager);
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         setupChangeFragment();
+
     }
+
+
 
     private void setupChangeFragment() {
 
-        sharedPreferences = getSharedPreferences(LoginActivity.SHARE, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
         id_user = sharedPreferences.getString("id", null);
 //
         appoinmentTF(id_user);

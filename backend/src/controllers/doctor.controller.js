@@ -54,7 +54,7 @@ export const getTopDoctor = async (req, res, next) => {
             const responseData = {
                 id: dataDoctor._id,
                 name: dataDoctor.name,
-                rating: rating,
+                rating: !rating ? 0 : rating,
                 specialist: specialist,
                 avatarUrl: dataDoctor.avatarUrl
             }
@@ -78,7 +78,7 @@ export const getSomeDoctor = async (req, res, next) => {
             const responseData = {
                 id: dataDoctor._id,
                 name: dataDoctor.name,
-                rating: rating,
+                rating: !rating ? 0 : rating,
                 specialist: dataDoctor.specialist,
                 avatarUrl: dataDoctor.avatarUrl,
                 price: dataDoctor.price

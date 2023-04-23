@@ -11,100 +11,57 @@
         android:background="@drawable/background"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="311dp"
-            android:background="@drawable/backgroud_green_bottom"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp">
-
-            <LinearLayout
-                android:layout_width="107dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/backgroud_back">
-
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/back" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/textView17"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:text="Profile"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+            android:background="@drawable/backgroud_green_bottom">
 
             <TextView
                 android:id="@+id/tv_doctor__name_history_details"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
                 android:gravity="center"
                 android:text="Hello Abdullah Mamun"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.547"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="50dp"
+                app:cardCornerRadius="150dp"
+                app:layout_constraintEnd_toEndOf="@+id/tv_doctor__name_history_details"
+                app:layout_constraintStart_toStartOf="@+id/tv_doctor__name_history_details"
+                app:layout_constraintTop_toBottomOf="@+id/tv_doctor__name_history_details">
 
                 <ImageView
-                    android:id="@+id/btn_upload_image_pf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="80dp"
-                    android:layout_marginTop="128dp"
-                    android:elevation="4dp"
+                    android:id="@+id/iv_avatar_doctor_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center" />
+            </androidx.cardview.widget.CardView>
 
-                    app:layout_constraintEnd_toEndOf="@+id/cardView2"
-                    app:layout_constraintHorizontal_bias="0.56"
-                    app:layout_constraintStart_toStartOf="@+id/cardView2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/camera" />
+            <ImageView
+                android:id="@+id/btn_upload_image_pf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="104dp"
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView2"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    app:cardCornerRadius="150dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginTop="108dp"
+                android:elevation="4dp"
+                app:layout_constraintEnd_toEndOf="@+id/cardView2"
+                app:layout_constraintStart_toStartOf="@+id/cardView2"
+                app:layout_constraintTop_toTopOf="@+id/cardView2"
+                app:srcCompat="@drawable/camera" />
 
-                    <ImageView
-                        android:id="@+id/iv_avatar_doctor_details"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        app:srcCompat="@drawable/avatar" />
-                </androidx.cardview.widget.CardView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

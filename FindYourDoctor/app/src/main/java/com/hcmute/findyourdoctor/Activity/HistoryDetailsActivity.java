@@ -1,6 +1,10 @@
 package com.hcmute.findyourdoctor.Activity;
 
+import static com.hcmute.findyourdoctor.Utils.Constant.SHARE;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,10 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Api.BookingApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
+import com.hcmute.findyourdoctor.Api.ReviewApiService;
 import com.hcmute.findyourdoctor.R;
+import com.hcmute.findyourdoctor.Utils.Constant;
 
 import java.util.HashMap;
 
@@ -37,6 +44,9 @@ public class HistoryDetailsActivity extends AppCompatActivity {
     private Button btnSubmit;
     private String bookingId;
     private BookingApiService bookingApiService;
+    private ReviewApiService reviewApiService;
+    private String uid;
+    private String doctorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +60,8 @@ public class HistoryDetailsActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HashMap<String, Object> body = new HashMap<>();
+//                HashMap<String, Object> body = new HashMap<>();
+                JsonObject body = new JsonObject();
                 if(rtbRatingDoctor.getRating() == 0)
                 {
                     Toast.makeText(HistoryDetailsActivity.this, "Please choose your satisfaction level by choosing the number of stars", Toast.LENGTH_SHORT).show();
@@ -64,9 +75,12 @@ public class HistoryDetailsActivity extends AppCompatActivity {
                 }
                 float star = rtbRatingDoctor.getRating();
                 String review = edtReview.getText().toString();
-                body.put("star", star);
-                body.put("review", review);
-                bookingApiService.updateBooking(bookingId, body).enqueue(new Callback<JsonObject>() {
+                body.addProperty("patient", uid);
+                body.addProperty("doctor", doctorId);
+                body.addProperty("booking", bookingId);
+                body.addProperty("description", review);
+                body.addProperty("star", star);
+                reviewApiService.createReview(body).enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         if(response.isSuccessful()) {
@@ -92,6 +106,9 @@ public class HistoryDetailsActivity extends AppCompatActivity {
 
     }
     private void initViews() {
+        SharedPreferences sharedPreferences = HistoryDetailsActivity.this.getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
+        uid = sharedPreferences.getString("id", "");
+
         ivDoctorAvatar = findViewById(R.id.iv_doctor_avatar_history_details);
         tvTime = findViewById(R.id.tv_appoinment_time_history_details);
         tvStatus = findViewById(R.id.tv_status_history_details);
@@ -109,6 +126,9 @@ public class HistoryDetailsActivity extends AppCompatActivity {
         loDoctorAdvice = findViewById(R.id.lo_doctor_advice_history_details);
         loReview = findViewById(R.id.lo_review_history_details);
 
+        reviewApiService = RetrofitClient.getRetrofit().create(ReviewApiService.class);
+
+
     }
     private void renderViewFromData(String bookingId) {
         bookingApiService = RetrofitClient.getRetrofit().create(BookingApiService.class);
@@ -119,6 +139,14 @@ public class HistoryDetailsActivity extends AppCompatActivity {
                 if(res.get("success").getAsBoolean()) {
                     JsonObject result = res.getAsJsonObject("result");
                     JsonObject doctor = result.getAsJsonObject("doctor");
+                    JsonElement reviewElement = result.get("review");
+                    JsonObject review;
+                    if (reviewElement != null && !reviewElement.isJsonNull() && reviewElement.isJsonObject()) {
+                        review = reviewElement.getAsJsonObject();
+                    } else {
+                        review = null;
+                    }
+                    doctorId = doctor.get("_id").getAsString();
                     String status = result.get("status").getAsString();
                     tvTime.setText(result.get("time").getAsString());
                     tvStatus.setText(status);
@@ -133,12 +161,12 @@ public class HistoryDetailsActivity extends AppCompatActivity {
                     if(status.equals("succeeded")) {
                         tvStatus.setTextColor(ContextCompat.getColor(HistoryDetailsActivity.this, R.color.status_succeeded));
                         tvDoctorAdvice.setText(result.get("advice").getAsString());
-                        float star = result.get("star").getAsFloat();
-                        if(star != 0) {
+                        if(review != null) {
+                            float star = review.get("star").getAsFloat();
                             btnSubmit.setVisibility(View.GONE);
                             edtReview.setVisibility(View.GONE);
                             rtbRatingDoctor.setRating(star);
-                            tvReview.setText(result.get("review").getAsString());
+                            tvReview.setText(review.get("description").getAsString());
                         }
                         else {
                             rtbRatingDoctor.setIsIndicator(false);

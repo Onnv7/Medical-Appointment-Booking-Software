@@ -35,14 +35,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.ViewTarget;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Activity.LoginActivity;
 import com.hcmute.findyourdoctor.Api.PatientApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.R;
+import com.hcmute.findyourdoctor.Utils.Constant;
 import com.hcmute.findyourdoctor.Utils.RealPathUtil;
 
 import java.io.File;
+import java.lang.annotation.Target;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,27 +68,9 @@ public class ProfileFragment extends Fragment {
     RadioButton rdoFemale, rdoMale;
     PatientApiService patientApiService;
     DatePickerDialog.OnDateSetListener setListener;
+    String patientId;
     private Uri avatarUri;
-    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if(result.getResultCode() == Activity.RESULT_OK) {
-                Intent data = result.getData();
-                if(data == null) {
-                    return;
-                }
-                Uri uri = data.getData();
-                avatarUri = uri;
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-                    ivAvatar.setImageBitmap(bitmap);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    });
+    ActivityResultLauncher<Intent> activityResultLauncher;
     public ProfileFragment() {
     }
 
@@ -103,79 +88,57 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+
+                Toast.makeText(getContext(), "clcikcckk", Toast.LENGTH_SHORT).show();
+                if(result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    if(data == null) {
+                        return;
+                    }
+                    Uri uri = data.getData();
+                    avatarUri = uri;
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                        ivAvatar.setImageBitmap(bitmap);
+//                    Glide.with(getContext())
+//                            .load(bitmap)
+//                            .override(ViewTarget.SIZE_ORIGINAL)
+//                            .into(ivAvatar);
+//                    ivAvatar.getLayoutParams().width = 150;
+//                    ivAvatar.getLayoutParams().height = 150;
+//                    ivAvatar.requestLayout();
+
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
         init(view);
-        Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-
-
-        sharedPreferences = requireActivity().getSharedPreferences(LoginActivity.SHARE, Context.MODE_PRIVATE);
-        String patientId = sharedPreferences.getString("id", null);
-        patientApiService = RetrofitClient.getRetrofit().create(PatientApiService.class);
-
-
-
-        if(patientId == null){
-            Toast.makeText(getActivity(), "Patient ID is null", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-
+//        Calendar calendar = Calendar.getInstance();
+//        final int year = calendar.get(Calendar.YEAR);
+//        final int month = calendar.get(Calendar.MONTH);
+//        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        setOnClickBtnUpdate();
         getProfilePatient(patientId);
 
 
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         btnUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 onClickRequestPermission();
-            }
-        });
-
-        btnUpadte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HashMap<String, RequestBody> body = new HashMap<>();
-                MultipartBody.Part filePart = null;
-                if(avatarUri != null) {
-                    String realPath  = RealPathUtil.getRealPath(getContext(), avatarUri);
-                    File file = new File(realPath);
-                    String extension = MimeTypeMap.getFileExtensionFromUrl(realPath);
-                    String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-                    RequestBody requestBody = RequestBody.create(MediaType.parse(mimeType), file);
-                    filePart = MultipartBody.Part.createFormData("avatar", file.getName(), requestBody);
-                    avatarUri = null;
-                }
-                MediaType mediaType = MediaType.parse("text/plain");
-
-                if(rdoFemale.isChecked()) {
-                    body.put("gender", RequestBody.create(mediaType, "female"));
-                }
-                else if(rdoMale.isChecked()) {
-                    body.put("gender", RequestBody.create(mediaType, "male"));
-                }
-                body.put("name", RequestBody.create(mediaType, edtName.getText().toString()));
-                body.put("phone", RequestBody.create(mediaType, edtPhone.getText().toString()));
-                body.put("birthDate", RequestBody.create(mediaType, edtBirthDate.getText().toString()));
-                body.put("address", RequestBody.create(mediaType, edtAddress.getText().toString()));
-
-
-                patientApiService.updateProfile(patientId, body, filePart).enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        Log.d("nva", response.toString());
-                        if(response.isSuccessful()) {
-                            renderProfile(response);
-                            Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Log.d("nva", t.getMessage());
-                    }
-                });
             }
         });
     }
@@ -209,7 +172,6 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-
         activityResultLauncher.launch(Intent.createChooser(intent, "Select picture"));
     }
     private void renderProfile(Response<JsonObject> response) {
@@ -277,6 +239,53 @@ public class ProfileFragment extends Fragment {
                     .into(ivAvatar);
         }
     }
+    private void setOnClickBtnUpdate() {
+        btnUpadte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String, RequestBody> body = new HashMap<>();
+                MultipartBody.Part filePart = null;
+                if(avatarUri != null) {
+                    String realPath  = RealPathUtil.getRealPath(getContext(), avatarUri);
+                    File file = new File(realPath);
+                    String extension = MimeTypeMap.getFileExtensionFromUrl(realPath);
+                    String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+                    RequestBody requestBody = RequestBody.create(MediaType.parse(mimeType), file);
+                    filePart = MultipartBody.Part.createFormData("avatar", file.getName(), requestBody);
+                    avatarUri = null;
+                }
+                MediaType mediaType = MediaType.parse("text/plain");
+
+                if(rdoFemale.isChecked()) {
+                    body.put("gender", RequestBody.create(mediaType, "female"));
+                }
+                else if(rdoMale.isChecked()) {
+                    body.put("gender", RequestBody.create(mediaType, "male"));
+                }
+                body.put("name", RequestBody.create(mediaType, edtName.getText().toString()));
+                body.put("phone", RequestBody.create(mediaType, edtPhone.getText().toString()));
+                body.put("birthDate", RequestBody.create(mediaType, edtBirthDate.getText().toString()));
+                body.put("address", RequestBody.create(mediaType, edtAddress.getText().toString()));
+
+
+                patientApiService.updateProfile(patientId, body, filePart).enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        Log.d("nva", response.toString());
+                        if(response.isSuccessful()) {
+                            renderProfile(response);
+                            Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Log.d("nva", t.getMessage());
+                    }
+                });
+            }
+        });
+    }
     private void getProfilePatient(String patientId) {
         patientApiService.getProfileById(patientId).enqueue(new Callback<JsonObject>() {
             @Override
@@ -311,6 +320,16 @@ public class ProfileFragment extends Fragment {
         });
     }
     private void init(View view) {
+        sharedPreferences = getActivity().getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
+        patientId = sharedPreferences.getString("id", null);
+        patientApiService = RetrofitClient.getRetrofit().create(PatientApiService.class);
+
+
+
+        if(patientId == null){
+            Toast.makeText(getActivity(), "Patient ID is null", Toast.LENGTH_SHORT).show();
+            return;
+        }
         btnUploadImage = view.findViewById(R.id.btn_upload_image_pf);
         btnUpadte = view.findViewById(R.id.btn_update_pf);
         ivAvatar = view.findViewById(R.id.iv_avatar_doctor_details);
