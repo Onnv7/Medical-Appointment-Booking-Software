@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,10 +41,11 @@ public class SeeallSpecialtyAdapter extends RecyclerView.Adapter<SeeallSpecialty
         {
             return;
         }
-        holder.tv_seeall_specialty.setText(specialist_pt.getTitle());
-        Glide.with(holder.imv_seeall_specialty.getContext())
+        holder.tvTitle.setText(specialist_pt.getTitle());
+        holder.tvQuantity.setText(specialist_pt.getQuantityDoctor() + " doctors");
+        Glide.with(holder.ivImage.getContext())
                 .load(specialist_pt.getPic())
-                .into(holder.imv_seeall_specialty);
+                .into(holder.ivImage);
     }
 
     @Override
@@ -60,15 +60,17 @@ public class SeeallSpecialtyAdapter extends RecyclerView.Adapter<SeeallSpecialty
     }
 
     public static class SeeallSpecialtyViewHolder extends RecyclerView.ViewHolder {
-        private TextView tv_seeall_specialty;
-        private ImageView imv_seeall_specialty;
+        private TextView tvTitle, tvQuantity;
+        private ImageView ivImage;
+        
 
 
         public SeeallSpecialtyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tv_seeall_specialty = itemView.findViewById(R.id.tv_seeall_specialty);
-            imv_seeall_specialty = itemView.findViewById(R.id.imv_seeall_specialty);
+            tvTitle = itemView.findViewById(R.id.tv_name_specialty);
+            ivImage = itemView.findViewById(R.id.iv_image_specialty);
+            tvQuantity = itemView.findViewById(R.id.tv_quantity_speciatly);
         }
     }
 }

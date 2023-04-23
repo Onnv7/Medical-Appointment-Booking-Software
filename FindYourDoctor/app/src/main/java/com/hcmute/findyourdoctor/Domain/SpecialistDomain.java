@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 public class SpecialistDomain implements Parcelable {
     private String title;
     private String pic;
+    private int quantityDoctor;
 
     public SpecialistDomain(String title, String pic) {
         this.title = title;
@@ -17,6 +18,12 @@ public class SpecialistDomain implements Parcelable {
     protected SpecialistDomain(Parcel in) {
         title = in.readString();
         pic = in.readString();
+    }
+
+    public SpecialistDomain(String title, String pic, int quantityDoctor) {
+        this.title = title;
+        this.pic = pic;
+        this.quantityDoctor = quantityDoctor;
     }
 
     public static final Creator<SpecialistDomain> CREATOR = new Creator<SpecialistDomain>() {
@@ -30,6 +37,14 @@ public class SpecialistDomain implements Parcelable {
             return new SpecialistDomain[size];
         }
     };
+
+    public int getQuantityDoctor() {
+        return quantityDoctor;
+    }
+
+    public void setQuantityDoctor(int quantityDoctor) {
+        this.quantityDoctor = quantityDoctor;
+    }
 
     public String getTitle() {
         return title;

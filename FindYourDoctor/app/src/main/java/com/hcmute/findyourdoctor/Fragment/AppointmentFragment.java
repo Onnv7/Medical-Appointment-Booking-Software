@@ -33,6 +33,7 @@ import com.hcmute.findyourdoctor.Domain.AppointmentDomain;
 import com.hcmute.findyourdoctor.Listener.OnHistoryAppointmentClickListener;
 import com.hcmute.findyourdoctor.Model.review;
 import com.hcmute.findyourdoctor.R;
+import com.hcmute.findyourdoctor.Utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,7 @@ public class AppointmentFragment extends Fragment implements OnHistoryAppointmen
     public void onResume() {
         super.onResume();
 
-        sharedPreferences = requireActivity().getSharedPreferences(LoginActivity.SHARE, Context.MODE_PRIVATE);
+        sharedPreferences = requireActivity().getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
         uid = sharedPreferences.getString("id", null);
         listAppointment = getView().findViewById(R.id.listAppointment);
 

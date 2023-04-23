@@ -1,5 +1,7 @@
 package com.hcmute.findyourdoctor.Activity;
 
+import static com.hcmute.findyourdoctor.Utils.Constant.SHARE;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -27,7 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    public static final String SHARE = "INFO";
     EditText tvEmail, tvPassword;
     TextView btnLogin, tvRegister;
     AuthApiService authApiService;

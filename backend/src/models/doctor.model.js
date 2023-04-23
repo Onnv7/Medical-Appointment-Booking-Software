@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Booking from "./booking.model.js"
+import Review from "./review.model.js"
 
 const doctorSchema = mongoose.Schema({
     email: {
@@ -40,29 +40,29 @@ const doctorSchema = mongoose.Schema({
     specialist: {
         type: mongoose.Types.ObjectId,
         ref: "Specialist"
-    },
-    // start: {
-    //     type: Number,
-    //     default: 0
-    // }
+    }
 }, { timestamps: true });
 
+// doctorSchema.virtual('rating').get(async function () {
+//     let rating = 0
+//     try {
+//         rating = await Booking.aggregate([
+//             { $match: { doctor: this._id } },
+//             { $group: { _id: null, avgRating: { $avg: '$star' } } }
+//         ])
+//             .exec()
+//             .then(result => result.length ? result[0].avgRating : 0)
+//     } catch (error) {
+//         console.log(error)
+//     }
+//     finally {
+//         return rating;
+//     }
+// });
 doctorSchema.virtual('rating').get(async function () {
-    let rating = 0
-    try {
-        rating = await Booking.aggregate([
-            { $match: { doctor: this._id } },
-            { $group: { _id: null, avgRating: { $avg: '$star' } } }
-        ])
-            .exec()
-            .then(result => result.length ? result[0].avgRating : 0)
-    } catch (error) {
-        console.log(error)
-    }
-    finally {
-        return rating;
-    }
+    const reviews = await Review.find({ doctor: this._id });
+    const totalStars = reviews.reduce((sum, review) => sum + review.star, 0);
+    return totalStars / reviews.length;
 });
-
 
 export default mongoose.model("Doctor", doctorSchema);

@@ -14,14 +14,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.hcmute.findyourdoctor.Adapter.reviewAdapter;
+import com.hcmute.findyourdoctor.Adapter.ReviewAdapter;
 import com.hcmute.findyourdoctor.Api.DoctorApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
+import com.hcmute.findyourdoctor.Api.ReviewApiService;
 import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Model.review;
@@ -41,7 +42,9 @@ public class DoctorDetailActivity extends AppCompatActivity {
     Button btnBooking;
     ImageView ivAvatar;
     DoctorApiService doctorApiService;
+    ReviewApiService reviewApiService;
     Doctor doctor;
+    String doctorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +59,41 @@ public class DoctorDetailActivity extends AppCompatActivity {
         doctorApiService = RetrofitClient.getRetrofit().create(DoctorApiService.class);
         addReview();
 
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
 //        String id = "643684e44171b72eadb118ef";
+        renderDoctorInfo();
+        btnBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DoctorDetailActivity.this, DoctorSelectTimeDetailActivity.class);
+                intent.putExtra("doctor", doctor);
+                startActivity(intent);
+            }
+        });
+    }
 
-        doctorApiService.getInfoDoctorById(id).enqueue(new Callback<JsonObject>() {
+    private void init() {
+        Intent intent = getIntent();
+        doctorId = intent.getStringExtra("id");
+        tvName = findViewById(R.id.tv_name_doctor_details);
+        tvSpecialist = findViewById(R.id.tv_specialist_doctor_details);
+        tvPrice = findViewById(R.id.tv_price_doctor_details);
+        tvClinicName = findViewById(R.id.tv_clinic_name_doctor_details);
+        tvClinicAddress = findViewById(R.id.tv_clinic_address_doctor_details);
+        ivAvatar = findViewById(R.id.iv_avatar_doctor_details);
+        listReview = (RecyclerView) findViewById(R.id.rcv_patient_review_doctor_details);
+        tvIntroduce = findViewById(R.id.tv_introduce_doctor_details);
+        btnBooking = findViewById(R.id.btn_booking_doctor_details);
+
+        tvPatientQuantity = findViewById(R.id.tv_patient_quantity);
+        tvSucceededQuantity = findViewById(R.id.tv_successed_quantity);
+        ratingBar = findViewById(R.id.rtb_doctor_details);
+
+        reviewApiService = RetrofitClient.getRetrofit().create(ReviewApiService.class);
+    }
+
+    private void renderDoctorInfo() {
+
+        doctorApiService.getInfoDoctorById(doctorId).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject res = response.body();
@@ -69,7 +102,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     JsonObject result = res.getAsJsonObject("result");
                     doctor = gson.fromJson(result, Doctor.class);
-                    doctor.setId(id);
+                    doctor.setId(doctorId);
                     tvName.setText(doctor.getName());
                     tvSpecialist.setText(doctor.getSpecialist());
                     tvPrice.setText("$ " + doctor.getPrice());
@@ -92,36 +125,42 @@ public class DoctorDetailActivity extends AppCompatActivity {
 
             }
         });
-        btnBooking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DoctorDetailActivity.this, DoctorSelectTimeDetailActivity.class);
-                intent.putExtra("doctor", doctor);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void init() {
-        tvName = findViewById(R.id.tv_name_doctor_details);
-        tvSpecialist = findViewById(R.id.tv_specialist_doctor_details);
-        tvPrice = findViewById(R.id.tv_price_doctor_details);
-        tvClinicName = findViewById(R.id.tv_clinic_name_doctor_details);
-        tvClinicAddress = findViewById(R.id.tv_clinic_address_doctor_details);
-        ivAvatar = findViewById(R.id.iv_avatar_doctor_details);
-        listReview = (RecyclerView) findViewById(R.id.listReview);
-        tvIntroduce = findViewById(R.id.tv_introduce_doctor_details);
-        btnBooking = findViewById(R.id.btn_booking_doctor_details);
-
-        tvPatientQuantity = findViewById(R.id.tv_patient_quantity);
-        tvSucceededQuantity = findViewById(R.id.tv_successed_quantity);
-        ratingBar = findViewById(R.id.rtb_doctor_details);
-
     }
 
     private void addReview() {
-        reviewAdapter userAdapter = new reviewAdapter(mReview);
-        listReview.setAdapter(userAdapter);
+        reviewApiService.getReviewByDoctor(doctorId).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject res = response.body();
+                if(res.get("success").getAsBoolean()) {
+                    JsonArray result = res.getAsJsonArray("result");
+                    int size = result.size();
+                    for (int i = 0; i < size; i++) {
+                        JsonObject review = result.get(i).getAsJsonObject();
+                        JsonObject patient = review.getAsJsonObject("patient");
+                        String id = review.get("_id").getAsString();
+                        String patientName = patient.get("name").getAsString();
+                        String avatarUrl = patient.get("avatarUrl").getAsString();
+                        String description = review.get("description").getAsString();
+                        float star = review.get("star").getAsFloat();
+                        JsonArray liker = review.get("liker").getAsJsonArray();
+                        String createdAt = review.get("createdAt").getAsString();
+                        review rv = new review(id,description, star, createdAt);
+
+                        rv.setPatientName(patientName);
+                        rv.setAvatarUrl(avatarUrl);
+                        mReview.add(rv);
+                        ReviewAdapter userAdapter = new ReviewAdapter(mReview);
+                        listReview.setAdapter(userAdapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
 
     }
 }

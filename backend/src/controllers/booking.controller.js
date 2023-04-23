@@ -18,7 +18,7 @@ export const updateBooking = async (req, res, next) => {
 
 export const createBooking = async (req, res, next) => {
     try {
-        const booking = new Booking({ ...req.body, star: 0 });
+        const booking = new Booking({ ...req.body, star: 0, review: null });
         await booking.save();
         res.status(200).json({ success: true, message: "Creared booking", result: booking });
     } catch (error) {
@@ -124,9 +124,12 @@ export const getHistoryAppointmentDetails = async (req, res, next) => {
             .populate({
                 path: "doctor",
                 select: { avatarUrl: 1, name: 1 }
+            }).populate({
+                path: "review",
+                select: { star: 1, description: 1 }
             })
             .select({ patient: 0, updatedAt: 0 });
-
+        if (!appointment) return res.status(200).json({ success: false, message: "Not found" });
         const createdAt = formatMongooseTime("DD MMMM YYYY HH:mm", appointment.createdAt)
         const star = appointment.star ? appointment.star : 0
         if (appointment) {
