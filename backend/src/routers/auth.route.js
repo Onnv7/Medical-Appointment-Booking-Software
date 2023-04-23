@@ -1,9 +1,10 @@
 import express from "express";
-import { registerNewPatient, loginPatient, registerNewDoctor, loginDoctor, sendCodeVerify } from "../controllers/auth.controller.js";
+import { registerNewPatient, loginPatient, registerNewDoctor, loginDoctor, sendCodeVerify, changePasswordPatient } from "../controllers/auth.controller.js";
 const router = express.Router();
 
 router.post("/patient/register", registerNewPatient);
 router.post("/patient/login", loginPatient);
+router.patch("/patient/change-password", changePasswordPatient);
 router.post("/doctor/register", registerNewDoctor);
 router.post("/doctor/login", loginDoctor);
 

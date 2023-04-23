@@ -108,6 +108,21 @@ export const loginPatient = async (req, res, next) => {
     }
 };
 
+export const changePasswordPatient = async (req, res, next) => {
+    try {
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(req.body.password, salt);
+
+        await Patient.updateOne(
+            { email: req.body.email },
+            { password: hash }
+        )
+        res.status(200).json({ success: true, message: "Change password successfully" });
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const registerNewDoctor = async (req, res, next) => {
     // TODO: sửa lỗi chỗ ngày sinh trong mongoose khác với date tong js => sử dụng 'yyyy-mm-dd để fix
     try {

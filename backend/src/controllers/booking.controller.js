@@ -3,12 +3,13 @@ import Doctor from "../models/doctor.model.js";
 import { formatMongooseTime } from "../utils/formatTime.js";
 export const updateBooking = async (req, res, next) => {
     try {
-        console.log("==========")
         const booking = await Booking.findByIdAndUpdate(
             req.params.bookingId,
             { ...req.body },
             { new: true }
         );
+        if (!booking)
+            return res.status(200).json({ success: false, message: "Not found booking" });
         res.status(200).json({ success: true, message: "Updated Appointment", result: booking });
     } catch (error) {
         next(error);
@@ -58,12 +59,12 @@ export const listBookingByPatient = async (req, res, next) => {
 }
 
 export const listBookingByDoctor = async (req, res, next) => {
-    console.log("object")
     try {
+        const status = req.query.status;
         const bookingList = await Booking.find(
             {
                 doctor: req.params.doctorId,
-                // status: { $in: ['waiting', 'aaccepted'] }
+                status: status, //{ $in: ['waiting', 'aaccepted'] }
             }
         )
             .populate({
@@ -72,12 +73,8 @@ export const listBookingByDoctor = async (req, res, next) => {
                     'name': 1,
                     'avatarUrl': 1
                 }
-            })
-            .populate({
-                path: 'schedule',
-                select: 'date',
             });
-        res.status(200).json({ success: true, message: `Get booking list for ${req.params.patientId}`, result: bookingList });
+        res.status(200).json({ success: true, message: `Get booking list for ${req.params.doctorId}`, result: bookingList });
     } catch (error) {
         next(error);
     }
