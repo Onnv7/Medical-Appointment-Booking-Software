@@ -78,7 +78,6 @@ public class AppointmentFragment extends Fragment implements OnHistoryAppointmen
         listAppointment.setLayoutManager(layoutFeatureAppointment);
 
         mAppointment = new ArrayList<>();
-
         BookingApiService bookingApiService = RetrofitClient.getRetrofit().create(BookingApiService.class);
         bookingApiService.getBookingListId(uid).enqueue(new Callback<JsonObject>() {
             @Override

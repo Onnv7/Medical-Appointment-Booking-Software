@@ -132,19 +132,24 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                     time = eveningSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
                 }
                 String message = edtReminder.getText().toString();
+                if(time.equals("")) {
+                    Toast.makeText(DoctorSelectTimeDetailActivity.this, "Please choose a time for your appointment", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 BookingDomain book = new BookingDomain(uid,doctor.getId(), message,"waiting", time);
                 ApiService apiService = RetrofitClient.getRetrofit().create(ApiService.class);
-                Call<BookingModel> call = apiService.createBooking(book);
-                call.enqueue(new Callback<BookingModel>() {
+                Call<JsonObject> call = apiService.createBooking(book);
+                call.enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Call<BookingModel> call, Response<BookingModel> response) {
-                        if(response.body().getSuccess().equals(true)){
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        JsonObject res = response.body();
+                        if(res.get("success").getAsBoolean()){
                             openThank(Gravity.CENTER);
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<BookingModel> call, Throwable t) {
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
                         Log.e("ok", t.getMessage());
                     }
                 });

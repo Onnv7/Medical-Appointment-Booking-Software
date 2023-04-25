@@ -17,5 +17,5 @@ public interface ApiService {
     Call<JsonObject> test(@Path("id") String id);
 
     @POST("booking/create")
-    Call<BookingModel> createBooking(@Body BookingDomain bookingDomain);
+    Call<JsonObject> createBooking(@Body BookingDomain bookingDomain);
 }

@@ -103,7 +103,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
     }
 
     private void init() {
-        edtNum1 = (EditText) findViewById(R.id.edt_email_log);
+        edtNum1 = (EditText) findViewById(R.id.edt_num1);
         edtNum2 = (EditText) findViewById(R.id.edt_num2);
         edtNum3 = (EditText) findViewById(R.id.edt_num3);
         edtNum4 = (EditText) findViewById(R.id.edt_num4);

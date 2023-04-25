@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Doctor implements Serializable {
+    @SerializedName("_id")
     private String id;
     private String avatarUrl;
     private String name;
@@ -15,8 +16,21 @@ public class Doctor implements Serializable {
     private String clinicAddress;
     private String introduction;
     private int patientQuantity;
+    private float start;
 
     public Doctor() {
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public float getStart() {
+        return start;
+    }
+
+    public void setStart(float start) {
+        this.start = start;
     }
 
     public int getPatientQuantity() {

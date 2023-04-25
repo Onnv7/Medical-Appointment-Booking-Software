@@ -46,13 +46,13 @@ export const getProfileById = async (req, res, next) => {
 export const getTopDoctor = async (req, res, next) => {
     try {
         const topDoctors = await Doctor.find().sort({ rating: -1 }).limit(req.params.top).populate("specialist")
-        const rs = []
+        let rs = []
         for (const doctor of topDoctors) {
             const dataDoctor = doctor._doc;
             const rating = await doctor.rating;
             const specialist = dataDoctor.specialist?.name || "None";
             const responseData = {
-                id: dataDoctor._id,
+                _id: dataDoctor._id,
                 name: dataDoctor.name,
                 rating: !rating ? 0 : rating,
                 specialist: specialist,
@@ -61,7 +61,7 @@ export const getTopDoctor = async (req, res, next) => {
             rs.push({ ...responseData })
         };
         // .select('name avatar');
-
+        rs = rs.sort((a, b) => b.rating - a.rating)
         res.status(200).json({ success: true, message: "Get top doctor successfully", result: rs })
     } catch (error) {
         next(error);
@@ -76,7 +76,7 @@ export const getSomeDoctor = async (req, res, next) => {
             const dataDoctor = doctor._doc;
             const rating = await doctor.rating;
             const responseData = {
-                id: dataDoctor._id,
+                _id: dataDoctor._id,
                 name: dataDoctor.name,
                 rating: !rating ? 0 : rating,
                 specialist: dataDoctor.specialist,
@@ -95,9 +95,23 @@ export const searchDoctor = async (req, res, next) => {
         const searchQuery = req.query.content;
         const doctors = await Doctor.find({ name: { $regex: searchQuery, $options: 'i' } })
             .sort({ createdAt: -1 })
-            .limit(10)
+            .populate('specialist')
+            .select({ name: 1, avatarUrl: 1, price: 1, rating: 1 })
             .exec();
-        res.status(200).json({ success: true, message: "Search successfully", result: doctors });
+        const doctorsWithRating = [];
+        for (const doctor of doctors) {
+            const patients = await Booking.distinct('patient', { doctor: doctor._id });
+            const dt = {
+                _id: doctor._id,
+                name: doctor.name,
+                avatarUrl: doctor.avatarUrl,
+                price: doctor.price,
+                specialist: doctor.specialist?.name ? doctor.specialist?.name : "Unknown",
+                patientQuantity: patients.length
+            }
+            doctorsWithRating.push(dt)
+        };
+        res.status(200).json({ success: true, message: "Search successfully", result: doctorsWithRating });
     } catch (error) {
         next(error);
     }
@@ -123,7 +137,7 @@ export const getInfoDoctorById = async (req, res, next) => {
             clinicName: others.clinicName,
             clinicAddress: others.clinicAddress,
             introduction: others.introduction,
-            specialist: others.specialist?.name || "None",
+            specialist: others.specialist?.name || "Unknown",
             patientQuantity: patients.length,
             successBookingQuantity: successBooking.length
         }

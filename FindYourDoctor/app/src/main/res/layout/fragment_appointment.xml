@@ -51,7 +51,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/listAppointment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
 
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>

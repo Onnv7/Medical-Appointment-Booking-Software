@@ -5,9 +5,11 @@ const specialistSchema = mongoose.Schema({
     name: {
         type: String,
         unique: true,
+        required: true,
     },
     imageUrl: {
-        type: String
+        type: String,
+        required: true,
     }
 }, { timestamps: false });
 

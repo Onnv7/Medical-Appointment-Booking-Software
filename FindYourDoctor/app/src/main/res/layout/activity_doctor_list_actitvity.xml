@@ -87,7 +87,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listDoctors"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="18sp"
+            android:layout_marginRight="12sp">
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>

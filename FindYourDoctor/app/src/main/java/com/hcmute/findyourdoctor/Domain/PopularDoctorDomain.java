@@ -6,6 +6,8 @@ public class PopularDoctorDomain {
     private String specialist;
     private float start;
     private String avatarUrl;
+    private Float price;
+    private int patientQuantity;
 
     public PopularDoctorDomain(String id, String name, String specialist, float start, String avatarUrl) {
         this.id = id;
@@ -13,6 +15,31 @@ public class PopularDoctorDomain {
         this.specialist = specialist;
         this.start = start;
         this.avatarUrl = avatarUrl;
+    }
+
+    public PopularDoctorDomain(String id, String name, String specialist, String avatarUrl, Float price, int patientQuantity) {
+        this.id = id;
+        this.name = name;
+        this.specialist = specialist;
+        this.avatarUrl = avatarUrl;
+        this.price = price;
+        this.patientQuantity = patientQuantity;
+    }
+
+    public int getPatientQuantity() {
+        return patientQuantity;
+    }
+
+    public void setPatientQuantity(int patientQuantity) {
+        this.patientQuantity = patientQuantity;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
     }
 
     public String getId() {

@@ -1,22 +1,32 @@
 package com.hcmute.findyourdoctor.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
+import com.hcmute.findyourdoctor.Activity.DoctorSelectTimeDetailActivity;
+import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Domain.PopularDoctorDomain;
 
 import java.util.List;
 
 public class doctorListAdapter extends RecyclerView.Adapter<doctorListAdapter.doctorListViewHolder> {
-    private List<PopularDoctorDomain> mList;
+    private List<Doctor> mList;
+    private Context mContext;
 
-    public doctorListAdapter(List<PopularDoctorDomain> mList) {
+    public doctorListAdapter(List<Doctor> mList, Context mContext) {
+        this.mContext = mContext;
         this.mList = mList;
     }
 
@@ -31,12 +41,36 @@ public class doctorListAdapter extends RecyclerView.Adapter<doctorListAdapter.do
 
     @Override
     public void onBindViewHolder(@NonNull doctorListAdapter.doctorListViewHolder holder, int position) {
-        PopularDoctorDomain popularDoctorDomain_pt = mList.get(position);
+        int index = holder.getAdapterPosition();
+        Doctor popularDoctorDomain_pt = mList.get(position);
         if (popularDoctorDomain_pt == null)
         {
             return;
         }
-        holder.name.setText(popularDoctorDomain_pt.getName());
+        holder.tvName.setText(popularDoctorDomain_pt.getName());
+        holder.tvSpecialistName.setText(popularDoctorDomain_pt.getSpecialist());
+        holder.tvPatientQuantity.setText("(" + popularDoctorDomain_pt.getPatientQuantity() + " patients)");
+        holder.tvPrice.setText("$ " + popularDoctorDomain_pt.getPrice());
+        Glide.with(holder.itemView)
+                .load(popularDoctorDomain_pt.getAvatarUrl())
+                .into(holder.ivAvatar);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(holder.itemView.getContext(), DoctorDetailActivity.class);
+                intent.putExtra("id", mList.get(index).getId());
+                mContext.startActivity(intent);
+            }
+        });
+        holder.btnBookNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, DoctorSelectTimeDetailActivity.class);
+                intent.putExtra("doctor", mList.get(index));
+                mContext.startActivity(intent);
+            }
+        });
 //        holder.info.setText(popularDoctorDomain_pt.getInfo());
     }
 
@@ -52,15 +86,20 @@ public class doctorListAdapter extends RecyclerView.Adapter<doctorListAdapter.do
     }
 
     public static class doctorListViewHolder extends RecyclerView.ViewHolder {
-        private TextView name;
-        private TextView info;
+        private TextView tvName, tvSpecialistName, tvPatientQuantity, tvPrice;
+        private ImageView ivAvatar;
+        private Button btnBookNow;
 
 
         public doctorListViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.tv_name_select_time);
-            info = itemView.findViewById(R.id.tv_specialist_select_time);
+            tvName = itemView.findViewById(R.id.tv_name_doctor_card);
+            tvSpecialistName = itemView.findViewById(R.id.tv_specialist_name_doctor_card);
+            tvPatientQuantity = itemView.findViewById(R.id.tv_patient_quantity_doctor_card);
+            tvPrice = itemView.findViewById(R.id.tv_price_doctor_card);
+            ivAvatar = itemView.findViewById(R.id.iv_avatar_doctor_card);
+            btnBookNow = itemView.findViewById(R.id.btn_book_now_doctor_card);
         }
     }
 }

@@ -3,29 +3,37 @@ import mongoose from "mongoose";
 const patientSchema = mongoose.Schema({
     email: {
         type: String,
-        unique: true
+        unique: true,
+        required: true,
     },
     password: {
-        type: String
+        type: String,
+        required: true,
     },
     name: {
-        type: String
+        type: String,
+        required: true,
     },
     gender: {
         type: String,
         enum: ["male", "female"],
+        default: "male",
     },
     birthDate: {
-        type: Date
+        type: Date,
+        default: null,
     },
     avatarUrl: {
-        type: String
+        type: String,
+        default: "https://res.cloudinary.com/dtvnsczg8/image/upload/v1681464004/Clinic/avatar/patient/patient_avatar_default.png",
     },
     phone: {
-        type: String
+        type: String,
+        default: "",
     },
     address: {
-        type: String
+        type: String,
+        default: "",
     }
 }, { timestamps: true });
 

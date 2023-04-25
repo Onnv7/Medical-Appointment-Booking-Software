@@ -2,11 +2,13 @@ import mongoose from "mongoose";
 const bookingSchema = mongoose.Schema({
     patient: {
         type: mongoose.Types.ObjectId,
-        ref: "Patient"
+        ref: "Patient",
+        required: true,
     },
     doctor: {
         type: mongoose.Types.ObjectId,
-        ref: "Doctor"
+        ref: "Doctor",
+        required: true,
     },
     message: {
         type: String,
@@ -21,13 +23,15 @@ const bookingSchema = mongoose.Schema({
     },
     review: {
         type: mongoose.Types.ObjectId,
-        ref: "Review"
+        ref: "Review",
+        default: null
     },
     // star: {
     //     type: Number,
     // },
     time: {
         type: String,
+        required: true,
     }
 }, { timestamps: true });
 bookingSchema.index({ doctor: 1, time: 1, patient: 1 }, { unique: true });

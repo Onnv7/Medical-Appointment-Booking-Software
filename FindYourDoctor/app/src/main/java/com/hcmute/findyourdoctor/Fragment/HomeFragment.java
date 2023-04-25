@@ -9,15 +9,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
+import com.hcmute.findyourdoctor.Activity.DoctorListActitvity;
 import com.hcmute.findyourdoctor.Activity.ListSpecialistActivity;
 import com.hcmute.findyourdoctor.Adapter.FeatureDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.PopularDoctorAdapter;
@@ -44,6 +50,7 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
     private RecyclerView rcv_popularDoctor;
     private RecyclerView rcv_featureDoctor;
     private TextView tv_Seeall_Specialty;
+    private EditText edtSearch;
     List<SpecialistDomain> mSpecialist;
     List<Doctor> mPopularList;
     List<Doctor> mFeatureDoctor;
@@ -69,6 +76,7 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
         renderSpecialists();
         renderSomeDoctor();
         setOnClickSeeAll();
+        setOnEnterEditTextSearch();
         return view;
     }
 
@@ -78,15 +86,26 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
         intent.putExtra("id", doctor.getId());
         startActivity(intent);
     }
+    private void setOnEnterEditTextSearch() {
+        edtSearch.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (i == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    Toast.makeText(getContext(), "EnTER", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeFragment.this.getContext(), DoctorListActitvity.class);
+                    intent.putExtra("search", edtSearch.getText().toString());
+                    startActivity(intent);
+                    // TODO: continue
+                }
+                return false;
+            }
+        });
+    }
     private void setOnClickSeeAll() {
         tv_Seeall_Specialty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelableArrayList("SPECIALIST_LIST", (ArrayList<? extends Parcelable>) new ArrayList<SpecialistDomain>(mSpecialist));
-
                 Intent intent = new Intent(getActivity(), ListSpecialistActivity.class);
-//                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -97,16 +116,18 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject res = response.body();
                 if(res.get("success").getAsBoolean()) {
+                    Gson gson = new Gson();
                     JsonArray topDoctors = res.getAsJsonArray("result");
                     int size = topDoctors.size();
                     for (int i = 0; i < size; i++) {
                         JsonObject doctor = topDoctors.get(i).getAsJsonObject();
-                        Doctor element = new Doctor();
-                        element.setId(doctor.get("id").getAsString());
-                        element.setName(doctor.get("name").getAsString());
-                        element.setSpecialist(doctor.get("specialist").getAsString());
-                        element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
-                        element.setRating(doctor.get("rating").getAsFloat());
+                        Doctor element = gson.fromJson(doctor, Doctor.class);
+//                        Doctor element = new Doctor();
+//                        element.setId(doctor.get("_id").getAsString());
+//                        element.setName(doctor.get("name").getAsString());
+//                        element.setSpecialist(doctor.get("specialist").getAsString());
+//                        element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
+//                        element.setRating(doctor.get("rating").getAsFloat());
                         mPopularList.add(element);
                     }
 
@@ -129,16 +150,18 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject res = response.body();
                 if(res.get("success").getAsBoolean()) {
+                    Gson gson = new Gson();
                     JsonArray someDoctors = res.getAsJsonArray("result");
                     int size = someDoctors.size();
                     for (int i = 0; i < size; i++) {
                         JsonObject doctor = someDoctors.get(i).getAsJsonObject();
-                        Doctor element = new Doctor();
-                        element.setId(doctor.get("id").getAsString());
-                        element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
-                        element.setName(doctor.get("name").getAsString());
-                        element.setRating(doctor.get("rating").getAsFloat());
-                        element.setPrice(doctor.get("price").getAsFloat());
+
+                        Doctor element = gson.fromJson(doctor, Doctor.class);
+//                        element.setId(doctor.get("_id").getAsString());
+//                        element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
+//                        element.setName(doctor.get("name").getAsString());
+//                        element.setRating(doctor.get("rating").getAsFloat());
+//                        element.setPrice(doctor.get("price").getAsFloat());
                         mFeatureDoctor.add(element);
                     }
                     FeatureDoctorAdapter featureDoctorAdapter = new FeatureDoctorAdapter(mFeatureDoctor);
@@ -154,7 +177,6 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
         });
     }
     private void renderSpecialists(){
-
         specialistApiService.getSomeSpecialists(5).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -185,6 +207,7 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
         rcv_popularDoctor =  view.findViewById(R.id.rcv_popularDoctor);
         rcv_featureDoctor =  view.findViewById(R.id.rcv_featureDoctor);
         tv_Seeall_Specialty = view.findViewById(R.id.tv_Seeall_Specialty);
+        edtSearch = view.findViewById(R.id.edt_search_home_fragment);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView.LayoutManager layoutManagerPopular = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);

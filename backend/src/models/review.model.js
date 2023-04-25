@@ -3,11 +3,13 @@ import mongoose from "mongoose";
 const reviewSchema = mongoose.Schema({
     patient: {
         type: mongoose.Types.ObjectId,
-        ref: "Patient"
+        ref: "Patient",
+        required: true,
     },
     doctor: {
         type: mongoose.Types.ObjectId,
-        ref: "Doctor"
+        ref: "Doctor",
+        required: true,
     },
     // booking: {
     //     type: mongoose.Types.ObjectId,
@@ -15,16 +17,22 @@ const reviewSchema = mongoose.Schema({
     // },
     description: {
         type: String,
+        required: true,
     },
     star: {
-        type: Number
+        type: Number,
+        required: true,
     },
-    liker: [{
-        type: mongoose.Types.ObjectId,
-        ref: "Patient"
-    }]
+    liker: {
+        type: [{
+            type: mongoose.Types.ObjectId,
+            ref: "Patient",
+        }],
+        default: []
+    }
+
 }, { timestamps: true });
-reviewSchema.index({ patient: 1, booking: 1 }, { unique: true });
+// reviewSchema.index({ patient: 1, booking: 1 }, { unique: true });
 
 reviewSchema.virtual('totalLiker').get(function () {
     return this.liker.length;
