@@ -229,32 +229,6 @@
                 android:verticalSpacing="20dp" />
 
             <TextView
-                android:id="@+id/tv_evening_slot_num_select_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:paddingLeft="25dp"
-                android:text="Evening 5 slots"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold">
-
-            </TextView>
-
-            <GridView
-                android:id="@+id/gv_evening_select_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:horizontalSpacing="5dp"
-                android:numColumns="4"
-                android:paddingLeft="24dp"
-                android:paddingRight="20dp"
-                android:verticalSpacing="20dp">
-
-            </GridView>
-
-            <TextView
                 android:id="@+id/tv_affternoon_slot_num_select_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -269,6 +243,32 @@
 
             <GridView
                 android:id="@+id/gv_afternoon_select_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:horizontalSpacing="5dp"
+                android:numColumns="4"
+                android:paddingLeft="24dp"
+                android:paddingRight="20dp"
+                android:verticalSpacing="20dp">
+
+            </GridView>
+
+            <TextView
+                android:id="@+id/tv_evening_slot_num_select_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:paddingLeft="25dp"
+                android:text="Evening 5 slots"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <GridView
+                android:id="@+id/gv_evening_select_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -300,9 +300,8 @@
                 android:layout_marginRight="25dp"
                 android:background="@drawable/custom_input_doctor_time_detail"
                 android:drawableEnd="@drawable/search"
-                android:textColor="@color/teal_200"
-                android:textSize="18sp"
-                android:textStyle="bold">
+                android:textColor="@color/black"
+                android:textSize="18sp">
 
             </EditText>
 

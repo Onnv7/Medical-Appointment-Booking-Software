@@ -1,126 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="120dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:elevation="20dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="340dp"
-        android:layout_marginLeft="30dp"
-        app:cardCornerRadius="10dp"
-        android:layout_height="100dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="#EEF4E7"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:weightSum="10"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:weightSum="10"
-                android:layout_weight="10"
-                android:orientation="horizontal"
-                android:layout_height="0dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="match_parent">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="70dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginLeft="12dp"
-                        app:cardCornerRadius="10dp"
-                        android:layout_height="70dp">
+                    <ImageView
+                        android:id="@+id/iv_avatar_doctor_card"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/image">
 
-                        <ImageView
-                            android:layout_width="70dp"
-                            android:src="@drawable/image"
-                            android:layout_height="70dp">
+                    </ImageView>
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        </ImageView>
-                    </androidx.cardview.widget.CardView>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7">
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="7"
-                    android:weightSum="10"
-                    android:orientation="vertical"
-                    android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_name_doctor_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Dr.Pediatrician"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_weight="4"
-                        android:layout_height="0dp">
+                </TextView>
 
-                        <TextView
-                            android:id="@+id/tv_name_select_time"
-                            android:layout_width="match_parent"
-                            android:text="Dr.Pediatrician"
-                            android:textStyle="bold"
-                            android:layout_marginTop="20dp"
-                            android:layout_height="match_parent">
-
-                        </TextView>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2">
-
-                        <TextView
-                            android:id="@+id/tv_specialist_select_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textSize="10dp"
-                            android:text="Specialist Cardiologist">
+                <TextView
+                    android:id="@+id/tv_specialist_name_doctor_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Specialist Cardiologist"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_name_doctor_card"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_name_doctor_card">
 
 
-                        </TextView>
-                    </LinearLayout>
+                </TextView>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:orientation="horizontal"
-                        android:weightSum="10"
-                        android:layout_weight="4">
+                <TextView
+                    android:id="@+id/tv_patient_quantity_doctor_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="36dp"
+                    android:text="2.8 (2821 patients)"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="5">
+                </TextView>
 
-                            <ImageView
-                                android:layout_width="80dp"
-                                android:src="@drawable/star"
-                                android:layout_height="20dp">
+                <TextView
+                    android:id="@+id/tv_price_doctor_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="000000"
+                    android:textColor="#508E09"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-                            </ImageView>
-                        </LinearLayout>
+                <Button
+                    android:id="@+id/btn_book_now_doctor_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="@drawable/button_green_background"
+                    android:text="Book now"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="5"
-                            android:layout_height="match_parent">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:text="2.8 (2821 patients)"
-                                android:textSize="12sp"
-                                android:layout_height="match_parent">
-
-                            </TextView>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </LinearLayout>
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
 

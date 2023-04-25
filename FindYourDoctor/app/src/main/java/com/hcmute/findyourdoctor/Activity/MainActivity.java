@@ -49,11 +49,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         viewPager = findViewById(R.id.view_pager);
-        setupChangeFragment();
-
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupChangeFragment();
+    }
 
     private void setupChangeFragment() {
 

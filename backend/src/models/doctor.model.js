@@ -4,13 +4,16 @@ import Review from "./review.model.js"
 const doctorSchema = mongoose.Schema({
     email: {
         type: String,
-        unique: true
+        unique: true,
+        empty: false,
     },
     password: {
-        type: String
+        type: String,
+        empty: false,
     },
     name: {
-        type: String
+        type: String,
+        empty: false,
     },
     gender: {
         type: String,
@@ -39,9 +42,10 @@ const doctorSchema = mongoose.Schema({
     },
     specialist: {
         type: mongoose.Types.ObjectId,
-        ref: "Specialist"
+        ref: "Specialist",
+        default: null
     }
-}, { timestamps: true });
+}, { timestamps: true }, { toJSON: { virtuals: true } });
 
 // doctorSchema.virtual('rating').get(async function () {
 //     let rating = 0
