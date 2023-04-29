@@ -1,6 +1,7 @@
 import Patient from "../models/patient.model.js";
 import Booking from "../models/booking.model.js";
 import cloudinary from "../utils/cloudinary.js";
+
 // export const bookingAppointment = async (req, res, next) => {
 //     try {
 //         const advice = req.body.advice;
@@ -89,5 +90,18 @@ export const getProfileById = async (req, res, next) => {
         res.status(200).json({ success: true, message: "Find successfully", result: others })
     } catch (error) {
         next(error);
+    }
+}
+export const isExistedPatient = async (req, res, next) => {
+    try {
+        const patient = await Patient.findOne({ email: req.query.email });
+        if (patient) {
+            return res.status(200).json({ success: true, message: "Patient already exists", result: true })
+        }
+        else {
+            return res.status(200).json({ success: true, message: "Patient is not existed", result: false })
+        }
+    } catch (error) {
+        next(error)
     }
 }

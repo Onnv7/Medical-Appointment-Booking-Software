@@ -2,6 +2,10 @@ package com.hcmute.findyourdoctor.Activity;
 
 import static com.hcmute.findyourdoctor.Utils.Constant.SHARE;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -30,8 +34,9 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     EditText tvEmail, tvPassword;
-    TextView btnLogin, tvRegister;
+    TextView btnLogin, tvRegister, btnForgetPassword;
     AuthApiService authApiService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +100,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        btnForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,5 +136,6 @@ public class LoginActivity extends AppCompatActivity {
         tvPassword = (EditText) findViewById(R.id.edt_password_log);
         btnLogin = (TextView) findViewById(R.id.btn_login);
         tvRegister = (TextView) findViewById(R.id.tv_register_log);
+        btnForgetPassword = findViewById(R.id.btn_forget_password_login);
     }
 }

@@ -37,3 +37,29 @@ export const getReviewByDoctor = async (req, res, next) => {
         next(error);
     }
 }
+
+export const updateLiker = async (req, res, next) => {
+    try {
+        const likerId = req.body.likerId;
+        const review = await Review.findById(
+            req.params.reviewId,
+        ).populate({
+            path: 'patient',
+            select: { name: 1, avatarUrl: 1 }
+        })
+        if (review.liker.includes(likerId)) {
+            const index = review.liker.indexOf(likerId);
+            if (index === -1) {
+                return res.status(400).send("Liker does not exist");
+            }
+            review.liker.splice(index, 1);
+        }
+        else {
+            review.liker.push(likerId);
+        }
+        await review.save();
+        res.status(200).json({ success: true, message: 'Review saved successfully', result: review });
+    } catch (error) {
+        next(error);
+    }
+}

@@ -178,3 +178,29 @@ export const getSpecificationsDoctor = async (req, res, next) => {
         next(error)
     }
 }
+
+export const getDoctorsBySpecialist = async (req, res, next) => {
+    try {
+        const doctors = await Doctor.find({ specialist: req.params.specialistId })
+            .sort({ createdAt: -1 })
+            .populate('specialist')
+            .select({ name: 1, avatarUrl: 1, price: 1, rating: 1 })
+            .exec();
+        const doctorsWithRating = [];
+        for (const doctor of doctors) {
+            const patients = await Booking.distinct('patient', { doctor: doctor._id });
+            const dt = {
+                _id: doctor._id,
+                name: doctor.name,
+                avatarUrl: doctor.avatarUrl,
+                price: doctor.price,
+                specialist: doctor.specialist?.name ? doctor.specialist?.name : "Unknown",
+                patientQuantity: patients.length
+            }
+            doctorsWithRating.push(dt)
+        };
+        res.status(200).json({ success: true, message: "Get successfully", result: doctorsWithRating });
+    } catch (error) {
+        next(error)
+    }
+}

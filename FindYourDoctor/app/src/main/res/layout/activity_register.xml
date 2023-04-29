@@ -152,7 +152,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/btn_signup"
+                    android:id="@+id/btn_forget_password_login"
                     android:layout_width="295dp"
                     android:layout_height="54dp"
                     android:layout_marginTop="32dp"
@@ -173,9 +173,9 @@
                     android:layout_marginTop="18dp"
                     android:text="Have an account? Log in"
                     android:textColor="#0EBE7F"
-                    app:layout_constraintEnd_toEndOf="@+id/btn_signup"
-                    app:layout_constraintStart_toStartOf="@+id/btn_signup"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_signup" />
+                    app:layout_constraintEnd_toEndOf="@+id/btn_forget_password_login"
+                    app:layout_constraintStart_toStartOf="@+id/btn_forget_password_login"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_forget_password_login" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

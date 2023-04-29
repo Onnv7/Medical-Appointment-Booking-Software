@@ -1,7 +1,6 @@
 package com.hcmute.findyourdoctor.Fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -9,29 +8,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
-import com.hcmute.findyourdoctor.Activity.HistoryDetailsActivity;
-import com.hcmute.findyourdoctor.Activity.LoginActivity;
-import com.hcmute.findyourdoctor.Adapter.AppointmentAdapter;
 import com.hcmute.findyourdoctor.Adapter.AppointmentHistoryAdapter;
-import com.hcmute.findyourdoctor.Adapter.FeatureDoctorAdapter;
-import com.hcmute.findyourdoctor.Adapter.PopularDoctorAdapter;
-import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
-import com.hcmute.findyourdoctor.Adapter.doctorListAdapter;
 import com.hcmute.findyourdoctor.Api.BookingApiService;
-import com.hcmute.findyourdoctor.Api.PatientApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Domain.AppointmentDomain;
 import com.hcmute.findyourdoctor.Listener.OnHistoryAppointmentClickListener;
-import com.hcmute.findyourdoctor.Model.review;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Utils.Constant;
 

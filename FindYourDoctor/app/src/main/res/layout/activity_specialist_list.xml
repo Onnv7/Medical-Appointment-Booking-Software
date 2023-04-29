@@ -56,14 +56,14 @@
                         android:id="@+id/textView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:text="Specialty"
+                        android:layout_marginTop="32dp"
+                        android:text="SPECIALTY"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="28sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.187"
+                        app:layout_constraintHorizontal_bias="0.201"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -72,31 +72,28 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="28dp"
+                        android:layout_marginTop="16dp"
                         android:text="Skill shapes specialty"
                         android:textAlignment="center"
-                        android:textColor="#06A10C"
-                        android:textSize="17sp"
+                        android:textColor="#CC567E"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="@+id/textView4"
-                        app:layout_constraintHorizontal_bias="0.416"
                         app:layout_constraintStart_toStartOf="@+id/textView4"
                         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
                     </TextView>
 
                     <ImageView
-                        android:layout_width="83dp"
-                        android:layout_height="84dp"
-                        android:layout_marginStart="90dp"
-                        android:layout_marginTop="32dp"
-                        android:src="@drawable/icon_specialist"
+                        android:id="@+id/imageView6"
+                        android:layout_width="157dp"
+                        android:layout_height="96dp"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.755"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </ImageView>
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/image_banner" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -104,13 +101,10 @@
                     android:id="@+id/rcv_list_specialty"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="12dp"
+                    android:layout_marginLeft="6dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginRight="12dp"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="10dp">
+                    android:layout_marginRight="6dp"
+                    android:nestedScrollingEnabled="false">
 
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>

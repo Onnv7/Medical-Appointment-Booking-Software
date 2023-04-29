@@ -66,15 +66,16 @@
         android:layout_weight="1">
 
         <EditText
+            android:id="@+id/edt_search_doctor_list"
             android:layout_width="360dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:drawableStart="@drawable/delete"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:hint="  Search"
             android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/delete"
             android:drawableEnd="@drawable/search"
-            android:layout_height="50dp">
+            android:hint="  Search"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
         </EditText>
     </LinearLayout>
@@ -88,7 +89,7 @@
             android:id="@+id/listDoctors"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="18sp"
+            android:layout_marginLeft="12sp"
             android:layout_marginRight="12sp">
 
         </androidx.recyclerview.widget.RecyclerView>

@@ -19,6 +19,7 @@ import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Domain.PopularDoctorDomain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class doctorListAdapter extends RecyclerView.Adapter<doctorListAdapter.doctorListViewHolder> {

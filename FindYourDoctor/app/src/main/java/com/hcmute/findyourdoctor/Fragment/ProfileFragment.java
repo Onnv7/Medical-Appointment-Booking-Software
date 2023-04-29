@@ -64,7 +64,7 @@ public class ProfileFragment extends Fragment {
     ImageView btnUploadImage, ivAvatar;
     LinearLayout layoutBirthdate;
     EditText edtName, edtEmail, edtPassword, edtPhone, edtBirthDate, edtAddress;
-    TextView btnUpadte;
+    TextView btnUpadte, btnLogout;
     RadioButton rdoFemale, rdoMale;
     PatientApiService patientApiService;
     DatePickerDialog.OnDateSetListener setListener;
@@ -92,7 +92,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onActivityResult(ActivityResult result) {
 
-                Toast.makeText(getContext(), "clcikcckk", Toast.LENGTH_SHORT).show();
                 if(result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
                     if(data == null) {
@@ -103,14 +102,6 @@ public class ProfileFragment extends Fragment {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
                         ivAvatar.setImageBitmap(bitmap);
-//                    Glide.with(getContext())
-//                            .load(bitmap)
-//                            .override(ViewTarget.SIZE_ORIGINAL)
-//                            .into(ivAvatar);
-//                    ivAvatar.getLayoutParams().width = 150;
-//                    ivAvatar.getLayoutParams().height = 150;
-//                    ivAvatar.requestLayout();
-
                     }
                     catch (Exception e) {
                         e.printStackTrace();
@@ -119,16 +110,9 @@ public class ProfileFragment extends Fragment {
             }
         });
         init(view);
-//        Calendar calendar = Calendar.getInstance();
-//        final int year = calendar.get(Calendar.YEAR);
-//        final int month = calendar.get(Calendar.MONTH);
-//        final int day = calendar.get(Calendar.DAY_OF_MONTH);
         setOnClickBtnUpdate();
         getProfilePatient(patientId);
-
-
-
-
+        setOnLogoutClick();
     }
 
     @Override
@@ -301,6 +285,21 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+    private void setOnLogoutClick() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("id");
+                editor.remove("email");
+                editor.remove("is_logged");
+                editor.apply();
+
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     private void setBirthDateEditText(int day, int month, int year) {
         edtBirthDate.setOnClickListener(new View.OnClickListener() {
@@ -332,6 +331,7 @@ public class ProfileFragment extends Fragment {
         }
         btnUploadImage = view.findViewById(R.id.btn_upload_image_pf);
         btnUpadte = view.findViewById(R.id.btn_update_pf);
+        btnLogout = view.findViewById(R.id.btn_log_out);
         ivAvatar = view.findViewById(R.id.iv_avatar_doctor_details);
 
         edtName = view.findViewById(R.id.edt_name_pf);

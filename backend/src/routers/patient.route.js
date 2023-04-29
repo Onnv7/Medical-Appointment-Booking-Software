@@ -1,5 +1,5 @@
 import express from "express";
-import { updateProfile, updateAvatar, getProfileById } from "../controllers/patient.controller.js"
+import { updateProfile, updateAvatar, getProfileById, isExistedPatient } from "../controllers/patient.controller.js"
 
 import multer from 'multer';
 const router = express.Router();
@@ -12,5 +12,6 @@ const upload = multer({ storage });
 router.put('/update-profile/:patientId', upload.single('avatar'), updateProfile)
 router.patch('/update-avatar/:patientId', upload.single('avatar'), updateAvatar)
 router.get('/profile/:patientId', getProfileById)
+router.get("/existed", isExistedPatient);
 
 export default router;

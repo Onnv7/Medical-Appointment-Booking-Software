@@ -19,6 +19,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface PatientApiService {
     String BASE_URL = "patient";
@@ -30,4 +31,6 @@ public interface PatientApiService {
     Call<JsonObject> updateProfile(@Path("patientId") String patientId,
                                    @PartMap HashMap<String, RequestBody> body,
                                    @Part MultipartBody.Part avatar);
+    @GET(BASE_URL  + "/existed")
+    Call<JsonObject> isExistedPatient(@Query("email") String email);
 }

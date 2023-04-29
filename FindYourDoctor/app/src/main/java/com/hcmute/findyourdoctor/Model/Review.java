@@ -1,11 +1,14 @@
 package com.hcmute.findyourdoctor.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
-public class review implements Serializable {
+public class Review implements Serializable {
+    @SerializedName("_id")
     private String id;
-    private String patientName;
+    private Patient patient;
     private String avatarUrl;
     private String description;
     private float star;
@@ -13,11 +16,12 @@ public class review implements Serializable {
     private String createdAt;
 
 
-    public review(String id, String description, float star, String createdAt) {
-        this.id = id;
-        this.description = description;
-        this.star = star;
-        this.createdAt = createdAt;
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     public String getAvatarUrl() {
@@ -36,13 +40,6 @@ public class review implements Serializable {
         this.id = id;
     }
 
-    public String getPatientName() {
-        return patientName;
-    }
-
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
-    }
 
     public String getDescription() {
         return description;

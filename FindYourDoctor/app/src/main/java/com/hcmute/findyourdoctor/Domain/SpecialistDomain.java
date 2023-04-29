@@ -5,79 +5,55 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class SpecialistDomain implements Parcelable {
-    private String title;
-    private String pic;
-    private int quantityDoctor;
+import com.google.gson.annotations.SerializedName;
 
-    public SpecialistDomain(String title, String pic) {
-        this.title = title;
-        this.pic = pic;
+import java.io.Serializable;
+
+public class SpecialistDomain implements Serializable {
+
+    @SerializedName("_id")
+    private String id;
+    private String name;
+    private int doctorQuantity;
+    private String imageUrl;
+
+
+    public SpecialistDomain(String id, String name, int doctorQuantity, String imageUrl) {
+        this.id = id;
+        this.name = name;
+        this.doctorQuantity = doctorQuantity;
+        this.imageUrl = imageUrl;
     }
 
-    protected SpecialistDomain(Parcel in) {
-        title = in.readString();
-        pic = in.readString();
+    public String getId() {
+        return id;
     }
 
-    public SpecialistDomain(String title, String pic, int quantityDoctor) {
-        this.title = title;
-        this.pic = pic;
-        this.quantityDoctor = quantityDoctor;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public static final Creator<SpecialistDomain> CREATOR = new Creator<SpecialistDomain>() {
-        @Override
-        public SpecialistDomain createFromParcel(Parcel in) {
-            return new SpecialistDomain(in);
-        }
-
-        @Override
-        public SpecialistDomain[] newArray(int size) {
-            return new SpecialistDomain[size];
-        }
-    };
-
-    public int getQuantityDoctor() {
-        return quantityDoctor;
+    public String getName() {
+        return name;
     }
 
-    public void setQuantityDoctor(int quantityDoctor) {
-        this.quantityDoctor = quantityDoctor;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTitle() {
-        return title;
+    public int getDoctorQuantity() {
+        return doctorQuantity;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDoctorQuantity(int doctorQuantity) {
+        this.doctorQuantity = doctorQuantity;
     }
 
-    public String getPic() {
-        return pic;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setPic(String pic) {
-        this.pic = pic;
-    }
-
-    @Override
-    public String toString() {
-        return "SpecialistDomain{" +
-                "title='" + title + '\'' +
-                ", pic='" + pic + '\'' +
-                '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(pic);
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
