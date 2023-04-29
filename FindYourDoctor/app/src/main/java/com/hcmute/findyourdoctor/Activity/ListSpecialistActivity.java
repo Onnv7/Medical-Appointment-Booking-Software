@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Adapter.SeeallSpecialtyAdapter;
@@ -36,15 +37,7 @@ public class ListSpecialistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specialist_list);
         initViews();
-
-//        Bundle bundle = getIntent().getExtras();
-//        if (bundle != null) {
-//            specialist = bundle.getParcelableArrayList("SPECIALIST_LIST");
-//        }
         renderSpecialtyList();
-
-
-
         back_specialty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,18 +51,19 @@ public class ListSpecialistActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject res = response.body();
+                Gson gson = new Gson();
                 if(res.get("success").getAsBoolean()) {
                     JsonArray specialists = res.getAsJsonArray("result");
                     int size = specialists.size();
                     for (int i = 0; i < size; i++) {
                         JsonObject specialist = specialists.get(i).getAsJsonObject();
-                        SpecialistDomain obj = new SpecialistDomain(specialist.get("name").getAsString(), specialist.get("imageUrl").getAsString(), specialist.get("doctorQuantity").getAsInt());
-                        specialistList.add(obj);
+                        SpecialistDomain specialistDomain = gson.fromJson(specialist, SpecialistDomain.class);
+                        specialistList.add(specialistDomain);
                     }
                     RecyclerView.LayoutManager layoutManager = new GridLayoutManager(ListSpecialistActivity.this, 2, RecyclerView.VERTICAL, false);
 
                     rcvSpecialistList.setLayoutManager(layoutManager);
-                    SeeallSpecialtyAdapter specialistAdapter = new SeeallSpecialtyAdapter(specialistList);
+                    SeeallSpecialtyAdapter specialistAdapter = new SeeallSpecialtyAdapter(specialistList, ListSpecialistActivity.this);
                     rcvSpecialistList.setAdapter(specialistAdapter);
                 }
             }

@@ -25,7 +25,7 @@ import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.ReviewApiService;
 import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.Model.review;
+import com.hcmute.findyourdoctor.Model.Review;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ import retrofit2.Response;
 
 public class DoctorDetailActivity extends AppCompatActivity {
     RecyclerView listReview;
-    List<review> mReview;
+    List<Review> mReview;
     TextView tvName, tvSpecialist, tvPrice, tvClinicName, tvClinicAddress, tvIntroduce, tvPatientQuantity, tvSucceededQuantity;
     RatingBar ratingBar;
     Button btnBooking;
@@ -135,22 +135,12 @@ public class DoctorDetailActivity extends AppCompatActivity {
                 if(res.get("success").getAsBoolean()) {
                     JsonArray result = res.getAsJsonArray("result");
                     int size = result.size();
+                    Gson gson = new Gson();
                     for (int i = 0; i < size; i++) {
                         JsonObject review = result.get(i).getAsJsonObject();
-                        JsonObject patient = review.getAsJsonObject("patient");
-                        String id = review.get("_id").getAsString();
-                        String patientName = patient.get("name").getAsString();
-                        String avatarUrl = patient.get("avatarUrl").getAsString();
-                        String description = review.get("description").getAsString();
-                        float star = review.get("star").getAsFloat();
-                        JsonArray liker = review.get("liker").getAsJsonArray();
-                        String createdAt = review.get("createdAt").getAsString();
-                        review rv = new review(id,description, star, createdAt);
-
-                        rv.setPatientName(patientName);
-                        rv.setAvatarUrl(avatarUrl);
+                        Review rv = gson.fromJson(review, Review.class);
                         mReview.add(rv);
-                        ReviewAdapter userAdapter = new ReviewAdapter(mReview);
+                        ReviewAdapter userAdapter = new ReviewAdapter(mReview, DoctorDetailActivity.this);
                         listReview.setAdapter(userAdapter);
                     }
                 }

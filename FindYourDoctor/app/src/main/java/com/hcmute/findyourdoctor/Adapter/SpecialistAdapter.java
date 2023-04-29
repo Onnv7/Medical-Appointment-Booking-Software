@@ -81,9 +81,9 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.Sp
         {
             return;
         }
-        holder.specialist_title.setText(specialist_pt.getTitle());
+        holder.specialist_title.setText(specialist_pt.getName());
         Glide.with(holder.ivSpecialist.getContext())
-                .load(specialist_pt.getPic())
+                .load(specialist_pt.getImageUrl())
                 .into(holder.ivSpecialist);
 //      holder.info.setText(specialist_pt.getInfo());
     }

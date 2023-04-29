@@ -86,7 +86,7 @@
                         android:weightSum="10">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="3">
 
@@ -108,44 +108,134 @@
 
                         </LinearLayout>
 
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_weight="7"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:weightSum="10">-->
+
+<!--                            <TextView-->
+<!--                                android:id="@+id/tv_doctor_name_select_time"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="4"-->
+<!--                                android:gravity="center_vertical"-->
+<!--                                android:text="Dr.Pediatrician"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="22sp"-->
+<!--                                android:textStyle="bold">-->
+
+<!--                            </TextView>-->
+
+<!--                            <TextView-->
+<!--                                android:id="@+id/tv_specialist_select_time"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="0dp"-->
+<!--                                android:layout_weight="2"-->
+<!--                                android:text="Specialist Cardiologist"-->
+<!--                                android:textSize="16sp">-->
+
+
+<!--                            </TextView>-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="0dp"-->
+<!--                                android:layout_weight="4"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:weightSum="10">-->
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:layout_weight="5"-->
+<!--                                    android:gravity="center|center_horizontal">-->
+
+<!--                                    <RatingBar-->
+<!--                                        android:id="@+id/rtb_doctor_select_time"-->
+<!--                                        style="@style/Widget.AppCompat.RatingBar.Small"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:isIndicator="true"-->
+<!--                                        android:numStars="5"-->
+<!--                                        android:progressTint="#F3E24C"-->
+<!--                                        android:rating="0"-->
+<!--                                        android:stepSize="0.1" />-->
+<!--                                </LinearLayout>-->
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:layout_weight="5"-->
+<!--                                    android:gravity="center">-->
+
+<!--                                    <TextView-->
+<!--                                        android:id="@+id/tv_patient_quantity_select_time"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:text="(2821 patients)"-->
+<!--                                        android:textSize="14sp">-->
+
+<!--                                    </TextView>-->
+<!--                                </LinearLayout>-->
+<!--                            </LinearLayout>-->
+
+<!--                        </LinearLayout>-->
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="0dp"
                             android:layout_weight="7"
+                            android:weightSum="10"
                             android:orientation="vertical"
-                            android:weightSum="10">
-
-                            <TextView
-                                android:id="@+id/tv_doctor_name_select_time"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="20dp"
-                                android:text="Dr.Pediatrician"
-                                android:textStyle="bold">
-
-                            </TextView>
-
-                            <TextView
-                                android:id="@+id/tv_specialist_select_time"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Specialist Cardiologist"
-                                android:textSize="10dp">
-
-
-                            </TextView>
+                            android:layout_height="match_parent">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="4"
+                                android:gravity="center_vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_doctor_name_select_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Dr.Pediatrician"
+                                    android:textColor="@color/black"
+                                    android:textSize="22sp"
+                                    android:textStyle="bold">
+
+                                </TextView>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="2"
+                                android:gravity="center_vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_specialist_select_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Specialist Cardiologist"
+                                    android:textSize="16sp">
+
+
+                                </TextView>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
                                 android:orientation="horizontal"
-                                android:weightSum="10">
+                                android:weightSum="10"
+                                android:layout_weight="4">
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="5">
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="5"
+                                    android:gravity="center_vertical">
 
                                     <RatingBar
                                         android:id="@+id/rtb_doctor_select_time"
@@ -156,19 +246,21 @@
                                         android:numStars="5"
                                         android:progressTint="#F3E24C"
                                         android:rating="0"
-                                        android:stepSize="0.1" />
+                                        android:stepSize="1" />
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="5">
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="5"
+                                    android:gravity="center_vertical">
 
                                     <TextView
                                         android:id="@+id/tv_patient_quantity_select_time"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="(2821 patients)"
+                                        android:gravity="center_vertical"
+                                        android:text="2.8 (2821 patients)"
                                         android:textSize="12sp">
 
                                     </TextView>
@@ -318,7 +410,7 @@
         <Button
             android:id="@+id/btn_confirmBook"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:layout_margin="24dp"
             android:background="@drawable/custom_button_book"
             android:text="Confirm"

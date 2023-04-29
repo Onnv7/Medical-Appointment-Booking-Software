@@ -24,24 +24,28 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class VerifyCodeActivity extends AppCompatActivity {
-
+    public static final int VERIFY = 1;
     EditText edtNum1, edtNum2, edtNum3, edtNum4;
     TextView btnSubmit, tvWrong;
     AuthApiService authApiService;
+    String email;
+    String code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_code);
         init();
-        authApiService = RetrofitClient.getRetrofit().create(AuthApiService.class);
+        sendCode();
+        setOnSubmitClick();
+
+    }
+    private void setOnSubmitClick() {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(checkText())
                 {
                     HashMap<String, String> body = new HashMap<>();
-                    Intent intent = getIntent();
-                    String code = intent.getStringExtra("code").toString();
                     String patientCode = edtNum1.getText().toString().trim() +  edtNum2.getText().toString().trim() +edtNum3.getText().toString().trim() +edtNum4.getText().toString().trim();
                     System.out.println(code + " --- " +  patientCode);
                     if(!code.equals(patientCode))
@@ -49,34 +53,36 @@ public class VerifyCodeActivity extends AppCompatActivity {
                         tvWrong.setVisibility(View.VISIBLE);
                         return;
                     }
-
-                    body.put("name", intent.getStringExtra("name"));
-                    body.put("email", intent.getStringExtra("email"));
-                    body.put("phone", intent.getStringExtra("phone"));
-                    body.put("password", intent.getStringExtra("password"));
-                    body.put("birthDate", intent.getStringExtra("birthDate"));
-
-                    authApiService.registerPatient(body).enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if(response.isSuccessful())
-                            {
-                                JsonObject res = response.body();
-                                Toast.makeText(VerifyCodeActivity.this, res.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                                Intent intentLogin = new Intent(VerifyCodeActivity.this, LoginActivity.class);
-                                startActivity(intentLogin);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                            Toast.makeText(VerifyCodeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    else {
+                        Intent intentRegister = new Intent();
+                        intentRegister.putExtra("success", true);
+                        setResult(VERIFY, intentRegister);
+                        finish();
+                    }
                 }
             }
         });
+    }
+    private void sendCode() {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("email", email);
+        authApiService.sendCodeToEmail(body).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                System.out.println(response.body());
+                if(response.isSuccessful())
+                {
+                    JsonObject res = response.body();
+                    code = res.get("result").getAsString();
+                    Toast.makeText(VerifyCodeActivity.this, "Code sent to email " + email, Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
     private boolean checkText() {
         if(TextUtils.isEmpty(edtNum1.getText()))
@@ -103,6 +109,9 @@ public class VerifyCodeActivity extends AppCompatActivity {
     }
 
     private void init() {
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");
+        authApiService = RetrofitClient.getRetrofit().create(AuthApiService.class);
         edtNum1 = (EditText) findViewById(R.id.edt_num1);
         edtNum2 = (EditText) findViewById(R.id.edt_num2);
         edtNum3 = (EditText) findViewById(R.id.edt_num3);

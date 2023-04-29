@@ -2,6 +2,8 @@ package com.hcmute.findyourdoctor.Adapter;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.hcmute.findyourdoctor.Activity.DoctorListActitvity;
 import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
 import com.hcmute.findyourdoctor.R;
 
@@ -20,9 +23,11 @@ import java.util.List;
 
 public class SeeallSpecialtyAdapter extends RecyclerView.Adapter<SeeallSpecialtyAdapter.SeeallSpecialtyViewHolder> {
     private List<SpecialistDomain> mListSpecialist;
+    private Context mContext;
 
-    public SeeallSpecialtyAdapter(List<SpecialistDomain> mListSpecialist) {
+    public SeeallSpecialtyAdapter(List<SpecialistDomain> mListSpecialist, Context mContext) {
         this.mListSpecialist = mListSpecialist;
+        this.mContext = mContext;
     }
 
     @NonNull
@@ -36,16 +41,23 @@ public class SeeallSpecialtyAdapter extends RecyclerView.Adapter<SeeallSpecialty
     public void onBindViewHolder(@NonNull SeeallSpecialtyAdapter.SeeallSpecialtyViewHolder holder, int position) {
         SpecialistDomain specialist_pt = mListSpecialist.get(position);
 
-        Log.d(TAG, "onBindViewHolder: " + specialist_pt.getTitle());
         if (specialist_pt == null)
         {
             return;
         }
-        holder.tvTitle.setText(specialist_pt.getTitle());
-        holder.tvQuantity.setText(specialist_pt.getQuantityDoctor() + " doctors");
+        holder.tvTitle.setText(specialist_pt.getName());
+        holder.tvQuantity.setText(specialist_pt.getDoctorQuantity() + " doctors");
         Glide.with(holder.ivImage.getContext())
-                .load(specialist_pt.getPic())
+                .load(specialist_pt.getImageUrl())
                 .into(holder.ivImage);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(holder.itemView.getContext(), DoctorListActitvity.class);
+                intent.putExtra("specialistId", specialist_pt.getId());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

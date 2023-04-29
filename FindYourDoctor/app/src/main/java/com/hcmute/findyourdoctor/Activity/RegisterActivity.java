@@ -12,12 +12,15 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Api.AuthApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
-import com.hcmute.findyourdoctor.Fragment.ProfileFragment;
 import com.hcmute.findyourdoctor.R;
 
 import java.text.SimpleDateFormat;
@@ -29,6 +32,37 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
+    ActivityResultLauncher<Intent> launchResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+//            System.out.println(result.getData().toString() + "");
+            if(result != null && result.getResultCode() == VerifyCodeActivity.VERIFY) {
+//                Toast.makeText(RegisterActivity.this, "ok ne 44" + result.getData().getBooleanExtra("success", false), Toast.LENGTH_SHORT).show();
+                JsonObject body = new JsonObject();
+                body.addProperty("name", edtName.getText().toString().trim());
+                body.addProperty("email", edtEmail.getText().toString().trim());
+                body.addProperty("phone", edtPhone.getText().toString().trim());
+                body.addProperty("birthDate", edtBirthdate.getText().toString().trim());
+                body.addProperty("password", edtPassword.getText().toString().trim());
+                authApiService.registerPatient(body).enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        JsonObject res = response.body();
+                        if(res.get("success").getAsBoolean()) {
+                            Toast.makeText(RegisterActivity.this, "Successful account registration", Toast.LENGTH_SHORT).show();
+                            Intent intentLogin = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intentLogin);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                    }
+                });
+            }
+        }
+    });
     EditText edtName, edtEmail, edtPassword, edtRePwd, edtPhone, edtBirthdate;
     TextView btnSignup, tvLogin;
     RadioButton radioPolicy;
@@ -45,36 +79,9 @@ public class RegisterActivity extends AppCompatActivity {
                 if(checkText())
                 {
                     authApiService = RetrofitClient.getRetrofit().create(AuthApiService.class);
-                    HashMap<String, String> body = new HashMap<>();
-                    body.put("email", edtEmail.getText().toString().trim());
-                    authApiService.sendCodeToEmail(body).enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            System.out.println(response.body());
-                            if(response.isSuccessful())
-                            {
-                                String code;
-                                JsonObject res = response.body();
-                                code = res.get("result").toString();
-
-                                Intent intent = new Intent(RegisterActivity.this, VerifyCodeActivity.class);
-                                intent.putExtra("name", edtName.getText().toString());
-                                intent.putExtra("email", edtEmail.getText().toString());
-                                intent.putExtra("phone", edtPhone.getText().toString());
-                                Log.d("nva", edtBirthdate.getText().toString());
-                                intent.putExtra("birthDate", edtBirthdate.getText().toString());
-                                intent.putExtra("password", edtPassword.getText().toString());
-                                intent.putExtra("code", code);
-
-                                startActivity(intent);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-
-                        }
-                    });
+                    Intent intent = new Intent(RegisterActivity.this, VerifyCodeActivity.class);
+                    intent.putExtra("email", edtEmail.getText().toString().trim());
+                    launchResult.launch(intent);
                 }
             }
         });
@@ -130,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
         edtBirthdate = findViewById(R.id.edt_birthdate_reg);
         edtRePwd = findViewById(R.id.tv_re_pwd_reg);
         edtPhone = findViewById(R.id.edt_phone_reg);
-        btnSignup = findViewById(R.id.btn_signup);
+        btnSignup = findViewById(R.id.btn_forget_password_login);
         radioPolicy = findViewById(R.id.radio_poplicy);
         tvLogin = (TextView) findViewById(R.id.tv_register_log);
 

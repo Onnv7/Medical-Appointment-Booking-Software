@@ -122,12 +122,6 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
                     for (int i = 0; i < size; i++) {
                         JsonObject doctor = topDoctors.get(i).getAsJsonObject();
                         Doctor element = gson.fromJson(doctor, Doctor.class);
-//                        Doctor element = new Doctor();
-//                        element.setId(doctor.get("_id").getAsString());
-//                        element.setName(doctor.get("name").getAsString());
-//                        element.setSpecialist(doctor.get("specialist").getAsString());
-//                        element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
-//                        element.setRating(doctor.get("rating").getAsFloat());
                         mPopularList.add(element);
                     }
 
@@ -157,11 +151,6 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
                         JsonObject doctor = someDoctors.get(i).getAsJsonObject();
 
                         Doctor element = gson.fromJson(doctor, Doctor.class);
-//                        element.setId(doctor.get("_id").getAsString());
-//                        element.setAvatarUrl(doctor.get("avatarUrl").getAsString());
-//                        element.setName(doctor.get("name").getAsString());
-//                        element.setRating(doctor.get("rating").getAsFloat());
-//                        element.setPrice(doctor.get("price").getAsFloat());
                         mFeatureDoctor.add(element);
                     }
                     FeatureDoctorAdapter featureDoctorAdapter = new FeatureDoctorAdapter(mFeatureDoctor);
@@ -183,11 +172,13 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
                 JsonObject res = response.body();
                 if(res.get("success").getAsBoolean()) {
                     JsonArray specialists = res.getAsJsonArray("result");
+                    Gson gson = new Gson();
                     int size = specialists.size();
                     for (int i = 0; i < size; i++) {
                         JsonObject specialist = specialists.get(i).getAsJsonObject();
-                        SpecialistDomain obj = new SpecialistDomain(specialist.get("name").getAsString(), specialist.get("imageUrl").getAsString());
-                        mSpecialist.add(obj);
+                        SpecialistDomain specialistDomain = gson.fromJson(specialist, SpecialistDomain.class);
+//                        SpecialistDomain obj = new SpecialistDomain(specialist.get("name").getAsString(), specialist.get("imageUrl").getAsString());
+                        mSpecialist.add(specialistDomain);
                     }
                     SpecialistAdapter specialistAdapter = new SpecialistAdapter(mSpecialist);
                     rcv_specialist.setAdapter(specialistAdapter);
