@@ -1,5 +1,7 @@
 package com.hcmute.findyourdoctor.Activity;
 
+import static com.hcmute.findyourdoctor.Utils.Constant.SHARE;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -15,7 +17,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 //import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
-//import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
+//import com.hcmute.findyourdoctor.Model.SpecialistDomain;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Api.ApiService;
 import com.hcmute.findyourdoctor.Api.BookingApiService;
@@ -42,30 +44,23 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     SharedPreferences sharedPreferences;
     private ViewPager2 viewPager;
-    private int checkedIndex = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         viewPager = findViewById(R.id.view_pager);
+
+        sharedPreferences = getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
+        id_user = sharedPreferences.getString("id", null);
+        appoinmentTF(id_user);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setupChangeFragment();
     }
 
-    private void setupChangeFragment() {
-
-        sharedPreferences = getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
-        id_user = sharedPreferences.getString("id", null);
-//
-        appoinmentTF(id_user);
-        Toast.makeText(this, "main resume", Toast.LENGTH_SHORT).show();
-
-    }
 
     private void checkFragment(Boolean check){
         fragmentArrayList = new ArrayList<>();

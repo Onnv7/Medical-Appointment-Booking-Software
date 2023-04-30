@@ -22,7 +22,7 @@
             android:textSize="18sp"
             android:textStyle="bold" />
         <EditText
-            android:id="@+id/edt_num4"
+            android:id="@+id/edt_search_appointment_list"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginStart="20dp"
@@ -49,7 +49,7 @@
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/listAppointment"
+                    android:id="@+id/rcv_appointment_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"

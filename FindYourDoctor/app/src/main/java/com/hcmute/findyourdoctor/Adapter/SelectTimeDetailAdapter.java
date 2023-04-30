@@ -1,30 +1,18 @@
 package com.hcmute.findyourdoctor.Adapter;
 
-import static android.content.ContentValues.TAG;
-
-import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.hcmute.findyourdoctor.Activity.DoctorSelectTimeDetailActivity;
 import com.hcmute.findyourdoctor.AdapterObserver;
-import com.hcmute.findyourdoctor.Database.ConnectionDatabase;
 import com.hcmute.findyourdoctor.Listener.OnSelectedTimeSlot;
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.Model.selectTimeDetail;
+import com.hcmute.findyourdoctor.Domain.SelectTimeDetailDomain;
 
 import java.util.List;
 
@@ -35,12 +23,12 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
     private Context context;
     private int layout;
 
-    private List<selectTimeDetail> handList;
+    private List<SelectTimeDetailDomain> handList;
 
     public SelectTimeDetailAdapter() {
     }
 
-    public SelectTimeDetailAdapter(Context context, int layout, List<selectTimeDetail> handList, String type, OnSelectedTimeSlot onSelectedTimeSlot, AdapterObserver dataObserver) {
+    public SelectTimeDetailAdapter(Context context, int layout, List<SelectTimeDetailDomain> handList, String type, OnSelectedTimeSlot onSelectedTimeSlot, AdapterObserver dataObserver) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
@@ -98,7 +86,7 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
             viewHolder.DetailTime.setTextColor(color);
             view.setBackgroundResource(R.drawable.background_details_time);
         }
-        selectTimeDetail selectTimeDetail = handList.get(i);
+        SelectTimeDetailDomain selectTimeDetail = handList.get(i);
 
         viewHolder.DetailTime.setText(selectTimeDetail.getTime());
 
@@ -130,11 +118,11 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
         this.layout = layout;
     }
 
-    public List<selectTimeDetail> getHandList() {
+    public List<SelectTimeDetailDomain> getHandList() {
         return handList;
     }
 
-    public void setHandList(List<selectTimeDetail> handList) {
+    public void setHandList(List<SelectTimeDetailDomain> handList) {
 
         this.handList = handList;
     }

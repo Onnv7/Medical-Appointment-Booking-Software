@@ -1,8 +1,6 @@
 package com.hcmute.findyourdoctor.Api;
 
 import com.google.gson.JsonObject;
-import com.hcmute.findyourdoctor.Domain.BookingDomain;
-import com.hcmute.findyourdoctor.Model.BookingModel;
 
 
 import retrofit2.Call;
@@ -17,5 +15,5 @@ public interface ApiService {
     Call<JsonObject> test(@Path("id") String id);
 
     @POST("booking/create")
-    Call<JsonObject> createBooking(@Body BookingDomain bookingDomain);
+    Call<JsonObject> createBooking(@Body JsonObject body);
 }

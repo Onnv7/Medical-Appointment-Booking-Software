@@ -102,9 +102,8 @@ public class DoctorDetailActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     JsonObject result = res.getAsJsonObject("result");
                     doctor = gson.fromJson(result, Doctor.class);
-                    doctor.setId(doctorId);
                     tvName.setText(doctor.getName());
-                    tvSpecialist.setText(doctor.getSpecialist());
+                    tvSpecialist.setText(doctor.getSpecialist().getName());
                     tvPrice.setText("$ " + doctor.getPrice());
                     tvClinicAddress.setText(doctor.getClinicAddress());
                     tvClinicName.setText(doctor.getClinicName());

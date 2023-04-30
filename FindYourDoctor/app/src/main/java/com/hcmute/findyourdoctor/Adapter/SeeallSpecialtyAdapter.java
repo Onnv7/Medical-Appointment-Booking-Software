@@ -1,10 +1,7 @@
 package com.hcmute.findyourdoctor.Adapter;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hcmute.findyourdoctor.Activity.DoctorListActitvity;
-import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
+import com.hcmute.findyourdoctor.Model.Specialist;
 import com.hcmute.findyourdoctor.R;
 
 import java.util.List;
 
 public class SeeallSpecialtyAdapter extends RecyclerView.Adapter<SeeallSpecialtyAdapter.SeeallSpecialtyViewHolder> {
-    private List<SpecialistDomain> mListSpecialist;
+    private List<Specialist> mListSpecialist;
     private Context mContext;
 
-    public SeeallSpecialtyAdapter(List<SpecialistDomain> mListSpecialist, Context mContext) {
+    public SeeallSpecialtyAdapter(List<Specialist> mListSpecialist, Context mContext) {
         this.mListSpecialist = mListSpecialist;
         this.mContext = mContext;
     }
@@ -39,7 +36,7 @@ public class SeeallSpecialtyAdapter extends RecyclerView.Adapter<SeeallSpecialty
 
     @Override
     public void onBindViewHolder(@NonNull SeeallSpecialtyAdapter.SeeallSpecialtyViewHolder holder, int position) {
-        SpecialistDomain specialist_pt = mListSpecialist.get(position);
+        Specialist specialist_pt = mListSpecialist.get(position);
 
         if (specialist_pt == null)
         {

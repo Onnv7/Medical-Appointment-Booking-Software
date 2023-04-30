@@ -2,7 +2,6 @@ package com.hcmute.findyourdoctor.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -14,10 +13,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Adapter.SeeallSpecialtyAdapter;
-import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.SpecialistApiService;
-import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
+import com.hcmute.findyourdoctor.Model.Specialist;
 import com.hcmute.findyourdoctor.R;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ListSpecialistActivity extends AppCompatActivity {
-    List<SpecialistDomain> specialistList = new ArrayList<SpecialistDomain>();
+    List<Specialist> specialistList = new ArrayList<Specialist>();
     RecyclerView rcvSpecialistList;
     ImageView back_specialty;
     SpecialistApiService specialistApiService;
@@ -57,7 +55,7 @@ public class ListSpecialistActivity extends AppCompatActivity {
                     int size = specialists.size();
                     for (int i = 0; i < size; i++) {
                         JsonObject specialist = specialists.get(i).getAsJsonObject();
-                        SpecialistDomain specialistDomain = gson.fromJson(specialist, SpecialistDomain.class);
+                        Specialist specialistDomain = gson.fromJson(specialist, Specialist.class);
                         specialistList.add(specialistDomain);
                     }
                     RecyclerView.LayoutManager layoutManager = new GridLayoutManager(ListSpecialistActivity.this, 2, RecyclerView.VERTICAL, false);

@@ -1,6 +1,10 @@
 package com.hcmute.findyourdoctor.Fragment;
 
+import static com.hcmute.findyourdoctor.Utils.Constant.SHARE;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,7 +17,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,13 +28,14 @@ import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
 import com.hcmute.findyourdoctor.Activity.DoctorListActitvity;
 import com.hcmute.findyourdoctor.Activity.ListSpecialistActivity;
+import com.hcmute.findyourdoctor.Activity.MainActivity;
 import com.hcmute.findyourdoctor.Adapter.FeatureDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.PopularDoctorAdapter;
 import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
 import com.hcmute.findyourdoctor.Api.DoctorApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.SpecialistApiService;
-import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
+import com.hcmute.findyourdoctor.Model.Specialist;
 import com.hcmute.findyourdoctor.Listener.OnDocterCardClickListener;
 import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
@@ -49,14 +53,15 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
     private RecyclerView rcv_specialist;
     private RecyclerView rcv_popularDoctor;
     private RecyclerView rcv_featureDoctor;
-    private TextView tv_Seeall_Specialty;
+    private TextView tv_Seeall_Specialty, tvHiName, btnSeeAll01, btnSeeAll02;
     private EditText edtSearch;
-    List<SpecialistDomain> mSpecialist;
+    List<Specialist> mSpecialist;
     List<Doctor> mPopularList;
     List<Doctor> mFeatureDoctor;
 
     SpecialistApiService specialistApiService;
     DoctorApiService doctorApiService;
+    SharedPreferences sharedPreferences;
 
     public HomeFragment() {
     }
@@ -109,6 +114,22 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
                 startActivity(intent);
             }
         });
+
+        btnSeeAll01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), DoctorListActitvity.class);
+                startActivity(intent);
+            }
+        });
+        btnSeeAll02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), DoctorListActitvity.class);
+                startActivity(intent);
+            }
+        });
+
     }
     private void renderPopularDoctor() {
         doctorApiService.getTopDoctor(10).enqueue(new Callback<JsonObject>() {
@@ -176,7 +197,7 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
                     int size = specialists.size();
                     for (int i = 0; i < size; i++) {
                         JsonObject specialist = specialists.get(i).getAsJsonObject();
-                        SpecialistDomain specialistDomain = gson.fromJson(specialist, SpecialistDomain.class);
+                        Specialist specialistDomain = gson.fromJson(specialist, Specialist.class);
 //                        SpecialistDomain obj = new SpecialistDomain(specialist.get("name").getAsString(), specialist.get("imageUrl").getAsString());
                         mSpecialist.add(specialistDomain);
                     }
@@ -192,6 +213,8 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
         });
     }
     private void initView(View view) {
+        sharedPreferences = HomeFragment.this.getContext().getSharedPreferences(SHARE, Context.MODE_PRIVATE);
+        String name = sharedPreferences.getString("name", "");
         doctorApiService = RetrofitClient.getRetrofit().create(DoctorApiService.class);
 
         rcv_specialist =  view.findViewById(R.id.rcv_specialist);
@@ -199,6 +222,11 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
         rcv_featureDoctor =  view.findViewById(R.id.rcv_featureDoctor);
         tv_Seeall_Specialty = view.findViewById(R.id.tv_Seeall_Specialty);
         edtSearch = view.findViewById(R.id.edt_search_home_fragment);
+        tvHiName = view.findViewById(R.id.tv_name_home_fragment);
+        tvHiName.setText("Hi " + name + "!");
+
+        btnSeeAll01 = view.findViewById(R.id.tv_see_all_01);
+        btnSeeAll02 = view.findViewById(R.id.tv_see_all_02);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView.LayoutManager layoutManagerPopular = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);

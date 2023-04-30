@@ -1,4 +1,4 @@
-package com.hcmute.findyourdoctor;
+package com.hcmute.findyourdoctor.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.hcmute.findyourdoctor.Activity.LoginActivity;
 import com.hcmute.findyourdoctor.Api.AuthApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
+import com.hcmute.findyourdoctor.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;

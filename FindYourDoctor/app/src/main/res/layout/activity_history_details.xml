@@ -48,22 +48,24 @@
 
                     <ImageView
                         android:id="@+id/iv_doctor_avatar_history_details"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="83dp"
+                        android:layout_height="77dp"
                         android:layout_marginTop="24dp"
                         android:background="@drawable/avatar_background"
+                        android:scaleType="fitXY"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/avt_doctor" />
 
                     <TextView
-                        android:id="@+id/tv_doctor__name_history_details"
+                        android:id="@+id/tv_hello_name_profile_fragment"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_marginTop="18sp"
                         android:text="Dr.Mahmud Nik Hasan"
                         android:textColor="#5B6889"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="@+id/iv_doctor_avatar_history_details"
                         app:layout_constraintStart_toStartOf="@+id/iv_doctor_avatar_history_details"
@@ -231,7 +233,7 @@
                         android:layout_height="wrap_content"
                         android:isIndicator="true"
                         android:numStars="5"
-                        android:progressTint="#F3E24C"
+                        android:progressTint="@color/green_star"
                         android:rating="0"
                         android:stepSize="1"
                         tools:stepSize="0.1" />
@@ -264,6 +266,7 @@
                     android:layout_height="54dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
                     android:background="@drawable/button_green_background"
                     android:text="Submit" />
             </LinearLayout>

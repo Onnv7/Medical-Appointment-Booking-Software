@@ -244,7 +244,7 @@
                                         android:layout_height="wrap_content"
                                         android:isIndicator="false"
                                         android:numStars="5"
-                                        android:progressTint="#F3E24C"
+                                        android:progressTint="@color/green_star"
                                         android:rating="0"
                                         android:stepSize="1" />
                                 </LinearLayout>

@@ -23,4 +23,6 @@ public interface DoctorApiService {
 
     @GET(BASE_URL + "/specialist/{specialistId}")
     Call<JsonObject> getDoctorsBySpecialist(@Path("specialistId") String specialistId);
+    @GET(BASE_URL + "/list-all")
+    Call<JsonObject> getAllDoctors();
 }

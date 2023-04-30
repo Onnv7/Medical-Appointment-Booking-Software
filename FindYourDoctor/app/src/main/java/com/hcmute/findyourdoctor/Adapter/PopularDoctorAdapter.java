@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.hcmute.findyourdoctor.Domain.PopularDoctorDomain;
 import com.hcmute.findyourdoctor.Listener.OnDocterCardClickListener;
 import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
@@ -49,7 +48,7 @@ public class PopularDoctorAdapter extends RecyclerView.Adapter<PopularDoctorAdap
             return;
         }
         holder.tvName.setText(popularDoctorDomain_pt.getName());
-        holder.tvSpecialist.setText(popularDoctorDomain_pt.getSpecialist());
+        holder.tvSpecialist.setText(popularDoctorDomain_pt.getSpecialist().getName());
         holder.ratingBar.setStepSize(0.1f);
         holder.ratingBar.setRating(popularDoctorDomain_pt.getRating());
 

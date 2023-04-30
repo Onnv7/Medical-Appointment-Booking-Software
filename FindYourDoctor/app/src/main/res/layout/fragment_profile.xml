@@ -17,7 +17,7 @@
             android:background="@drawable/backgroud_green_bottom">
 
             <TextView
-                android:id="@+id/tv_doctor__name_history_details"
+                android:id="@+id/tv_hello_name_profile_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
@@ -37,9 +37,9 @@
                 android:layout_height="150dp"
                 android:layout_marginTop="50dp"
                 app:cardCornerRadius="150dp"
-                app:layout_constraintEnd_toEndOf="@+id/tv_doctor__name_history_details"
-                app:layout_constraintStart_toStartOf="@+id/tv_doctor__name_history_details"
-                app:layout_constraintTop_toBottomOf="@+id/tv_doctor__name_history_details">
+                app:layout_constraintEnd_toEndOf="@+id/tv_hello_name_profile_fragment"
+                app:layout_constraintStart_toStartOf="@+id/tv_hello_name_profile_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/tv_hello_name_profile_fragment">
 
                 <ImageView
                     android:id="@+id/iv_avatar_doctor_details"
@@ -139,11 +139,13 @@
                     android:layout_marginTop="-4dp"
                     android:background="@null"
                     android:ems="10"
+                    android:focusable="false"
                     android:hint="Email"
                     android:inputType="textEmailAddress"
                     android:paddingStart="0dp"
                     android:textColor="@color/secondary_gray"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    tools:inputType="none" />
             </LinearLayout>
 
             <LinearLayout
@@ -171,9 +173,10 @@
                     android:layout_marginTop="-4dp"
                     android:background="@null"
                     android:ems="10"
-                    android:hint="Password"
-                    android:inputType="textPassword"
+                    android:inputType="text"
+                    android:focusable="false"
                     android:paddingStart="0dp"
+                    android:text="****"
                     android:textColor="@color/secondary_gray"
                     android:textSize="16sp" />
             </LinearLayout>

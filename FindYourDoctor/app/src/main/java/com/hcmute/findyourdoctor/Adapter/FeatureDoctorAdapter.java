@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.hcmute.findyourdoctor.Domain.FeatureDoctorDomain;
 import com.hcmute.findyourdoctor.Listener.OnDocterCardClickListener;
 import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;

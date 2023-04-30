@@ -8,7 +8,6 @@ import retrofit2.http.Path;
 
 public interface SpecialistApiService {
     String BASE_URL = "specialist";
-
     @GET(BASE_URL + "/some/{quantity}")
     Call<JsonObject> getSomeSpecialists(@Path("quantity") int quantity);
     @GET(BASE_URL + "/list")

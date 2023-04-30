@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Api.PatientApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
-import com.hcmute.findyourdoctor.ChangePasswordActivity;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Utils.CheckTextInput;
 
@@ -62,7 +61,6 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         JsonObject res = response.body();
                         if(res.get("result").getAsBoolean()) {
-                            // chuyen qua nhap code
                             Intent intent = new Intent(ForgetPasswordActivity.this, VerifyCodeActivity.class);
                             intent.putExtra("email", edtEmail.getText().toString().trim());
                             resultLauncher.launch(intent);

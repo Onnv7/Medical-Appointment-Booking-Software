@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.hcmute.findyourdoctor.Domain.SpecialistDomain;
+import com.hcmute.findyourdoctor.Model.Specialist;
 import com.hcmute.findyourdoctor.R;
 
 import java.util.List;
@@ -60,9 +60,9 @@ import java.util.List;
 //}
 
 public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.SpecialListViewHolder> {
-    private List<SpecialistDomain> mListSpecialist;
+    private List<Specialist> mListSpecialist;
 
-    public SpecialistAdapter(List<SpecialistDomain> mListSpecialist) {
+    public SpecialistAdapter(List<Specialist> mListSpecialist) {
         this.mListSpecialist = mListSpecialist;
     }
 
@@ -75,7 +75,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.Sp
 
     @Override
     public void onBindViewHolder(@NonNull SpecialistAdapter.SpecialListViewHolder holder, int position) {
-        SpecialistDomain specialist_pt = mListSpecialist.get(position);
+        Specialist specialist_pt = mListSpecialist.get(position);
         Log.d("nva", "SpecialListViewHolder: " + mListSpecialist.size());
         if (specialist_pt == null)
         {

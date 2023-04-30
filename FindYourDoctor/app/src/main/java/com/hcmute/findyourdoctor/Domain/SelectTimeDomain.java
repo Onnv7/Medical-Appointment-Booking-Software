@@ -1,12 +1,12 @@
-package com.hcmute.findyourdoctor.Model;
+package com.hcmute.findyourdoctor.Domain;
 
 import java.io.Serializable;
 
-public class selectTime implements Serializable {
+public class SelectTimeDomain implements Serializable {
     private String date;
     private int slot;
 
-    public selectTime(String date, int slot) {
+    public SelectTimeDomain(String date, int slot) {
         this.date = date;
         this.slot = slot;
     }

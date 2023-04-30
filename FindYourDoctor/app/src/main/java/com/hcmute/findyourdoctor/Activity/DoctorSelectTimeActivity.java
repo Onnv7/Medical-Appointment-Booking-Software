@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.hcmute.findyourdoctor.R;
 
-public class doctorSelectTimeActivity extends AppCompatActivity {
+public class DoctorSelectTimeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

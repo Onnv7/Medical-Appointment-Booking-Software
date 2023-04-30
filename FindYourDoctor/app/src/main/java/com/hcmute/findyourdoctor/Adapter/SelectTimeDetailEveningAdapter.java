@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,9 +19,8 @@ import android.widget.Toast;
 import com.hcmute.findyourdoctor.Activity.DoctorSelectTimeDetailActivity;
 import com.hcmute.findyourdoctor.Database.ConnectionDatabase;
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.Model.selectTimeDetail;
+import com.hcmute.findyourdoctor.Domain.SelectTimeDetailDomain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SelectTimeDetailEveningAdapter extends BaseAdapter {
@@ -30,10 +28,10 @@ public class SelectTimeDetailEveningAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private int selectedIndex = -1;
-    private List<selectTimeDetail> handList;
+    private List<SelectTimeDetailDomain> handList;
     Integer countClick = 0;
 
-    public SelectTimeDetailEveningAdapter(Context context, int layout, List<selectTimeDetail> handList) {
+    public SelectTimeDetailEveningAdapter(Context context, int layout, List<SelectTimeDetailDomain> handList) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
@@ -91,7 +89,7 @@ public class SelectTimeDetailEveningAdapter extends BaseAdapter {
             view.setBackgroundResource(R.drawable.background_details_time);
 
         }
-        selectTimeDetail selectTimeDetail = handList.get(i);
+        SelectTimeDetailDomain selectTimeDetail = handList.get(i);
 
         viewHolder.DetailTime.setText(selectTimeDetail.getTime());
 
@@ -171,11 +169,11 @@ public class SelectTimeDetailEveningAdapter extends BaseAdapter {
         this.layout = layout;
     }
 
-    public List<selectTimeDetail> getHandList() {
+    public List<SelectTimeDetailDomain> getHandList() {
         return handList;
     }
 
-    public void setHandList(List<selectTimeDetail> handList) {
+    public void setHandList(List<SelectTimeDetailDomain> handList) {
 
         this.handList = handList;
     }

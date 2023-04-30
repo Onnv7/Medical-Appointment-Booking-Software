@@ -50,7 +50,7 @@ export const getTopDoctor = async (req, res, next) => {
         for (const doctor of topDoctors) {
             const dataDoctor = doctor._doc;
             const rating = await doctor.rating;
-            const specialist = dataDoctor.specialist?.name || "None";
+            const specialist = dataDoctor.specialist || "None";
             const responseData = {
                 _id: dataDoctor._id,
                 name: dataDoctor.name,
@@ -70,7 +70,7 @@ export const getTopDoctor = async (req, res, next) => {
 
 export const getSomeDoctor = async (req, res, next) => {
     try {
-        const someDoctors = await Doctor.find().sort({ createdAt: -1 }).limit(req.params.some);
+        const someDoctors = await Doctor.find().sort({ createdAt: -1 }).limit(req.params.some).populate("specialist");
         const rs = []
         for (const doctor of someDoctors) {
             const dataDoctor = doctor._doc;
@@ -85,7 +85,7 @@ export const getSomeDoctor = async (req, res, next) => {
             }
             rs.push({ ...responseData })
         };
-        res.status(200).json({ success: true, message: "Get some     doctor successfully", result: rs })
+        res.status(200).json({ success: true, message: "Get some doctors successfully", result: rs })
     } catch (error) {
         next(error)
     }
@@ -106,7 +106,7 @@ export const searchDoctor = async (req, res, next) => {
                 name: doctor.name,
                 avatarUrl: doctor.avatarUrl,
                 price: doctor.price,
-                specialist: doctor.specialist?.name ? doctor.specialist?.name : "Unknown",
+                specialist: doctor.specialist ? doctor.specialist : "Unknown",
                 patientQuantity: patients.length
             }
             doctorsWithRating.push(dt)
@@ -129,6 +129,7 @@ export const getInfoDoctorById = async (req, res, next) => {
 
         const rating = await doctor.rating;
         const data = {
+            _id: others._id,
             name: others.name,
             specialist: others.specialist,
             avatarUrl: others.avatarUrl,
@@ -137,7 +138,7 @@ export const getInfoDoctorById = async (req, res, next) => {
             clinicName: others.clinicName,
             clinicAddress: others.clinicAddress,
             introduction: others.introduction,
-            specialist: others.specialist?.name || "Unknown",
+            specialist: others.specialist || "Unknown",
             patientQuantity: patients.length,
             successBookingQuantity: successBooking.length
         }
@@ -194,12 +195,38 @@ export const getDoctorsBySpecialist = async (req, res, next) => {
                 name: doctor.name,
                 avatarUrl: doctor.avatarUrl,
                 price: doctor.price,
-                specialist: doctor.specialist?.name ? doctor.specialist?.name : "Unknown",
+                specialist: doctor.specialist,
                 patientQuantity: patients.length
             }
             doctorsWithRating.push(dt)
         };
         res.status(200).json({ success: true, message: "Get successfully", result: doctorsWithRating });
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const getAllDoctors = async (req, res, next) => {
+    try {
+        const doctors = await Doctor.find()
+            .sort({ createdAt: -1 })
+            .populate('specialist')
+            .select({ name: 1, avatarUrl: 1, price: 1, rating: 1 })
+            .exec();
+        const doctorsWithRating = [];
+        for (const doctor of doctors) {
+            const patients = await Booking.distinct('patient', { doctor: doctor._id })
+            const dt = {
+                _id: doctor._id,
+                name: doctor.name,
+                avatarUrl: doctor.avatarUrl,
+                price: doctor.price,
+                specialist: doctor.specialist,
+                patientQuantity: patients.length
+            }
+            doctorsWithRating.push(dt)
+        };
+        res.status(200).json({ success: true, message: "Find successfully", result: doctorsWithRating })
     } catch (error) {
         next(error)
     }

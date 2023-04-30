@@ -1,7 +1,5 @@
 package com.hcmute.findyourdoctor.Activity;
 
-import static com.hcmute.findyourdoctor.Utils.Constant.SHARE;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +8,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,8 +25,6 @@ import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.ReviewApiService;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Utils.Constant;
-
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -115,7 +110,7 @@ public class HistoryDetailsActivity extends AppCompatActivity {
         tvMessage = findViewById(R.id.tv_reminder_history_details);
         tvReview = findViewById(R.id.tv_review_history_details);
         tvDoctorAdvice = findViewById(R.id.tv_doctor_advice_history_details);
-        tvDoctorName = findViewById(R.id.tv_doctor__name_history_details);
+        tvDoctorName = findViewById(R.id.tv_hello_name_profile_fragment);
         tvCreatedAt = findViewById(R.id.tv_created_at_history_details);
 
         rtbRatingDoctor = findViewById(R.id.rtb_doctor_history_details);

@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 
-import { updateProfile, getProfileById, getTopDoctor, getSomeDoctor, searchDoctor, getInfoDoctorById, getReviewsByDoctorId, getSpecificationsDoctor, getDoctorsBySpecialist } from "../controllers/doctor.controller.js"
+import { updateProfile, getProfileById, getTopDoctor, getSomeDoctor, searchDoctor, getInfoDoctorById, getReviewsByDoctorId, getSpecificationsDoctor, getDoctorsBySpecialist, getAllDoctors } from "../controllers/doctor.controller.js"
 
 const router = express.Router();
 
@@ -20,6 +20,7 @@ router.get("/info/:doctorId", getInfoDoctorById)
 router.get("/review/:doctorId", getReviewsByDoctorId)
 router.get("/specifications/:doctorId", getSpecificationsDoctor)
 router.get("/specialist/:specialistId", getDoctorsBySpecialist)
+router.get("/list-all", getAllDoctors)
 // router.post("/schedule/create", createSchedule);
 
 

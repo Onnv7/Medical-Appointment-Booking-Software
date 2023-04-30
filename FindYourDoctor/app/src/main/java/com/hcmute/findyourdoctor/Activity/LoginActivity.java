@@ -62,9 +62,10 @@ public class LoginActivity extends AppCompatActivity {
                 authApiService = RetrofitClient.getRetrofit().create(AuthApiService.class);
 
                 if(checkText()) {
-                    HashMap<String, String> body = new HashMap<>();
-                    body.put("email", tvEmail.getText().toString());
-                    body.put("password", tvPassword.getText().toString());
+                    JsonObject body = new JsonObject();
+                    body.addProperty("email", tvEmail.getText().toString());
+                    body.addProperty("password", tvPassword.getText().toString());
+
                     authApiService.loginPatient(body).enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
