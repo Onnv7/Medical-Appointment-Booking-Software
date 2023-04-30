@@ -1,15 +1,10 @@
-package com.hcmute.findyourdoctor.Domain;
-
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
+package com.hcmute.findyourdoctor.Model;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class SpecialistDomain implements Serializable {
+public class Specialist implements Serializable {
 
     @SerializedName("_id")
     private String id;
@@ -18,7 +13,7 @@ public class SpecialistDomain implements Serializable {
     private String imageUrl;
 
 
-    public SpecialistDomain(String id, String name, int doctorQuantity, String imageUrl) {
+    public Specialist(String id, String name, int doctorQuantity, String imageUrl) {
         this.id = id;
         this.name = name;
         this.doctorQuantity = doctorQuantity;

@@ -112,7 +112,6 @@ export const loginPatient = async (req, res, next) => {
 
 export const changePasswordPatient = async (req, res, next) => {
     try {
-        console.log(req.body)
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
 

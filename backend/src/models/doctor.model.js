@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Review from "./review.model.js"
+import Booking from "./booking.model.js"
+
 
 const doctorSchema = mongoose.Schema({
     email: {
@@ -67,6 +69,10 @@ doctorSchema.virtual('rating').get(async function () {
     const reviews = await Review.find({ doctor: this._id });
     const totalStars = reviews.reduce((sum, review) => sum + review.star, 0);
     return totalStars / reviews.length;
+});
+doctorSchema.virtual('quantity').get(async function () {
+    const patient = await Booking.distinct('patient', { doctor: doctor._id })
+    return patient.length;
 });
 
 export default mongoose.model("Doctor", doctorSchema);

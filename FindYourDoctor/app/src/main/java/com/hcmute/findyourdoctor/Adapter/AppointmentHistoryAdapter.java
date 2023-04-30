@@ -1,10 +1,6 @@
 package com.hcmute.findyourdoctor.Adapter;
 
-import static java.security.AccessController.getContext;
-
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
-import com.hcmute.findyourdoctor.Domain.AppointmentDomain;
+import com.hcmute.findyourdoctor.Model.Booking;
 import com.hcmute.findyourdoctor.Listener.OnHistoryAppointmentClickListener;
 import com.hcmute.findyourdoctor.R;
 
 import java.util.List;
 
 public class AppointmentHistoryAdapter extends RecyclerView.Adapter<AppointmentHistoryAdapter.AppointmentHistoryViewHolder> {
-    private List<AppointmentDomain> mList;
+    private List<Booking> mList;
     private OnHistoryAppointmentClickListener listener;
 
-    public AppointmentHistoryAdapter(List<AppointmentDomain> mList, OnHistoryAppointmentClickListener listener) {
+    public AppointmentHistoryAdapter(List<Booking> mList, OnHistoryAppointmentClickListener listener) {
         this.mList = mList;
         this.listener = listener;
     }
@@ -43,12 +39,12 @@ public class AppointmentHistoryAdapter extends RecyclerView.Adapter<AppointmentH
 
     @Override
     public void onBindViewHolder(@NonNull AppointmentHistoryAdapter.AppointmentHistoryViewHolder holder, int position) {
-        AppointmentDomain appointmentHistory_pt = mList.get(position);
+        Booking appointmentHistory_pt = mList.get(position);
         if (appointmentHistory_pt == null)
         {
             return;
         }
-        holder.nameAppointmentHistory.setText(appointmentHistory_pt.getName());
+        holder.nameAppointmentHistory.setText(appointmentHistory_pt.getDoctor().getName());
         holder.timeAppointmentHistory.setText(appointmentHistory_pt.getTime());
         String status = appointmentHistory_pt.getStatus();
         if(status.equals("succeeded")) {
@@ -63,7 +59,7 @@ public class AppointmentHistoryAdapter extends RecyclerView.Adapter<AppointmentH
         }
         holder.tvStatus.setText("Status: " + status);
         Glide.with(holder.itemView.getContext())
-                .load(appointmentHistory_pt.getImage())
+                .load(appointmentHistory_pt.getDoctor().getAvatarUrl())
                 .into(holder.imageAppointmentHistory);
 
         holder.cvLayout.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +73,7 @@ public class AppointmentHistoryAdapter extends RecyclerView.Adapter<AppointmentH
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(holder.itemView.getContext(), DoctorDetailActivity.class);
-                intent.putExtra("id", appointmentHistory_pt.getDoctorId());
+                intent.putExtra("id", appointmentHistory_pt.getDoctor().getId());
                 holder.itemView.getContext().startActivity(intent);
             }
         });

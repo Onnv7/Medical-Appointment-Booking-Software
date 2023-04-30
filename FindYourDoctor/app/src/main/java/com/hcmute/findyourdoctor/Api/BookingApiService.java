@@ -13,6 +13,8 @@ import retrofit2.http.Path;
 
 public interface BookingApiService {
     String BASE_URL = "booking";
+    @POST(BASE_URL + "/create")
+    Call<JsonObject> createBooking(@Body JsonObject body);
     @GET(BASE_URL + "/patient/list/{patientId}")
     Call<JsonObject> getBookingListId(@Path("patientId") String patientId);
 

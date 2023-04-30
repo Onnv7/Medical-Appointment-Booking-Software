@@ -19,7 +19,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ChangePasswordActivity"
+            android:name=".Activity.ChangePasswordActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.ForgetPasswordActivity"
@@ -39,7 +39,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activity.doctorSelectTimeActivity"
+            android:name=".Activity.DoctorSelectTimeActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

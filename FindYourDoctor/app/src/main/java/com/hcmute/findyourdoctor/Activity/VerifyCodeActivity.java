@@ -64,8 +64,8 @@ public class VerifyCodeActivity extends AppCompatActivity {
         });
     }
     private void sendCode() {
-        HashMap<String, String> body = new HashMap<>();
-        body.put("email", email);
+        JsonObject body = new JsonObject();
+        body.addProperty("email", email);
         authApiService.sendCodeToEmail(body).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -115,7 +115,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
         edtNum1 = (EditText) findViewById(R.id.edt_num1);
         edtNum2 = (EditText) findViewById(R.id.edt_num2);
         edtNum3 = (EditText) findViewById(R.id.edt_num3);
-        edtNum4 = (EditText) findViewById(R.id.edt_num4);
+        edtNum4 = (EditText) findViewById(R.id.edt_search_appointment_list);
         tvWrong = (TextView) findViewById(R.id.tv_wrong);
         btnSubmit = (TextView) findViewById(R.id.btn_submit);
         edtNum1.addTextChangedListener(new TextWatcher() {

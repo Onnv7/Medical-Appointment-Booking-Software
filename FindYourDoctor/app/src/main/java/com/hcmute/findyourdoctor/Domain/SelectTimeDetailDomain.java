@@ -1,9 +1,9 @@
-package com.hcmute.findyourdoctor.Model;
+package com.hcmute.findyourdoctor.Domain;
 
-public class selectTimeDetail {
+public class SelectTimeDetailDomain {
     private String time;
 
-    public selectTimeDetail(String time) {
+    public SelectTimeDetailDomain(String time) {
         this.time = time;
     }
 

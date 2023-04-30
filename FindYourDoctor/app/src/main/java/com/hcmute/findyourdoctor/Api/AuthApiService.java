@@ -16,13 +16,13 @@ import retrofit2.http.Url;
 public interface AuthApiService {
     String BASE_URL = "auth";
     @POST(BASE_URL + "/patient/login")
-    Call<JsonObject> loginPatient(@Body HashMap<String, String> body);
+    Call<JsonObject> loginPatient(@Body JsonObject body);
 
     @POST(BASE_URL + "/patient/register")
     Call<JsonObject> registerPatient(@Body JsonObject body);
 
     @POST(BASE_URL + "/send-confirmation-code")
-    Call<JsonObject> sendCodeToEmail(@Body HashMap<String, String> body);
+    Call<JsonObject> sendCodeToEmail(@Body JsonObject body);
 
     @PATCH(BASE_URL + "/patient/change-password")
     Call<JsonObject> changePassword(@Body JsonObject body);

@@ -1,8 +1,6 @@
 package com.hcmute.findyourdoctor.Adapter;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +11,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hcmute.findyourdoctor.Activity.DoctorSelectTimeDetailActivity;
-import com.hcmute.findyourdoctor.Database.ConnectionDatabase;
 import com.hcmute.findyourdoctor.Listener.OnAvailableDateClickListener;
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.Model.selectTime;
+import com.hcmute.findyourdoctor.Domain.SelectTimeDomain;
 
 import java.util.List;
 
 public class SelectTimeAdapter extends RecyclerView.Adapter<SelectTimeAdapter.selectTimeViewHolder> {
-    private List<selectTime> mList;
+    private List<SelectTimeDomain> mList;
     private OnAvailableDateClickListener listener;
     private int indexSelected = 0;
     private Context context;
 
-    public SelectTimeAdapter(List<selectTime> mList, OnAvailableDateClickListener listener, Context context) {
+    public SelectTimeAdapter(List<SelectTimeDomain> mList, OnAvailableDateClickListener listener, Context context) {
         this.mList = mList;
         this.listener = listener;
         this.context = context;
@@ -44,7 +40,7 @@ public class SelectTimeAdapter extends RecyclerView.Adapter<SelectTimeAdapter.se
 
     @Override
     public void onBindViewHolder(@NonNull SelectTimeAdapter.selectTimeViewHolder holder, int position) {
-        selectTime selectTime_pt = mList.get(position);
+        SelectTimeDomain selectTime_pt = mList.get(position);
         if (selectTime_pt == null)
         {
             return;

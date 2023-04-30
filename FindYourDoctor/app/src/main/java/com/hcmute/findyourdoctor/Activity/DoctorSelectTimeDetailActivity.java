@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -32,16 +31,15 @@ import com.hcmute.findyourdoctor.Adapter.SelectTimeDetailAdapter;
 import com.hcmute.findyourdoctor.Adapter.SelectTimeAdapter;
 import com.hcmute.findyourdoctor.AdapterObserver;
 import com.hcmute.findyourdoctor.Api.ApiService;
+import com.hcmute.findyourdoctor.Api.BookingApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.ScheduleApiService;
-import com.hcmute.findyourdoctor.Domain.BookingDomain;
 import com.hcmute.findyourdoctor.Listener.OnAvailableDateClickListener;
 import com.hcmute.findyourdoctor.Listener.OnSelectedTimeSlot;
-import com.hcmute.findyourdoctor.Model.BookingModel;
 import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.Model.selectTime;
-import com.hcmute.findyourdoctor.Model.selectTimeDetail;
+import com.hcmute.findyourdoctor.Domain.SelectTimeDomain;
+import com.hcmute.findyourdoctor.Domain.SelectTimeDetailDomain;
 import com.hcmute.findyourdoctor.Utils.Constant;
 import com.hcmute.findyourdoctor.Utils.DateTimeUtil;
 
@@ -61,12 +59,12 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     ImageView ivDoctorAvatar;
     RatingBar ratingBar;
     GridView gvAfternoon, gvEvening, gvMorning;
-    List<selectTimeDetail> afternoonSlotList, eveningSlotList, morningSlotList;
+    List<SelectTimeDetailDomain> afternoonSlotList, eveningSlotList, morningSlotList;
     SelectTimeDetailAdapter afternoonAdapter, eveningAdapter, morningAdapter;
     RecyclerView rcvSelectTimeDetail;
-    List<selectTime> mselectTimeListDetail;
+    List<SelectTimeDomain> mselectTimeListDetail;
     SelectTimeAdapter selectTimeAdapterDetail;
-    RetrofitClient retrofitClient;
+    BookingApiService bookingApiService;
     Doctor doctor;
     AdapterObserver adapterObserver = new AdapterObserver();
     SharedPreferences sharedPreferences;
@@ -87,7 +85,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         setDoctorInfo();
         setRecyclerViewSelectDate(doctor.getId());
 
-        CreateBook();
+        setOnBookingClick();
     }
     private void init() {
         mselectTimeListDetail = new ArrayList<>();
@@ -114,7 +112,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         ivDoctorAvatar = findViewById(R.id.iv_avatar_select_time);
         
     }
-    private void CreateBook() {
+    private void setOnBookingClick() {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,9 +134,15 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                     Toast.makeText(DoctorSelectTimeDetailActivity.this, "Please choose a time for your appointment", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                BookingDomain book = new BookingDomain(uid,doctor.getId(), message,"waiting", time);
-                ApiService apiService = RetrofitClient.getRetrofit().create(ApiService.class);
-                Call<JsonObject> call = apiService.createBooking(book);
+
+                bookingApiService = RetrofitClient.getRetrofit().create(BookingApiService.class);
+
+                JsonObject body = new JsonObject();
+                body.addProperty("patient", uid);
+                body.addProperty("doctor", doctor.getId());
+                body.addProperty("message", "waiting");
+                body.addProperty("time", time);
+                Call<JsonObject> call = bookingApiService.createBooking(body);
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -150,7 +154,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
 
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Log.e("ok", t.getMessage());
+                        Toast.makeText(DoctorSelectTimeDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -176,7 +180,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
 
 
     private void setRecyclerViewSelectDate(String doctorId){
-        List<selectTime> availableDate = new ArrayList<>();
+        List<SelectTimeDomain> availableDate = new ArrayList<>();
         ScheduleApiService scheduleApiService = RetrofitClient.getRetrofit().create(ScheduleApiService.class);
         List<String> dates = DateTimeUtil.getDateForRecyclerView();
         HashMap<String, String> body = new HashMap<>();
@@ -192,7 +196,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                     JsonArray availableSchedule = res.getAsJsonArray("result");
                     for (int i = 0; i < availableSchedule.size(); i++) {
                         JsonObject schedule = availableSchedule.get(i).getAsJsonObject();
-                        selectTime date = new selectTime(schedule.get("date").getAsString(), schedule.get("available").getAsInt());
+                        SelectTimeDomain date = new SelectTimeDomain(schedule.get("date").getAsString(), schedule.get("available").getAsInt());
                         availableDate.add(date);
                     }
                     selectTimeAdapterDetail = new SelectTimeAdapter(availableDate, DoctorSelectTimeDetailActivity.this, DoctorSelectTimeDetailActivity.this);
@@ -240,7 +244,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                             gvMorning.setVisibility(View.VISIBLE);
                             tvMorningSlotNumber.setVisibility(View.VISIBLE);
                             tvMorningSlotNumber.setText("Morning " + morning.size() + " slots");
-                            setDataForSlotGridView(morning, gvMorning, "morning");
+                            setDataForSlotGridView(morning, gvMorning, "morning", "AM");
                         }
                         else {
                             gvMorning.setVisibility(View.GONE);
@@ -251,7 +255,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                             gvAfternoon.setVisibility(View.VISIBLE);
                             tvAfternoonSlotNumber.setVisibility(View.VISIBLE);
                             tvAfternoonSlotNumber.setText("Afternoon " + afternoon.size() + " slots");
-                            setDataForSlotGridView(afternoon, gvAfternoon, "afternoon");
+                            setDataForSlotGridView(afternoon, gvAfternoon, "afternoon", "PM");
                         }
                         else {
                             gvAfternoon.setVisibility(View.GONE);
@@ -262,7 +266,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                             gvEvening.setVisibility(View.VISIBLE);
                             tvEveningSlotNumber.setVisibility(View.VISIBLE);
                             tvEveningSlotNumber.setText("Evening " + evening.size() + " slots");
-                            setDataForSlotGridView(evening, gvEvening, "evening");
+                            setDataForSlotGridView(evening, gvEvening, "evening", "PM");
                         }
                         else {
                             gvEvening.setVisibility(View.GONE);
@@ -288,10 +292,10 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
             System.out.println(e.toString());
         }
     }
-    private void setDataForSlotGridView(JsonArray jsonArray, GridView gridView, String type){
-        List<selectTimeDetail> dataList = new ArrayList<>();
+    private void setDataForSlotGridView(JsonArray jsonArray, GridView gridView, String type, String timeType){
+        List<SelectTimeDetailDomain> dataList = new ArrayList<>();
         for(int i = 0; i < jsonArray.size(); i++) {
-            dataList.add( new selectTimeDetail(jsonArray.get(i).getAsString() + " PM"));
+            dataList.add( new SelectTimeDetailDomain(jsonArray.get(i).getAsString() + " " + timeType));
         }
 
         SelectTimeDetailAdapter adapter = new SelectTimeDetailAdapter(DoctorSelectTimeDetailActivity.this, R.layout.row_time_detail, dataList, type, DoctorSelectTimeDetailActivity.this, adapterObserver);
@@ -319,7 +323,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     public void onSelectedTimeSlot(SelectTimeDetailAdapter adapter) {
     }
     private void setDoctorInfo() {
-        tvSpecialist.setText(doctor.getSpecialist());
+        tvSpecialist.setText(doctor.getSpecialist().getName());
         tvDoctorName.setText(doctor.getName());
         ratingBar.setRating(doctor.getRating());
         tvPatientQuantity.setText("(" +doctor.getPatientQuantity() + " patients)");

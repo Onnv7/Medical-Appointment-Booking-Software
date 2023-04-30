@@ -9,7 +9,7 @@ public class Doctor implements Serializable {
     private String id;
     private String avatarUrl;
     private String name;
-    private String specialist;
+    private Specialist specialist;
     private float price;
     private float rating;
     private String clinicName;
@@ -89,11 +89,11 @@ public class Doctor implements Serializable {
         this.name = name;
     }
 
-    public String getSpecialist() {
+    public Specialist getSpecialist() {
         return specialist;
     }
 
-    public void setSpecialist(String specialist) {
+    public void setSpecialist(Specialist specialist) {
         this.specialist = specialist;
     }
 

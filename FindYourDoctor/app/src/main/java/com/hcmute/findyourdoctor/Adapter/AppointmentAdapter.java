@@ -9,16 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.hcmute.findyourdoctor.Domain.AppointmentDomain;
+import com.hcmute.findyourdoctor.Model.Booking;
 import com.hcmute.findyourdoctor.R;
 
 import java.util.List;
 
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder> {
-    private List<AppointmentDomain> mList;
+    private List<Booking> mList;
 
-    public AppointmentAdapter(List<AppointmentDomain> mList) {
+    public AppointmentAdapter(List<Booking> mList) {
         this.mList = mList;
     }
 
@@ -33,12 +32,12 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull AppointmentAdapter.AppointmentViewHolder holder, int position) {
-        AppointmentDomain appointment_pt = mList.get(position);
+        Booking appointment_pt = mList.get(position);
         if (appointment_pt == null)
         {
             return;
         }
-        holder.name.setText(appointment_pt.getName());
+        holder.name.setText(appointment_pt.getDoctor().getName());
         holder.status.setText(appointment_pt.getStatus());
         holder.time.setText(appointment_pt.getTime());
 

@@ -36,10 +36,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.ViewTarget;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Activity.LoginActivity;
 import com.hcmute.findyourdoctor.Api.PatientApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
+import com.hcmute.findyourdoctor.Model.Patient;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Utils.Constant;
 import com.hcmute.findyourdoctor.Utils.RealPathUtil;
@@ -64,7 +66,7 @@ public class ProfileFragment extends Fragment {
     ImageView btnUploadImage, ivAvatar;
     LinearLayout layoutBirthdate;
     EditText edtName, edtEmail, edtPassword, edtPhone, edtBirthDate, edtAddress;
-    TextView btnUpadte, btnLogout;
+    TextView btnUpadte, btnLogout, tvHelloName;
     RadioButton rdoFemale, rdoMale;
     PatientApiService patientApiService;
     DatePickerDialog.OnDateSetListener setListener;
@@ -159,28 +161,21 @@ public class ProfileFragment extends Fragment {
         activityResultLauncher.launch(Intent.createChooser(intent, "Select picture"));
     }
     private void renderProfile(Response<JsonObject> response) {
-
+        Gson gson = new Gson();
         JsonObject res = response.body();
         JsonObject result = res.getAsJsonObject("result");
-
-        String name = result.get("name") != null ? result.get("name").getAsString() : "";
-        String email = result.get("email") != null ? result.get("email").getAsString() : "";
-        String phone = result.get("phone") != null ? result.get("phone").getAsString() : "";
-        String birthDate = result.get("birthDate") != null ? result.get("birthDate").getAsString() : "";
-        String gender = result.get("gender") != null ? result.get("gender").getAsString() : "";
-        String address = result.get("address") != null ? result.get("address").getAsString() : "";
-        String avatarUrl = result.get("avatarUrl") != null ? result.get("avatarUrl").getAsString() : "";
+        Patient patient = gson.fromJson(result, Patient.class);
 
         SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date inputDate = null;
         try {
-            inputDate = inputDateFormat.parse(birthDate);
-            birthDate = outputDateFormat.format(inputDate);
-            edtBirthDate.setText(birthDate);
+            inputDate = inputDateFormat.parse(patient.getBirthDate());
+//            birthDate = outputDateFormat.format(inputDate);
+            edtBirthDate.setText(outputDateFormat.format(inputDate));
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = dateFormat.parse(birthDate);
+            Date date = dateFormat.parse(outputDateFormat.format(inputDate));
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             int year = cal.get(Calendar.YEAR);
@@ -198,20 +193,21 @@ public class ProfileFragment extends Fragment {
             setBirthDateEditText(dayOfMonth, month, year);
         }
 
-        if(gender.equalsIgnoreCase("female"))
+        if(patient.getGender().equalsIgnoreCase("female"))
         {
             rdoMale.setChecked(true);
         }
-        else if(gender.equalsIgnoreCase("male"))
+        else if(patient.getGender().equalsIgnoreCase("male"))
         {
             rdoMale.setChecked(true);
         }
-        edtName.setText(name);
-        edtEmail.setText(email);
-        edtPhone.setText(phone);
+        edtName.setText(patient.getName());
+        tvHelloName.setText("Hello " + patient.getName());
+        edtEmail.setText(patient.getEmail());
+        edtPhone.setText(patient.getPhone());
 
-        edtAddress.setText(address);
-        if(avatarUrl.equals(""))
+        edtAddress.setText(patient.getAddress());
+        if(patient.getAvatarUrl().equals(""))
         {
             int imageResource = getResources().getIdentifier("avatar", "drawable", getActivity().getPackageName());
             ivAvatar.setImageResource(imageResource);
@@ -219,7 +215,7 @@ public class ProfileFragment extends Fragment {
         else
         {
             Glide.with(getContext())
-                    .load(avatarUrl)
+                    .load(patient.getAvatarUrl())
                     .into(ivAvatar);
         }
     }
@@ -264,7 +260,7 @@ public class ProfileFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Log.d("nva", t.getMessage());
+                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -333,6 +329,8 @@ public class ProfileFragment extends Fragment {
         btnUpadte = view.findViewById(R.id.btn_update_pf);
         btnLogout = view.findViewById(R.id.btn_log_out);
         ivAvatar = view.findViewById(R.id.iv_avatar_doctor_details);
+
+        tvHelloName = view.findViewById(R.id.tv_hello_name_profile_fragment);
 
         edtName = view.findViewById(R.id.edt_name_pf);
         edtEmail = view.findViewById(R.id.edt_email_pf);

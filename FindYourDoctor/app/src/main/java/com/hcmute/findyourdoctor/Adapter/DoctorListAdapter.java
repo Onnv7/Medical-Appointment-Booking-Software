@@ -17,23 +17,21 @@ import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
 import com.hcmute.findyourdoctor.Activity.DoctorSelectTimeDetailActivity;
 import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.Domain.PopularDoctorDomain;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class doctorListAdapter extends RecyclerView.Adapter<doctorListAdapter.doctorListViewHolder> {
+public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.doctorListViewHolder> {
     private List<Doctor> mList;
     private Context mContext;
 
-    public doctorListAdapter(List<Doctor> mList, Context mContext) {
+    public DoctorListAdapter(List<Doctor> mList, Context mContext) {
         this.mContext = mContext;
         this.mList = mList;
     }
 
     @NonNull
     @Override
-    public doctorListAdapter.doctorListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DoctorListAdapter.doctorListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_doctor_list, parent ,false);
 
 
@@ -41,7 +39,7 @@ public class doctorListAdapter extends RecyclerView.Adapter<doctorListAdapter.do
     }
 
     @Override
-    public void onBindViewHolder(@NonNull doctorListAdapter.doctorListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DoctorListAdapter.doctorListViewHolder holder, int position) {
         int index = holder.getAdapterPosition();
         Doctor popularDoctorDomain_pt = mList.get(position);
         if (popularDoctorDomain_pt == null)
@@ -49,7 +47,7 @@ public class doctorListAdapter extends RecyclerView.Adapter<doctorListAdapter.do
             return;
         }
         holder.tvName.setText(popularDoctorDomain_pt.getName());
-        holder.tvSpecialistName.setText(popularDoctorDomain_pt.getSpecialist());
+        holder.tvSpecialistName.setText(popularDoctorDomain_pt.getSpecialist().getName());
         holder.tvPatientQuantity.setText("(" + popularDoctorDomain_pt.getPatientQuantity() + " patients)");
         holder.tvPrice.setText("$ " + popularDoctorDomain_pt.getPrice());
         Glide.with(holder.itemView)
