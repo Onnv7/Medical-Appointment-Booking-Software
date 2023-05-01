@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_available_date_item"
+    android:layout_width="150dp"
+    android:layout_height="54dp"
+    android:layout_margin="6dp"
+    android:background="@drawable/selector_available_date"
+    android:orientation="vertical"
+    android:weightSum="10">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+            <TextView
+                android:id="@+id/tv_date_select_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:text="Today, 23 Feb"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textStyle="bold">
+
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+            <TextView
+                android:id="@+id/tv_slot_select_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="No slots available"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="10sp">
+
+            </TextView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
