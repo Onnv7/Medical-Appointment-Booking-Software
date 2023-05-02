@@ -50,7 +50,7 @@ export const getTopDoctor = async (req, res, next) => {
         for (const doctor of topDoctors) {
             const dataDoctor = doctor._doc;
             const rating = await doctor.rating;
-            const specialist = dataDoctor.specialist || "None";
+            const specialist = dataDoctor.specialist;
             const responseData = {
                 _id: dataDoctor._id,
                 name: dataDoctor.name,

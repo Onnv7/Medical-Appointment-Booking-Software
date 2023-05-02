@@ -165,6 +165,9 @@ public class ProfileFragment extends Fragment {
         JsonObject res = response.body();
         JsonObject result = res.getAsJsonObject("result");
         Patient patient = gson.fromJson(result, Patient.class);
+        if(patient == null) {
+            return;
+        }
 
         SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");

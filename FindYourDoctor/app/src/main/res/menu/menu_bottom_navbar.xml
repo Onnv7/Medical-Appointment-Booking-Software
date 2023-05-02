@@ -6,9 +6,9 @@
     <item android:id="@+id/action_calendar"
         android:icon="@drawable/calendar_navbar_icon"
         android:title="Calendar"/>
-    <item android:id="@+id/action_notifications"
-        android:icon="@drawable/notifications_navbar_icon"
-        android:title="Notifications"/>
+<!--    <item android:id="@+id/action_notifications"-->
+<!--        android:icon="@drawable/notifications_navbar_icon"-->
+<!--        android:title="Notifications"/>-->
     <item android:id="@+id/action_history"
         android:icon="@drawable/history_navbar_icon"
         android:title="History"/>

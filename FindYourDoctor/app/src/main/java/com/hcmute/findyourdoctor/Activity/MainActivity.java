@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             fragmentArrayList.add(new AppointmentEmptyFragment());
         }
-        fragmentArrayList.add(new NotificationsFragment());
+//        fragmentArrayList.add(new NotificationsFragment());
         fragmentArrayList.add(new HistoryFragment());
         fragmentArrayList.add(new ProfileFragment());
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(MainActivity.this, fragmentArrayList);
@@ -88,16 +88,16 @@ public class MainActivity extends AppCompatActivity {
                         viewPager.setCurrentItem(1);
                         bottomNavigationView.setSelectedItemId(R.id.action_calendar);
                         break;
+//                    case 2:
+//                        viewPager.setCurrentItem(2);
+//                        bottomNavigationView.setSelectedItemId(R.id.action_notifications);
+//                        break;
                     case 2:
                         viewPager.setCurrentItem(2);
-                        bottomNavigationView.setSelectedItemId(R.id.action_notifications);
+                        bottomNavigationView.setSelectedItemId(R.id.action_history);
                         break;
                     case 3:
                         viewPager.setCurrentItem(3);
-                        bottomNavigationView.setSelectedItemId(R.id.action_history);
-                        break;
-                    case 4:
-                        viewPager.setCurrentItem(4);
                         bottomNavigationView.setSelectedItemId(R.id.action_profile);
                         break;
                 }
@@ -115,14 +115,14 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_calendar:
                         viewPager.setCurrentItem(1);
                         break;
-                    case R.id.action_notifications:
+//                    case R.id.action_notifications:
+//                        viewPager.setCurrentItem(2);
+//                        break;
+                    case R.id.action_history:
                         viewPager.setCurrentItem(2);
                         break;
-                    case R.id.action_history:
-                        viewPager.setCurrentItem(3);
-                        break;
                     case R.id.action_profile:
-                        viewPager.setCurrentItem(4);
+                        viewPager.setCurrentItem(3);
                         break;
                 }
                 return false;
