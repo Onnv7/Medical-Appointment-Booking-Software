@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -40,6 +41,7 @@ public class DoctorListActitvity extends AppCompatActivity {
     DoctorListAdapter doctorListAdapter;
     String specialistId;
     List<Doctor> foundDoctors;
+    ImageView imv_back_doctorlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +52,19 @@ public class DoctorListActitvity extends AppCompatActivity {
         setOnSearchEvent();
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         listDoctors.setLayoutManager(linearLayout);
+
+        imv_back_doctorlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorListActitvity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     private void initView() {
         mdoctorList = new ArrayList<>();
         doctorApiService = RetrofitClient.getRetrofit().create(DoctorApiService.class);
-
+        imv_back_doctorlist = (ImageView) findViewById(R.id.imv_back_doctorlist);
         Intent intent = getIntent();
         search = intent.getStringExtra("search");
         specialistId = intent.getStringExtra("specialistId");
