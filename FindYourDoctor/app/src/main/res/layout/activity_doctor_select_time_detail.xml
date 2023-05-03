@@ -27,10 +27,11 @@
                 app:cardCornerRadius="8dp">
 
                 <ImageView
+                    android:id="@+id/imv_back_select_time"
                     android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_height="8dp"
                     android:layout_marginLeft="1dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="8dp"
                     android:background="@null"
                     android:src="@drawable/back"></ImageView>
             </androidx.cardview.widget.CardView>
