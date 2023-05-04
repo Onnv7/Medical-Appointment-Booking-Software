@@ -146,9 +146,9 @@ export const registerNewDoctor = async (req, res, next) => {
 export const loginDoctor = async (req, res, next) => {
 
     try {
-        const doctor = await Doctor.findOne({ email: req.body.email });
+        const doctor = await Doctor.findOne({ email: req.body.email }).populate('specialist');
 
-        if (!doctor) return next(createError(404, "Patient not found!"));
+        if (!doctor) return res.status(200).json({ success: false, message: "Email is not found" });;
 
         const isPasswordCorrect = await bcrypt.compare(
             req.body.password,
@@ -156,7 +156,7 @@ export const loginDoctor = async (req, res, next) => {
         );
 
         if (!isPasswordCorrect)
-            throw createError(400, "Wrong password or username!");
+            return res.status(200).json({ success: false, message: "Password is incorrect" });
 
         const token = jwt.sign({ id: doctor._id, email: doctor.email }, "an");
         const { avatar, password, ...otherDetails } = doctor._doc;

@@ -11,6 +11,7 @@ import bookingRoute from "./src/routers/booking.route.js";
 import scheduleRoute from "./src/routers/schedule.route.js";
 import adminRoute from "./src/routers/admin.route.js";
 import reviewRoute from "./src/routers/review.route.js";
+import periodRoute from "./src/routers/period.route.js";
 
 
 import bodyParser from 'body-parser';
@@ -50,6 +51,7 @@ app.use("/api/specialist", specialistRoute);
 app.use("/api/booking", bookingRoute);
 app.use("/api/schedule", scheduleRoute);
 app.use("/api/review", reviewRoute);
+app.use("/api/period", periodRoute);
 
 app.use((err, req, res, next) => {
     const errorStatus = err.status || 500;

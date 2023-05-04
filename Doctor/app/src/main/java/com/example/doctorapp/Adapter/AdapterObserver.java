@@ -1,18 +1,12 @@
 package com.example.doctorapp.Adapter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class AdapterObserver {
     private int index;
     private String type;
-    private List<SelectTimeDetailAdapter> adapters = new ArrayList<>();
+    private List<ScheduleAdapter> adapters = new ArrayList<>();
 
     public int getIndex() {
         return index;
@@ -30,12 +24,12 @@ public class AdapterObserver {
         this.type = type;
     }
 
-    public void registerAdapter(SelectTimeDetailAdapter adapter) {
+    public void registerAdapter(ScheduleAdapter adapter) {
         adapters.add(adapter);
     }
 
     public void notifyDataChanged() {
-        for (SelectTimeDetailAdapter adapter : adapters) {
+        for (ScheduleAdapter adapter : adapters) {
             adapter.notifyDataSetChanged();
         }
     }

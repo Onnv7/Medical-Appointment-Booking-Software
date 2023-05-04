@@ -20,6 +20,7 @@ const bookingSchema = mongoose.Schema({
     },
     advice: {
         type: String,
+        default: ""
     },
     review: {
         type: mongoose.Types.ObjectId,
