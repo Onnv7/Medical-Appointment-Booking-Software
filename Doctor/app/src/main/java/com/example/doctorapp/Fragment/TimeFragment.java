@@ -1,11 +1,10 @@
 package com.example.doctorapp.Fragment;
 import com.example.doctorapp.Api.ScheduleApiService;
-import com.example.doctorapp.EditTimeScheduleActivity;
+import com.example.doctorapp.Activity.EditTimeScheduleActivity;
 import com.example.doctorapp.Utils.Constant;
 import com.example.doctorapp.Utils.DateTimeFormat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +30,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -78,6 +76,7 @@ public class TimeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), EditTimeScheduleActivity.class);
+                intent.putExtra("date", date);
                 startActivity(intent);
             }
         });

@@ -3,6 +3,7 @@ package com.example.doctorapp.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -19,9 +20,11 @@ import android.widget.TextView;
 import com.example.doctorapp.Activity.LoginActivity;
 import com.example.doctorapp.Api.DoctorApiService;
 import com.example.doctorapp.Api.RetrofitClient;
+import com.example.doctorapp.Activity.ChangePasswordActivity;
 import com.example.doctorapp.Model.Doctor;
 import com.example.doctorapp.R;
 import com.example.doctorapp.Utils.Constant;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -36,9 +39,11 @@ public class ProfileFragment extends Fragment {
     private LinearLayout layoutBirthdate;
     private EditText edtName, edtEmail, edtPassword, edtPhone, edtBirthDate, edtAddress, edtClinicName, edtSpecialist;
     private TextView btnUpadte, btnLogout, tvHelloName;
+    private FloatingActionButton fabMore, fabLogout, fabChangePassword;
     private RadioButton rdoFemale, rdoMale;
     private String uid;
     private DoctorApiService doctorApiService;
+    private boolean open = false;
     public ProfileFragment() {
     }
 
@@ -54,7 +59,60 @@ public class ProfileFragment extends Fragment {
         init(view);
         renderProfile();
         setOnLogoutButtonClick();
+        setOnFabClick();
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Drawable moreIcon = getResources().getDrawable(R.drawable.icon_more);
+        open = false;
+        fabLogout.setVisibility(View.GONE);
+        fabChangePassword.setVisibility(View.GONE);
+        fabMore.setImageDrawable(moreIcon);
+    }
+
+    private void setOnFabClick() {
+        fabMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Drawable closeIcon = getResources().getDrawable(R.drawable.icon_close);
+                Drawable moreIcon = getResources().getDrawable(R.drawable.icon_more);
+                if(open == false) {
+                    fabLogout.setVisibility(View.VISIBLE);
+                    fabChangePassword.setVisibility(View.VISIBLE);
+                    fabMore.setImageDrawable(closeIcon);
+                    open = true;
+                }
+                else {
+                    fabLogout.setVisibility(View.GONE);
+                    fabChangePassword.setVisibility(View.GONE);
+                    fabMore.setImageDrawable(moreIcon);
+                    open = false;
+                }
+            }
+        });
+        fabLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("id");
+                editor.remove("email");
+                editor.remove("is_logged");
+                editor.apply();
+
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        fabChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ChangePasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     private void renderProfile() {
         doctorApiService.getDoctorProfile(uid).enqueue(new Callback<JsonObject>() {
@@ -125,5 +183,12 @@ public class ProfileFragment extends Fragment {
 
         rdoMale = view.findViewById(R.id.rdo_male_pf);
         rdoFemale = view.findViewById(R.id.rdo_female_pf);
+
+        fabMore = view.findViewById(R.id.fab_more_pf);
+        fabLogout = view.findViewById(R.id.fab_logout_pf);
+        fabChangePassword = view.findViewById(R.id.fab_change_password_pf);
+
+        fabLogout.setVisibility(View.GONE);
+        fabChangePassword.setVisibility(View.GONE);
     }
 }

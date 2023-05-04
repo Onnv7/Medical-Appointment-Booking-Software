@@ -231,7 +231,7 @@
                         android:layout_marginStart="80dp"
                         android:background="@drawable/button_red_background"
                         android:gravity="center"
-                        android:text="TextView"
+                        android:text="Deny"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
