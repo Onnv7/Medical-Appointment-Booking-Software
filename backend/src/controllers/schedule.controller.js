@@ -4,13 +4,32 @@ import Doctor from "../models/doctor.model.js"
 import Period from "../models/period.model.js";
 
 export const updateSchedule = async (req, res, next) => {
-    try {
+    console.log("aaaaaaaaaaaaaaaaaaa")
+    const startDate = new Date(req.body.date);
+    const endDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000); // Tăng ngày lên 1 để lấy hết cả ngày 3/5
+    try {//{ name: { $regex: searchQuery, $options: 'i' } }
         const period = req.body.period;
-        const newSchedule = await Schedule.findByIdAndUpdate(
-            req.params.scheduleId,
+        const newSchedule = await Schedule.findOneAndUpdate(
+            {
+                doctor: req.params.doctorId,
+                date: {
+                    $gte: startDate.toISOString().substring(0, 10) + " 00:00:00",
+                    $lt: endDate.toISOString().substring(0, 10) + " 00:00:00"
+                }
+            },
             { period: period },
             { new: true }
         );
+        console.log(newSchedule)
+        if (!newSchedule) {
+            const schedule = new Schedule({
+                doctor: req.params.doctorId,
+                date: req.body.date,
+                period: req.body.period
+            })
+            await schedule.save();
+            return res.status(200).json({ success: true, message: "Updated schedule", result: schedule });
+        }
         res.status(200).json({ success: true, message: "Updated schedule", result: newSchedule });
     } catch (error) {
         next(error);
@@ -29,7 +48,7 @@ export const createSchedule = async (req, res, next) => {
         }
 
         const date = new Date(req.body.date);
-        console.log("🚀 ~ file: schedule.controller.js:32 ~ createSchedule ~ date:", date)
+
         const today = new Date();
         const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
 
@@ -101,15 +120,15 @@ export const getScheduleByDate = async (req, res, next) => {
             if (numericHour >= 0 && numericHour < 12) {
                 if (schedule?.period.find(item => item.start === timeString))
                     selected = true
-                morningSchedule.push({ start: timeString, selected })
+                morningSchedule.push({ _id: p._id, start: timeString, selected })
             } else if (numericHour >= 12 && numericHour < 18) {
                 if (schedule?.period.find(item => item.start === timeString))
                     selected = true
-                afternoonSchedule.push({ start: timeString, selected })
+                afternoonSchedule.push({ _id: p._id, start: timeString, selected })
             } else {
                 if (schedule?.period.find(item => item.start === timeString))
                     selected = true
-                eveningSchedule.push({ start: timeString, selected })
+                eveningSchedule.push({ _id: p._id, start: timeString, selected })
             }
         })
 
