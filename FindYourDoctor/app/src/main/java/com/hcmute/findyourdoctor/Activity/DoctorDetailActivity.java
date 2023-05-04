@@ -3,6 +3,8 @@ package com.hcmute.findyourdoctor.Activity;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +25,7 @@ import com.hcmute.findyourdoctor.Adapter.ReviewAdapter;
 import com.hcmute.findyourdoctor.Api.DoctorApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.ReviewApiService;
+import com.hcmute.findyourdoctor.Fragment.HomeFragment;
 import com.hcmute.findyourdoctor.Model.Doctor;
 import com.hcmute.findyourdoctor.R;
 import com.hcmute.findyourdoctor.Model.Review;
@@ -45,6 +48,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
     ReviewApiService reviewApiService;
     Doctor doctor;
     String doctorId;
+    ImageView imv_back_doctordetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,14 @@ public class DoctorDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        imv_back_doctordetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorDetailActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void init() {
@@ -83,6 +95,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
         listReview = (RecyclerView) findViewById(R.id.rcv_patient_review_doctor_details);
         tvIntroduce = findViewById(R.id.tv_introduce_doctor_details);
         btnBooking = findViewById(R.id.btn_booking_doctor_details);
+        imv_back_doctordetail = findViewById(R.id.imv_back_doctordetail);
 
         tvPatientQuantity = findViewById(R.id.tv_patient_quantity);
         tvSucceededQuantity = findViewById(R.id.tv_successed_quantity);

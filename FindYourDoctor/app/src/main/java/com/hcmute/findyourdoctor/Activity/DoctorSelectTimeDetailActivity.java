@@ -56,7 +56,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     TextView tvAfternoonSlotNumber, tvEveningSlotNumber, tvMorningSlotNumber, tvSelectedDate, tvDoctorName, tvSpecialist, tvPatientQuantity;
     Button btnConfirm;
     EditText edtReminder;
-    ImageView ivDoctorAvatar;
+    ImageView ivDoctorAvatar, imv_back_select_time;
     RatingBar ratingBar;
     GridView gvAfternoon, gvEvening, gvMorning;
     List<SelectTimeDetailDomain> afternoonSlotList, eveningSlotList, morningSlotList;
@@ -86,6 +86,14 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         setRecyclerViewSelectDate(doctor.getId());
 
         setOnBookingClick();
+
+        imv_back_select_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorSelectTimeDetailActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     private void init() {
         mselectTimeListDetail = new ArrayList<>();
@@ -101,6 +109,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
 
         tvSelectedDate =findViewById(R.id.tv_selected_date);
         btnConfirm = findViewById(R.id.btn_confirmBook);
+        imv_back_select_time= findViewById(R.id.imv_back_select_time);
 
         edtReminder = findViewById(R.id.edt_reminder_for_doctor);
         tvDoctorName = findViewById(R.id.tv_doctor_name_select_time);
