@@ -14,22 +14,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doctorapp.Domain.DayDomain;
+import com.example.doctorapp.Listener.OnDateSelectedListener;
 import com.example.doctorapp.R;
 
 import java.util.List;
 
 public class TimeManageBookingAdapter extends RecyclerView.Adapter<TimeManageBookingAdapter.TimeManageBookingViewHolder>{
     private List<DayDomain> mList;
+    private OnDateSelectedListener listener;
     private Context context;
+    private int indexSelected = 0;
 
     public TimeManageBookingAdapter(List<DayDomain> mList) {
         this.mList = mList;
         this.context = context;
     }
 
-    public TimeManageBookingAdapter(List<DayDomain> mList, Context context) {
+    public TimeManageBookingAdapter(List<DayDomain> mList, Context context, OnDateSelectedListener listener) {
         this.mList = mList;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -50,6 +54,21 @@ public class TimeManageBookingAdapter extends RecyclerView.Adapter<TimeManageBoo
         }
         holder.oneDay.setText(day1.getOneDay());
         holder.day.setText(day1.getDay());
+        if(position == indexSelected) {
+            holder.itemView.setSelected(true);
+            listener.onDateSelected(day1.getOneDay());
+        }
+        else {
+            holder.itemView.setSelected(false);
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int index = holder.getAdapterPosition();
+                indexSelected = index;
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -65,7 +84,6 @@ public class TimeManageBookingAdapter extends RecyclerView.Adapter<TimeManageBoo
             super(itemView);
             oneDay = itemView.findViewById(R.id.oneDay);
             day = itemView.findViewById(R.id.day);
-
         }
     }
 }

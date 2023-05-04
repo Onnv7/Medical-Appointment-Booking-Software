@@ -9,15 +9,12 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.doctorapp.Domain.SelectTimeDetailDomain;
-import com.example.doctorapp.Listener.OnSelectedTimeSlot;
+import com.example.doctorapp.Domain.ScheduleDomain;
 import com.example.doctorapp.R;
 
 import java.util.List;
 
-public class SelectTimeDetailAdapter extends BaseAdapter {
-    private AdapterObserver dataObserver;
-    private OnSelectedTimeSlot onSelectedTimeSlot;
+public class ScheduleAdapter extends BaseAdapter {
     private String type;
     private Context context;
     private int layout;
@@ -25,19 +22,16 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
 
 
 
-    private List<SelectTimeDetailDomain> handList;
+    private List<ScheduleDomain> handList;
 
-    public SelectTimeDetailAdapter() {
+    public ScheduleAdapter() {
     }
 
-    public SelectTimeDetailAdapter(Context context, int layout, List<SelectTimeDetailDomain> handList, String type, OnSelectedTimeSlot onSelectedTimeSlot, AdapterObserver dataObserver) {
+    public ScheduleAdapter(Context context, int layout, List<ScheduleDomain> handList, String type) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
         this.type = type;
-        this.onSelectedTimeSlot = onSelectedTimeSlot;
-        this.dataObserver = dataObserver;
-        dataObserver.registerAdapter(this);
     }
 
 
@@ -78,23 +72,16 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        if (i == dataObserver.getIndex() && type.equals(dataObserver.getType())) {
-            viewHolder.DetailTime.setTextColor(Color.BLACK);
-            view.setBackgroundResource(R.drawable.background_details_time_selected);
+
+        ScheduleDomain selectTimeDetail = handList.get(i);
+
+        viewHolder.DetailTime.setText(selectTimeDetail.getStart());
+
+        if(selectTimeDetail.getSelected()) {
+            viewHolder.layoutMain.setBackgroundResource(R.drawable.background_selected);
+            viewHolder.DetailTime.setTextColor(Color.WHITE);
         }
 
-        SelectTimeDetailDomain selectTimeDetail = handList.get(i);
-
-        viewHolder.DetailTime.setText(selectTimeDetail.getTime());
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dataObserver.setType(type);
-                dataObserver.setIndex(i);
-                dataObserver.notifyDataChanged();
-            }
-        });
 
         return view;
     }
@@ -115,11 +102,11 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
         this.layout = layout;
     }
 
-    public List<SelectTimeDetailDomain> getHandList() {
+    public List<ScheduleDomain> getHandList() {
         return handList;
     }
 
-    public void setHandList(List<SelectTimeDetailDomain> handList) {
+    public void setHandList(List<ScheduleDomain> handList) {
 
         this.handList = handList;
     }
@@ -127,13 +114,6 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
         return type;
     }
 
-    public OnSelectedTimeSlot getOnSelectedTimeSlot() {
-        return onSelectedTimeSlot;
-    }
-
-    public void setOnSelectedTimeSlot(OnSelectedTimeSlot onSelectedTimeSlot) {
-        this.onSelectedTimeSlot = onSelectedTimeSlot;
-    }
 
     public void setType(String type) {
         this.type = type;

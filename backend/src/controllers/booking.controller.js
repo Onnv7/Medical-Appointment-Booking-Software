@@ -1,6 +1,8 @@
 import Booking from "../models/booking.model.js";
 import Doctor from "../models/doctor.model.js";
 import { formatMongooseTime } from "../utils/formatTime.js";
+import { format } from "date-fns"
+import moment from "moment";
 export const updateBooking = async (req, res, next) => {
     try {
         const booking = await Booking.findByIdAndUpdate(
@@ -60,20 +62,24 @@ export const listBookingByPatient = async (req, res, next) => {
 
 export const listBookingByDoctor = async (req, res, next) => {
     try {
-        const status = req.query.status;
+        const date = moment(req.query.date, 'DD/MM/YYYY');
+        const outputDate = date.format('DD MMM YYYY');
         const bookingList = await Booking.find(
             {
-                doctor: req.params.doctorId,
-                status: status, //{ $in: ['waiting', 'aaccepted'] }
+                time: {
+                    $regex: new RegExp(outputDate, 'i'), // tìm chuỗi con chứa ngày
+                },
+                doctor: req.params.doctorId
             }
         )
             .populate({
                 path: 'patient',
                 select: {
                     'name': 1,
-                    'avatarUrl': 1
+                    'avatarUrl': 1,
+                    'phone': 1,
                 }
-            });
+            }).select({ patient: 1, time: 1 });
         res.status(200).json({ success: true, message: `Get booking list for ${req.params.doctorId}`, result: bookingList });
     } catch (error) {
         next(error);
@@ -141,3 +147,25 @@ export const getHistoryAppointmentDetails = async (req, res, next) => {
     }
 }
 
+export const getBookingDetailsById = async (req, res, next) => {
+    try {
+        const appointment = await Booking.findById(req.params.bookingId)
+            .populate({
+                path: "patient",
+                select: { avatarUrl: 1, name: 1, phone: 1 }
+            }).populate({
+                path: "review",
+                select: { star: 1, description: 1 }
+            })
+            .select({ doctor: 0, updatedAt: 0 });
+        if (!appointment) return res.status(200).json({ success: false, message: "Not found" });
+        const createdAt = formatMongooseTime("DD MMMM YYYY HH:mm", appointment.createdAt)
+
+        if (appointment) {
+            return res.status(200).json({ success: true, message: "Get appointment details successfully", result: { ...appointment._doc, createdAt } })
+        }
+        return res.status(200).json({ success: false, message: "Not found" })
+    } catch (error) {
+        next(error);
+    }
+}

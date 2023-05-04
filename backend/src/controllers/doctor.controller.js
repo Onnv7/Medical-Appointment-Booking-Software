@@ -1,5 +1,8 @@
 import Booking from "../models/booking.model.js";
 import Doctor from "../models/doctor.model.js";
+import { formatMongooseTime } from "../utils/formatTime.js"
+import moment from "moment";
+import Period from "../models/period.model.js";
 import Schedule from "../models/schedule.model.js";
 import cloudinary from "../utils/cloudinary.js";
 
@@ -33,11 +36,11 @@ export const updateProfile = async (req, res, next) => {
 
 export const getProfileById = async (req, res, next) => {
     try {
-        const doctor = await Doctor.findById(req.params.doctorId);
-
+        const doctor = await Doctor.findById(req.params.doctorId).populate('specialist');
+        const birthDate = formatMongooseTime("DD-MM-YYYY", doctor.birthDate)
         const { password, ...others } = doctor._doc;
         let rating = await doctor.rating;
-        res.status(200).json({ success: true, message: "Find successfully", result: { ...others, rating } });
+        res.status(200).json({ success: true, message: "Find successfully", result: { ...others, rating, birthDate } });
     } catch (error) {
         next(error)
     }
@@ -231,3 +234,4 @@ export const getAllDoctors = async (req, res, next) => {
         next(error)
     }
 }
+

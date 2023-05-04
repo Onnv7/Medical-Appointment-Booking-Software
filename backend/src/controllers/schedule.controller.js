@@ -29,6 +29,7 @@ export const createSchedule = async (req, res, next) => {
         }
 
         const date = new Date(req.body.date);
+        console.log("🚀 ~ file: schedule.controller.js:32 ~ createSchedule ~ date:", date)
         const today = new Date();
         const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
 
@@ -77,13 +78,42 @@ export const getDetailsOneSchedule = async (req, res, next) => {
 
 export const getScheduleByDate = async (req, res, next) => {
     try {
-        console.log(req.body.date, new Date(req.body.date))
-        const schedule = await Schedule.find({
-            date: { $eq: new Date(req.body.date) },
+        const periods = await Period.find();
+
+        const schedule = await Schedule.findOne({
+            date: { $eq: new Date(req.query.date) },
             doctor: req.params.doctorId
+        }).populate({
+            path: 'period',
+            select: { _id: 0, start: 1 }
         })
-        console.log(schedule)
-        res.status(200).json({ success: true, message: "Get successfully", result: schedule })
+
+        const morningSchedule = []
+        const afternoonSchedule = []
+        const eveningSchedule = []
+
+        periods.map(p => {
+            const timeString = p.start;
+
+            let selected = false
+            const [hour, minute] = timeString.split(':');
+            const numericHour = parseInt(hour);
+            if (numericHour >= 0 && numericHour < 12) {
+                if (schedule?.period.find(item => item.start === timeString))
+                    selected = true
+                morningSchedule.push({ start: timeString, selected })
+            } else if (numericHour >= 12 && numericHour < 18) {
+                if (schedule?.period.find(item => item.start === timeString))
+                    selected = true
+                afternoonSchedule.push({ start: timeString, selected })
+            } else {
+                if (schedule?.period.find(item => item.start === timeString))
+                    selected = true
+                eveningSchedule.push({ start: timeString, selected })
+            }
+        })
+
+        res.status(200).json({ success: true, message: "Get successfully", result: { morning: morningSchedule, afternoon: afternoonSchedule, evening: eveningSchedule } })
     } catch (error) {
         next(error);
     }
