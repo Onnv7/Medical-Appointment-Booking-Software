@@ -81,6 +81,9 @@ public class ScheduleAdapter extends BaseAdapter {
             viewHolder.layoutMain.setBackgroundResource(R.drawable.background_selected);
             viewHolder.DetailTime.setTextColor(Color.WHITE);
         }
+        else {
+            viewHolder.layoutMain.setVisibility(View.GONE);
+        }
 
 
         return view;

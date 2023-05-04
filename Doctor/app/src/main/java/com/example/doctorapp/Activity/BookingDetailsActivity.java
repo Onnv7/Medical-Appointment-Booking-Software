@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
     private ImageView ivPatientAvt;
     private BookingApiService bookingApiService;
     private TextView tvName, tvDatetime, tvStatus, tvMessage, tvAdvice, tvPhoneNumber;
-    private TextView btnSuccess;
+    private TextView btnSuccess, btnDeny;
     private EditText edtAdvice;
     private ConstraintLayout layoutControlButton ;
     @Override
@@ -37,15 +38,16 @@ public class BookingDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_booking_details);
         init();
         renderUI();
-        setOnSucessButtonClick();
+        setOnButtonClick(btnSuccess, "succeeded");
+        setOnButtonClick(btnDeny, "denied");
     }
-    private void setOnSucessButtonClick() {
-        btnSuccess.setOnClickListener(new View.OnClickListener() {
+    private void setOnButtonClick(TextView btn, String status) {
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 JsonObject body = new JsonObject();
                 body.addProperty("advice", edtAdvice.getText().toString());
-                body.addProperty("status", "succeeded");
+                body.addProperty("status", status);
                 bookingApiService.updateBookingDetails(bookingId, body).enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -120,6 +122,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
         tvMessage = findViewById(R.id.tv_patient_message_booking_details);
         edtAdvice = findViewById(R.id.edt_advice_booking_details);
         btnSuccess = findViewById(R.id.btn_success_booking_details);
+        btnDeny = findViewById(R.id.btn_deny_schedule_details);
         tvAdvice = findViewById(R.id.tv_advice_booking_details);
         layoutControlButton = findViewById(R.id.layout_controll_button);
         tvPhoneNumber = findViewById(R.id.tv_patient_phone_booking_details);
