@@ -1,10 +1,15 @@
 package com.hcmute.findyourdoctor.Activity;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -91,6 +96,55 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intentLogin = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intentLogin);
+            }
+        });
+
+
+        edtPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_RIGHT = 2;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (motionEvent.getRawX() >= (edtPassword.getRight() - edtPassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        if (edtPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                            edtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.eye);
+                            edtPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+
+                        } else {
+                            edtPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.noteye);
+                            edtPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+                        }
+                        edtPassword.setSelection(edtPassword.getText().length());
+                        return true;
+                            }
+                        }
+                        return false;
+                    }
+        });
+
+        edtRePwd.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_RIGHT = 2;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (motionEvent.getRawX() >= (edtRePwd.getRight() - edtRePwd.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        if (edtRePwd.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                            edtRePwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.eye);
+                            edtRePwd.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+
+                        } else {
+                            edtRePwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.noteye);
+                            edtRePwd.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+                        }
+                        edtRePwd.setSelection(edtRePwd.getText().length());
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 
