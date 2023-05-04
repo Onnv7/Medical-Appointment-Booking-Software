@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doctorapp.Domain.ScheduleDomain;
 import com.example.doctorapp.R;
 
 import java.util.List;
 
-public class ScheduleAdapter extends BaseAdapter {
+public class EditTimeSlotAdapter extends BaseAdapter {
     private String type;
     private Context context;
     private int layout;
@@ -23,10 +24,10 @@ public class ScheduleAdapter extends BaseAdapter {
 
     private List<ScheduleDomain> handList;
 
-    public ScheduleAdapter() {
+    public EditTimeSlotAdapter() {
     }
 
-    public ScheduleAdapter(Context context, int layout, List<ScheduleDomain> handList, String type) {
+    public EditTimeSlotAdapter(Context context, int layout, List<ScheduleDomain> handList, String type) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
@@ -59,16 +60,16 @@ public class ScheduleAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        ViewHolder viewHolder;
+        EditTimeSlotAdapter.ViewHolder viewHolder;
         if (view == null) {
-            viewHolder = new ViewHolder();
+            viewHolder = new EditTimeSlotAdapter.ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
             view = inflater.inflate(layout, viewGroup, false);
             viewHolder.DetailTime = (TextView) view.findViewById(R.id.DetailTime);
             viewHolder.layoutMain = view.findViewById(R.id.layout_time_details);
             view.setTag(viewHolder);
         } else {
-            viewHolder = (ViewHolder) view.getTag();
+            viewHolder = (EditTimeSlotAdapter.ViewHolder) view.getTag();
         }
 
 
@@ -81,8 +82,22 @@ public class ScheduleAdapter extends BaseAdapter {
             viewHolder.DetailTime.setTextColor(Color.WHITE);
         }
         else {
-            viewHolder.layoutMain.setVisibility(View.GONE);
+            viewHolder.layoutMain.setBackgroundResource(R.drawable.background_unselected);
+            viewHolder.DetailTime.setTextColor(Color.GREEN);
         }
+
+        viewHolder.layoutMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(selectTimeDetail.getSelected()){
+                    selectTimeDetail.setSelected(false);
+                }
+                else
+                    selectTimeDetail.setSelected(true);
+                Toast.makeText(getContext(), "clci", Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
+            }
+        });
 
 
         return view;
