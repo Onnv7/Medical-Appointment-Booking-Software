@@ -118,10 +118,10 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                         edtPassword.setSelection(edtPassword.getText().length());
                         return true;
-                            }
-                        }
-                        return false;
                     }
+                }
+                return false;
+            }
         });
 
         edtRePwd.setOnTouchListener(new View.OnTouchListener() {

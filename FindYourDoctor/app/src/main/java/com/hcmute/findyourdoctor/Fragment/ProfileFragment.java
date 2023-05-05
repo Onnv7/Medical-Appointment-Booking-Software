@@ -1,5 +1,7 @@
 package com.hcmute.findyourdoctor.Fragment;
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -123,13 +125,22 @@ public class ProfileFragment extends Fragment {
         btnUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 onClickRequestPermission();
             }
         });
     }
 
     private void onClickRequestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            String[] storge_permissions_33 = {
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_AUDIO,
+                    Manifest.permission.READ_MEDIA_VIDEO
+
+            };
+            requestPermissions(storge_permissions_33, 1);
+        }
+
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             openGallery();
             return;
