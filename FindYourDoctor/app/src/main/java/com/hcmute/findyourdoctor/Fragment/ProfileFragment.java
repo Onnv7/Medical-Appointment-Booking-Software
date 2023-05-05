@@ -6,6 +6,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -237,46 +239,66 @@ public class ProfileFragment extends Fragment {
         btnUpadte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HashMap<String, RequestBody> body = new HashMap<>();
-                MultipartBody.Part filePart = null;
-                if(avatarUri != null) {
-                    String realPath  = RealPathUtil.getRealPath(getContext(), avatarUri);
-                    File file = new File(realPath);
-                    String extension = MimeTypeMap.getFileExtensionFromUrl(realPath);
-                    String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-                    RequestBody requestBody = RequestBody.create(MediaType.parse(mimeType), file);
-                    filePart = MultipartBody.Part.createFormData("avatar", file.getName(), requestBody);
-                    avatarUri = null;
-                }
-                MediaType mediaType = MediaType.parse("text/plain");
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle("Xác nhận");
+                alert.setIcon(R.mipmap.ic_launcher);
+                alert.setMessage("Bạn có muốn cập nhật thông tin");
 
-                if(rdoFemale.isChecked()) {
-                    body.put("gender", RequestBody.create(mediaType, "female"));
-                }
-                else if(rdoMale.isChecked()) {
-                    body.put("gender", RequestBody.create(mediaType, "male"));
-                }
-                body.put("name", RequestBody.create(mediaType, edtName.getText().toString()));
-                body.put("phone", RequestBody.create(mediaType, edtPhone.getText().toString()));
-                body.put("birthDate", RequestBody.create(mediaType, edtBirthDate.getText().toString()));
-                body.put("address", RequestBody.create(mediaType, edtAddress.getText().toString()));
-
-
-                patientApiService.updateProfile(patientId, body, filePart).enqueue(new Callback<JsonObject>() {
+                alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        Log.d("nva", response.toString());
-                        if(response.isSuccessful()) {
-                            renderProfile(response);
-                            Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        HashMap<String, RequestBody> body = new HashMap<>();
+                        MultipartBody.Part filePart = null;
+                        if(avatarUri != null) {
+                            String realPath  = RealPathUtil.getRealPath(getContext(), avatarUri);
+                            File file = new File(realPath);
+                            String extension = MimeTypeMap.getFileExtensionFromUrl(realPath);
+                            String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+                            RequestBody requestBody = RequestBody.create(MediaType.parse(mimeType), file);
+                            filePart = MultipartBody.Part.createFormData("avatar", file.getName(), requestBody);
+                            avatarUri = null;
                         }
-                    }
+                        MediaType mediaType = MediaType.parse("text/plain");
 
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                        if(rdoFemale.isChecked()) {
+                            body.put("gender", RequestBody.create(mediaType, "female"));
+                        }
+                        else if(rdoMale.isChecked()) {
+                            body.put("gender", RequestBody.create(mediaType, "male"));
+                        }
+                        body.put("name", RequestBody.create(mediaType, edtName.getText().toString()));
+                        body.put("phone", RequestBody.create(mediaType, edtPhone.getText().toString()));
+                        body.put("birthDate", RequestBody.create(mediaType, edtBirthDate.getText().toString()));
+                        body.put("address", RequestBody.create(mediaType, edtAddress.getText().toString()));
+
+
+                        patientApiService.updateProfile(patientId, body, filePart).enqueue(new Callback<JsonObject>() {
+                            @Override
+                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                Log.d("nva", response.toString());
+                                if(response.isSuccessful()) {
+                                    renderProfile(response);
+                                    Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<JsonObject> call, Throwable t) {
+                                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
+
+                alert.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                alert.show();
+
+
             }
         });
     }
@@ -296,17 +318,37 @@ public class ProfileFragment extends Fragment {
         });
     }
     private void setOnLogoutClick() {
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("id");
-                editor.remove("email");
-                editor.remove("is_logged");
-                editor.apply();
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle("Xác nhận");
+                alert.setIcon(R.mipmap.ic_launcher);
+                alert.setMessage("Bạn có muốn đăng xuất");
 
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
+                alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("id");
+                        editor.remove("email");
+                        editor.remove("is_logged");
+                        editor.apply();
+
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                alert.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                alert.show();
+
             }
         });
     }
@@ -315,7 +357,6 @@ public class ProfileFragment extends Fragment {
         edtBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
                 DatePickerDialog datePickerDialog = new DatePickerDialog(ProfileFragment.this.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {

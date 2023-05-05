@@ -48,7 +48,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
     ReviewApiService reviewApiService;
     Doctor doctor;
     String doctorId;
-    ImageView imv_back_doctordetail;
+    ImageView imv_back_doctor_detail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +74,10 @@ public class DoctorDetailActivity extends AppCompatActivity {
             }
         });
 
-        imv_back_doctordetail.setOnClickListener(new View.OnClickListener() {
+        imv_back_doctor_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DoctorDetailActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }
@@ -95,7 +94,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
         listReview = (RecyclerView) findViewById(R.id.rcv_patient_review_doctor_details);
         tvIntroduce = findViewById(R.id.tv_introduce_doctor_details);
         btnBooking = findViewById(R.id.btn_booking_doctor_details);
-        imv_back_doctordetail = findViewById(R.id.imv_back_doctordetail);
+        imv_back_doctor_detail = findViewById(R.id.imv_back_doctor_detail);
 
         tvPatientQuantity = findViewById(R.id.tv_patient_quantity);
         tvSucceededQuantity = findViewById(R.id.tv_successed_quantity);

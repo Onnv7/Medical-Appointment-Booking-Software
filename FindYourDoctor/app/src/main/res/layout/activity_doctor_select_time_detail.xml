@@ -29,15 +29,15 @@
                 <ImageView
                     android:id="@+id/imv_back_select_time"
                     android:layout_width="20dp"
-                    android:layout_height="8dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="1dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:background="@null"
                     android:src="@drawable/back"></ImageView>
             </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
 
+        </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"

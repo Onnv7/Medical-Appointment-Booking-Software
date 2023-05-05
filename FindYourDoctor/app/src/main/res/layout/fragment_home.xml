@@ -236,7 +236,7 @@
 
                         <androidx.core.widget.NestedScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="140dp">
+                            android:layout_height="160dp">
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rcv_featureDoctor"
