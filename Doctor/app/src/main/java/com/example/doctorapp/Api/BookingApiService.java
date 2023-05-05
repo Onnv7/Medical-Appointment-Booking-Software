@@ -20,4 +20,7 @@ public interface BookingApiService {
 
     @PATCH(BASE_URL + "/update/{bookingId}")
     Call<JsonObject> updateBookingDetails(@Path("bookingId") String bookingId, @Body JsonObject body);
+
+    @GET(BASE_URL + "/doctor/new-booking/{doctorId}")
+    Call<JsonObject> getNewBookingList(@Path("doctorId") String doctorId, @Query("date") String date);
 }

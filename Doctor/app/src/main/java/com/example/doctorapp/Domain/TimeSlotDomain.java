@@ -1,11 +1,10 @@
 package com.example.doctorapp.Domain;
 
-import com.example.doctorapp.Model.Booking;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class ScheduleDomain implements Serializable {
+public class TimeSlotDomain implements Serializable {
     @SerializedName("_id")
     private String id;
     private String start;

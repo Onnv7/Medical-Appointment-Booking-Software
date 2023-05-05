@@ -5,17 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.doctorapp.Adapter.ViewPagerAdapter;
 import com.example.doctorapp.Fragment.HomeFragment;
 import com.example.doctorapp.Fragment.ProfileFragment;
 import com.example.doctorapp.Fragment.ScheduleFragment;
 import com.example.doctorapp.Fragment.TimeFragment;
+import com.example.doctorapp.Fragment.NewBookingFragment;
 import com.example.doctorapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentArrayList.add(new HomeFragment());
 //        fragmentArrayList.add(new NotificationsFragment());
         fragmentArrayList.add(new TimeFragment());
+        fragmentArrayList.add(new NewBookingFragment());
         fragmentArrayList.add(new ScheduleFragment());
         fragmentArrayList.add(new ProfileFragment());
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(MainActivity.this, fragmentArrayList);
@@ -66,16 +66,16 @@ public class MainActivity extends AppCompatActivity {
                         viewPager.setCurrentItem(1);
                         bottomNavigationView.setSelectedItemId(R.id.action_calendar);
                         break;
-//                    case 2:
-//                        viewPager.setCurrentItem(2);
-//                        bottomNavigationView.setSelectedItemId(R.id.action_notifications);
-//                        break;
                     case 2:
                         viewPager.setCurrentItem(2);
-                        bottomNavigationView.setSelectedItemId(R.id.action_history);
+                        bottomNavigationView.setSelectedItemId(R.id.action_new_booking);
                         break;
                     case 3:
                         viewPager.setCurrentItem(3);
+                        bottomNavigationView.setSelectedItemId(R.id.action_history);
+                        break;
+                    case 4:
+                        viewPager.setCurrentItem(4);
                         bottomNavigationView.setSelectedItemId(R.id.action_profile);
                         break;
                 }
@@ -93,14 +93,14 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_calendar:
                         viewPager.setCurrentItem(1);
                         break;
-//                    case R.id.action_notifications:
-//                        viewPager.setCurrentItem(2);
-//                        break;
-                    case R.id.action_history:
+                    case R.id.action_new_booking:
                         viewPager.setCurrentItem(2);
                         break;
-                    case R.id.action_profile:
+                    case R.id.action_history:
                         viewPager.setCurrentItem(3);
+                        break;
+                    case R.id.action_profile:
+                        viewPager.setCurrentItem(4);
                         break;
                 }
                 return false;

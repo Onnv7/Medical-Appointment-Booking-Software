@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Activity.BookingDetailsActivity">
+    tools:context=".Activity.NewBookingDetailsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:id="@+id/iv_patient_avt_booking_details"
+                            android:id="@+id/iv_patient_avt_new_booking_details"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:background="@drawable/avatar_round_background"
@@ -66,7 +66,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <TextView
-                        android:id="@+id/tv_name_booking_details"
+                        android:id="@+id/tv_name_new_booking_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -98,7 +98,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_datetime_booking_details"
+                        android:id="@+id/tv_datetime_new_booking_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="26 January 2023, 7:00 - 7:30 AM"
@@ -123,7 +123,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_patient_phone_booking_details"
+                        android:id="@+id/tv_patient_phone_new_booking_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0316051406"
@@ -149,7 +149,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_status_booking_details"
+                        android:id="@+id/tv_status_new_booking_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Waiting"
@@ -174,7 +174,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_patient_message_booking_details"
+                        android:id="@+id/tv_patient_message_new_booking_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Tôi bị đau chân, nhứt đầu mỏi gối tê tay  "
@@ -182,52 +182,14 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginBottom="24dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView113"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="Your Advice/Cancellation reason"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_advice_booking_details"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="OK nhe "
-                        android:textColor="#545756" />
-
-                    <EditText
-                        android:id="@+id/edt_advice_booking_details"
-                        android:layout_width="335dp"
-                        android:layout_height="54dp"
-                        android:background="@drawable/textbox_background"
-                        android:ems="10"
-                        android:hint="Write your review"
-                        android:inputType="textPersonName"
-                        android:paddingStart="12dp"
-                        android:textColor="#545756"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_control_button_booking_details"
+                    android:id="@+id/layout_control_button_new_booking_details"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="12dp">
 
                     <TextView
-                        android:id="@+id/btn_deny_schedule_details"
+                        android:id="@+id/btn_deny_new_booking_details"
                         android:layout_width="120dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="80dp"
@@ -241,13 +203,13 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/btn_success_booking_details"
+                        android:id="@+id/btn_accept_new_booking_details"
                         android:layout_width="120dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="36dp"
                         android:background="@drawable/button_blue_background"
                         android:gravity="center"
-                        android:text="Success"
+                        android:text="Accept"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"

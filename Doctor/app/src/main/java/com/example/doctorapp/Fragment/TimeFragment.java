@@ -22,9 +22,9 @@ import android.widget.CalendarView;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.example.doctorapp.Adapter.ScheduleAdapter;
+import com.example.doctorapp.Adapter.TimeSlotAdapter;
 import com.example.doctorapp.Api.RetrofitClient;
-import com.example.doctorapp.Domain.ScheduleDomain;
+import com.example.doctorapp.Domain.TimeSlotDomain;
 import com.example.doctorapp.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -48,8 +48,9 @@ public class TimeFragment extends Fragment {
     private TextView tvDateSelected;
     private ScheduleApiService scheduleApiService;
     private GridView gvMorning, gvAfternoon, gvEvening;
-    List<ScheduleDomain> afternoonSlotList, eveningSlotList, morningSlotList;
-    ScheduleAdapter afternoonAdapter, eveningAdapter, morningAdapter;
+    List<TimeSlotDomain> afternoonSlotList, eveningSlotList, morningSlotList;
+    TimeSlotAdapter afternoonAdapter, eveningAdapter, morningAdapter;
+    private Boolean isOpenCalendar = true;
     private String uid;
     private String date;
     public TimeFragment() {
@@ -66,11 +67,18 @@ public class TimeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_time, container, false);
         init(view);
-        renderGridView();
         setOnDateChange();
         setOnEditButtonClick();
+        setOnCloseOpenCalendar();
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        renderGridView();
+    }
+
     private void setOnEditButtonClick() {
         fabEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +86,21 @@ public class TimeFragment extends Fragment {
                 Intent intent = new Intent(getContext(), EditTimeScheduleActivity.class);
                 intent.putExtra("date", date);
                 startActivity(intent);
+            }
+        });
+    }
+    private void setOnCloseOpenCalendar() {
+        tvDateSelected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isOpenCalendar) {
+                    cldDate.setVisibility(View.GONE);
+                    isOpenCalendar = false;
+                }
+                else {
+                    cldDate.setVisibility(View.VISIBLE);
+                    isOpenCalendar = true;
+                }
             }
         });
     }
@@ -99,6 +122,14 @@ public class TimeFragment extends Fragment {
                     throw new RuntimeException(e);
                 }
                 tvDateSelected.setText(dateText);
+
+//                    view.dateTextAppearance(getResources().getColor(R.color.white));
+//                    view.setUnfocusedMonthDateColor(getResources().getColor(R.color.white));
+//                } else {
+//                    // Set màu cho item date không được chọn
+//                    view.setDateColor(getResources().getColor(R.color.black));
+//                    view.setUnfocusedMonthDateColor(getResources().getColor(R.color.gray));
+//                }
                 renderGridView();
 
             }
@@ -117,28 +148,31 @@ public class TimeFragment extends Fragment {
                     JsonArray afternoon = result.getAsJsonArray("afternoon");
                     JsonArray evening = result.getAsJsonArray("evening");
 
-                    List<ScheduleDomain> morningList = new ArrayList<>();
-                    List<ScheduleDomain> afternoonList = new ArrayList<>();
-                    List<ScheduleDomain> eveningList = new ArrayList<>();
+                    List<TimeSlotDomain> morningList = new ArrayList<>();
+                    List<TimeSlotDomain> afternoonList = new ArrayList<>();
+                    List<TimeSlotDomain> eveningList = new ArrayList<>();
 
 
                     for (JsonElement e: morning) {
-                        ScheduleDomain item = gson.fromJson(e, ScheduleDomain.class);
-                        morningList.add(item);
+                        TimeSlotDomain item = gson.fromJson(e, TimeSlotDomain.class);
+                        if(item.getSelected())
+                            morningList.add(item);
                     }
                     setDataForSlotGridView(morningList, gvMorning, "morning");
 
 
                     for (JsonElement e: afternoon) {
-                        ScheduleDomain item = gson.fromJson(e, ScheduleDomain.class);
-                        afternoonList.add(item);
+                        TimeSlotDomain item = gson.fromJson(e, TimeSlotDomain.class);
+                        if(item.getSelected())
+                            afternoonList.add(item);
                     }
                     setDataForSlotGridView(afternoonList, gvAfternoon, "afternoon");
 
 
                     for (JsonElement e: evening) {
-                        ScheduleDomain item = gson.fromJson(e, ScheduleDomain.class);
-                        eveningList.add(item);
+                        TimeSlotDomain item = gson.fromJson(e, TimeSlotDomain.class);
+                        if(item.getSelected())
+                            eveningList.add(item);
                     }
                     setDataForSlotGridView(eveningList, gvEvening, "evening");
 
@@ -151,9 +185,9 @@ public class TimeFragment extends Fragment {
             }
         });
     }
-    private void setDataForSlotGridView(List<ScheduleDomain> timeArray, GridView gridView, String type) {
+    private void setDataForSlotGridView(List<TimeSlotDomain> timeArray, GridView gridView, String type) {
 
-        ScheduleAdapter adapter = new ScheduleAdapter(getContext(), R.layout.row_time_detail, timeArray, type);
+        TimeSlotAdapter adapter = new TimeSlotAdapter(getContext(), R.layout.row_time_detail, timeArray, type);
         adapter.notifyDataSetChanged();
 
         if (type.equals("morning")) {

@@ -5,15 +5,19 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.doctorapp.Activity.BookingDetailsActivity;
 import com.example.doctorapp.Model.Booking;
 import com.example.doctorapp.R;
+import com.example.doctorapp.Utils.DateTimeFormat;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class ListBookingAdapter extends RecyclerView.Adapter<ListBookingAdapter.ListBookingViewHolder>{
@@ -51,6 +55,16 @@ public class ListBookingAdapter extends RecyclerView.Adapter<ListBookingAdapter.
         System.out.println(time);
         holder.time.setText(time);
         holder.name.setText(infor.getPatient().getName());
+        String created = null;
+        try {
+            created = DateTimeFormat.formatDateMongodb(infor.getCreatedAt(), "hh:mm dd/MM/yyyy");
+            holder.day.setText("Created at: " + created);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Glide.with(holder.itemView)
+                        .load(infor.getPatient().getAvatarUrl())
+                                .into(holder.ivPatientAvatar);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,12 +84,14 @@ public class ListBookingAdapter extends RecyclerView.Adapter<ListBookingAdapter.
     public static class ListBookingViewHolder extends RecyclerView.ViewHolder {
 
         private TextView time, name, day;
+        private ImageView ivPatientAvatar;
 
         public ListBookingViewHolder(@NonNull View itemView) {
             super(itemView);
-            time = itemView.findViewById(R.id.tv_time_manage_booking);
-            name = itemView.findViewById(R.id.tv_name_manage_booking);
-            day= itemView.findViewById(R.id.tv_year_manage_booking);
+            time = itemView.findViewById(R.id.tv_time_accepted_booking_card);
+            name = itemView.findViewById(R.id.tv_name_accepted_booking_card);
+            day= itemView.findViewById(R.id.tv_created_at_accepted_booking_card);
+            ivPatientAvatar = itemView.findViewById(R.id.iv_paitent_avatar_accepted_booking_card);
 
         }
     }

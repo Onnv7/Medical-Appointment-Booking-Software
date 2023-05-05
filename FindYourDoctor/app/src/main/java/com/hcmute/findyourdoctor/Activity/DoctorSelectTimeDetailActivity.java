@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Adapter.SelectTimeDetailAdapter;
@@ -34,6 +35,7 @@ import com.hcmute.findyourdoctor.Api.ApiService;
 import com.hcmute.findyourdoctor.Api.BookingApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.ScheduleApiService;
+import com.hcmute.findyourdoctor.Domain.TimeSlotDomain;
 import com.hcmute.findyourdoctor.Listener.OnAvailableDateClickListener;
 import com.hcmute.findyourdoctor.Listener.OnSelectedTimeSlot;
 import com.hcmute.findyourdoctor.Model.Doctor;
@@ -59,7 +61,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
     ImageView ivDoctorAvatar, imv_back_select_time;
     RatingBar ratingBar;
     GridView gvAfternoon, gvEvening, gvMorning;
-    List<SelectTimeDetailDomain> afternoonSlotList, eveningSlotList, morningSlotList;
+    List<TimeSlotDomain> afternoonSlotList, eveningSlotList, morningSlotList;
     SelectTimeDetailAdapter afternoonAdapter, eveningAdapter, morningAdapter;
     RecyclerView rcvSelectTimeDetail;
     List<SelectTimeDomain> mselectTimeListDetail;
@@ -158,6 +160,9 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
                         JsonObject res = response.body();
                         if(res.get("success").getAsBoolean()){
                             openThank(Gravity.CENTER);
+                        }
+                        else if(res.get("message").getAsString().equals("Existed")) {
+                            Toast.makeText(DoctorSelectTimeDetailActivity.this, "You have already booked this appointment. Please choose another time slot", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -302,9 +307,11 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         }
     }
     private void setDataForSlotGridView(JsonArray jsonArray, GridView gridView, String type, String timeType){
-        List<SelectTimeDetailDomain> dataList = new ArrayList<>();
+        List<TimeSlotDomain> dataList = new ArrayList<>();
+        Gson gson = new Gson();
         for(int i = 0; i < jsonArray.size(); i++) {
-            dataList.add( new SelectTimeDetailDomain(jsonArray.get(i).getAsString() + " " + timeType));
+            TimeSlotDomain timeSlotDomain = gson.fromJson(jsonArray.get(i), TimeSlotDomain.class);
+            dataList.add(timeSlotDomain);
         }
 
         SelectTimeDetailAdapter adapter = new SelectTimeDetailAdapter(DoctorSelectTimeDetailActivity.this, R.layout.row_time_detail, dataList, type, DoctorSelectTimeDetailActivity.this, adapterObserver);

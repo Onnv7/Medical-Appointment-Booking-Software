@@ -9,24 +9,24 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.doctorapp.Domain.ScheduleDomain;
+import com.example.doctorapp.Domain.TimeSlotDomain;
 import com.example.doctorapp.R;
 
 import java.util.List;
 
-public class ScheduleAdapter extends BaseAdapter {
+public class TimeSlotAdapter extends BaseAdapter {
     private String type;
     private Context context;
     private int layout;
 
 
 
-    private List<ScheduleDomain> handList;
+    private List<TimeSlotDomain> handList;
 
-    public ScheduleAdapter() {
+    public TimeSlotAdapter() {
     }
 
-    public ScheduleAdapter(Context context, int layout, List<ScheduleDomain> handList, String type) {
+    public TimeSlotAdapter(Context context, int layout, List<TimeSlotDomain> handList, String type) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
@@ -72,16 +72,16 @@ public class ScheduleAdapter extends BaseAdapter {
         }
 
 
-        ScheduleDomain selectTimeDetail = handList.get(i);
+        TimeSlotDomain selectTimeDetail = handList.get(i);
 
         viewHolder.DetailTime.setText(selectTimeDetail.getStart());
 
         if(selectTimeDetail.getSelected()) {
             viewHolder.layoutMain.setBackgroundResource(R.drawable.background_selected);
-            viewHolder.DetailTime.setTextColor(Color.WHITE);
+            viewHolder.DetailTime.setTextColor(Color.BLACK);
         }
         else {
-            viewHolder.layoutMain.setVisibility(View.GONE);
+            viewHolder.layoutMain.setVisibility(View.INVISIBLE);
         }
 
 
@@ -104,11 +104,11 @@ public class ScheduleAdapter extends BaseAdapter {
         this.layout = layout;
     }
 
-    public List<ScheduleDomain> getHandList() {
+    public List<TimeSlotDomain> getHandList() {
         return handList;
     }
 
-    public void setHandList(List<ScheduleDomain> handList) {
+    public void setHandList(List<TimeSlotDomain> handList) {
 
         this.handList = handList;
     }

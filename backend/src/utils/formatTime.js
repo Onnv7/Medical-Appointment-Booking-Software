@@ -5,3 +5,8 @@ export const formatMongooseTime = (type, time) => {
 
     return formattedDate
 }
+
+export const formatFullDate = (type, time) => {
+    const dateObj = moment(time, 'hh:mm ddd, DD MMM YYYY');
+    return dateObj.format(type);
+}

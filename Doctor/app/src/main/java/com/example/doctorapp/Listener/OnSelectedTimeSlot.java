@@ -1,7 +1,7 @@
 package com.example.doctorapp.Listener;
 
-import com.example.doctorapp.Adapter.ScheduleAdapter;
+import com.example.doctorapp.Adapter.TimeSlotAdapter;
 
 public interface OnSelectedTimeSlot {
-    void onSelectedTimeSlot(ScheduleAdapter adapter);
+    void onSelectedTimeSlot(TimeSlotAdapter adapter);
 }

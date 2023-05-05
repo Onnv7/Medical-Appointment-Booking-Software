@@ -1,36 +1,32 @@
 package com.example.doctorapp.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.doctorapp.Domain.DayDomain;
+import com.example.doctorapp.Domain.DateDomain;
 import com.example.doctorapp.Listener.OnDateSelectedListener;
 import com.example.doctorapp.R;
 
 import java.util.List;
 
-public class TimeManageBookingAdapter extends RecyclerView.Adapter<TimeManageBookingAdapter.TimeManageBookingViewHolder>{
-    private List<DayDomain> mList;
+public class DateAdapter extends RecyclerView.Adapter<DateAdapter.TimeManageBookingViewHolder>{
+    private List<DateDomain> mList;
     private OnDateSelectedListener listener;
     private Context context;
     private int indexSelected = 0;
 
-    public TimeManageBookingAdapter(List<DayDomain> mList) {
+    public DateAdapter(List<DateDomain> mList) {
         this.mList = mList;
         this.context = context;
     }
 
-    public TimeManageBookingAdapter(List<DayDomain> mList, Context context, OnDateSelectedListener listener) {
+    public DateAdapter(List<DateDomain> mList, Context context, OnDateSelectedListener listener) {
         this.mList = mList;
         this.context = context;
         this.listener = listener;
@@ -47,7 +43,7 @@ public class TimeManageBookingAdapter extends RecyclerView.Adapter<TimeManageBoo
 
     @Override
     public void onBindViewHolder(@NonNull TimeManageBookingViewHolder holder, int position) {
-        DayDomain day1 = mList.get(position);
+        DateDomain day1 = mList.get(position);
         if (day1 == null)
         {
             return;

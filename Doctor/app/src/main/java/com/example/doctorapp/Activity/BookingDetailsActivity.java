@@ -124,7 +124,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
         btnSuccess = findViewById(R.id.btn_success_booking_details);
         btnDeny = findViewById(R.id.btn_deny_schedule_details);
         tvAdvice = findViewById(R.id.tv_advice_booking_details);
-        layoutControlButton = findViewById(R.id.layout_controll_button);
+        layoutControlButton = findViewById(R.id.layout_control_button_booking_details);
         tvPhoneNumber = findViewById(R.id.tv_patient_phone_booking_details);
     }
 }
