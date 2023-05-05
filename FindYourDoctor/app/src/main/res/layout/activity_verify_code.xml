@@ -15,14 +15,15 @@
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="27dp"
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="30dp"
             app:cardCornerRadius="8dp">
 
             <ImageView
+                android:id="@+id/imv_back_from_vefify_code"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"

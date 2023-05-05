@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
     AuthApiService authApiService;
     String email;
     String code;
+    ImageView imv_back_from_vefify_code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +120,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
         edtNum4 = (EditText) findViewById(R.id.edt_search_appointment_list);
         tvWrong = (TextView) findViewById(R.id.tv_wrong);
         btnSubmit = (TextView) findViewById(R.id.btn_submit);
+        imv_back_from_vefify_code = (ImageView) findViewById(R.id.imv_back_from_vefify_code);
         edtNum1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -184,6 +187,13 @@ public class VerifyCodeActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        imv_back_from_vefify_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

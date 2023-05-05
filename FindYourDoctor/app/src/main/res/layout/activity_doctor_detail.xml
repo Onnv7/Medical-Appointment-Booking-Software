@@ -30,9 +30,9 @@
                 app:cardCornerRadius="8dp">
 
                 <ImageView
-                    android:id="@+id/imv_back_doctordetail"
-                    android:layout_width="25dp"
-                    android:layout_height="12dp"
+                    android:id="@+id/imv_back_doctor_detail"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="1dp"
                     android:layout_marginTop="2dp"
                     android:background="@null"

@@ -39,8 +39,7 @@ public class ListSpecialistActivity extends AppCompatActivity {
         back_specialty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListSpecialistActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }
