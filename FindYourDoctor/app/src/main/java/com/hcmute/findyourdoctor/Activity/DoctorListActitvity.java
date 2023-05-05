@@ -56,8 +56,7 @@ public class DoctorListActitvity extends AppCompatActivity {
         imv_back_doctorlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DoctorListActitvity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }

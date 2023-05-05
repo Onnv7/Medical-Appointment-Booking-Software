@@ -1,11 +1,13 @@
 package com.hcmute.findyourdoctor.Activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -90,10 +92,12 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         imv_back_select_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DoctorSelectTimeDetailActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
+
+
+
     }
     private void init() {
         mselectTimeListDetail = new ArrayList<>();
@@ -119,62 +123,88 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         tvPatientQuantity = findViewById(R.id.tv_patient_quantity_select_time);
 
         ivDoctorAvatar = findViewById(R.id.iv_avatar_select_time);
+
+
+
         
     }
     private void setOnBookingClick() {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String time = "";
-                if(adapterObserver.getType().equals("morning")) {
-                    Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + morningSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
-                    time = morningSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
-                }
-                if(adapterObserver.getType().equals("afternoon")) {
-                    Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + afternoonSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
-                    time = afternoonSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
-                }
-                if(adapterObserver.getType().equals("evening")) {
-                    Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + eveningSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
-                    time = eveningSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
-                }
-                String message = edtReminder.getText().toString();
-                if(time.equals("")) {
-                    Toast.makeText(DoctorSelectTimeDetailActivity.this, "Please choose a time for your appointment", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                bookingApiService = RetrofitClient.getRetrofit().create(BookingApiService.class);
+                AlertDialog.Builder alert = new AlertDialog.Builder(DoctorSelectTimeDetailActivity.this);
+                alert.setTitle("Xác nhận");
+                alert.setIcon(R.mipmap.ic_launcher);
+                alert.setMessage("Bạn có muốn đặt lịch không");
 
-                JsonObject body = new JsonObject();
-                body.addProperty("patient", uid);
-                body.addProperty("doctor", doctor.getId());
-                body.addProperty("message", "waiting");
-                body.addProperty("time", time);
-                Call<JsonObject> call = bookingApiService.createBooking(body);
-                call.enqueue(new Callback<JsonObject>() {
+                alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        JsonObject res = response.body();
-                        if(res.get("success").getAsBoolean()){
-                            openThank(Gravity.CENTER);
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String time = "";
+                        if(adapterObserver.getType().equals("morning")) {
+                            Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + morningSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
+                            time = morningSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
                         }
-                    }
+                        if(adapterObserver.getType().equals("afternoon")) {
+                            Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + afternoonSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
+                            time = afternoonSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
+                        }
+                        if(adapterObserver.getType().equals("evening")) {
+                            Toast.makeText(DoctorSelectTimeDetailActivity.this, "value" + eveningSlotList.get(adapterObserver.getIndex()).getTime(), Toast.LENGTH_SHORT).show();
+                            time = eveningSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
+                        }
+                        String message = edtReminder.getText().toString();
+                        if(time.equals("")) {
+                            Toast.makeText(DoctorSelectTimeDetailActivity.this, "Please choose a time for your appointment", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Toast.makeText(DoctorSelectTimeDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        bookingApiService = RetrofitClient.getRetrofit().create(BookingApiService.class);
+
+                        JsonObject body = new JsonObject();
+                        body.addProperty("patient", uid);
+                        body.addProperty("doctor", doctor.getId());
+                        body.addProperty("message", "waiting");
+                        body.addProperty("time", time);
+                        Call<JsonObject> call = bookingApiService.createBooking(body);
+                        call.enqueue(new Callback<JsonObject>() {
+                            @Override
+                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                JsonObject res = response.body();
+                                if(res.get("success").getAsBoolean()){
+                                    openThank(Gravity.CENTER);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<JsonObject> call, Throwable t) {
+                                Toast.makeText(DoctorSelectTimeDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
+
+                alert.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                alert.show();
+
             }
         });
     }
 
     private void openThank(int center) {
+        TextView tv_done;
+
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.appointment_successful);
         Window window = dialog.getWindow();
+        tv_done = dialog.findViewById(R.id.tv_done);
         if(window == null){
             return;
         }
@@ -185,6 +215,14 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity implements
         window.setAttributes(windowAttributes);
 
         dialog.show();
+
+        tv_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
     }
 
 
