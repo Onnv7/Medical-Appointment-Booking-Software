@@ -4,7 +4,6 @@ import Doctor from "../models/doctor.model.js"
 import Period from "../models/period.model.js";
 
 export const updateSchedule = async (req, res, next) => {
-    console.log("aaaaaaaaaaaaaaaaaaa")
     const startDate = new Date(req.body.date);
     const endDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000); // Tăng ngày lên 1 để lấy hết cả ngày 3/5
     try {//{ name: { $regex: searchQuery, $options: 'i' } }
@@ -20,7 +19,6 @@ export const updateSchedule = async (req, res, next) => {
             { period: period },
             { new: true }
         );
-        console.log(newSchedule)
         if (!newSchedule) {
             const schedule = new Schedule({
                 doctor: req.params.doctorId,
@@ -199,7 +197,6 @@ export const getTimeSlotInDate = async (req, res, next) => {
             doctor: req.params.doctorId
         }).populate({
             path: 'period',
-            select: { _id: 0 }
         })
         if (slot === null || slot.period.length === 0) {
             return res.status(200).json({ success: false, message: "There is no schedule available" })
@@ -214,11 +211,11 @@ export const getTimeSlotInDate = async (req, res, next) => {
             const [hour, minute] = timeString.split(':');
             const numericHour = parseInt(hour);
             if (numericHour >= 0 && numericHour < 12) {
-                morning.push(timeString)
+                morning.push({ _id: p._id, time: timeString })
             } else if (numericHour >= 12 && numericHour < 18) {
-                afternoon.push(timeString)
+                afternoon.push({ _id: p._id, time: timeString })
             } else {
-                evening.push(timeString)
+                evening.push({ _id: p._id, time: timeString })
             }
         })
         res.status(200).json({

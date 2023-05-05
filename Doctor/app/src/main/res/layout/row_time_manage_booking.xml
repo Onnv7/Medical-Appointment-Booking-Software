@@ -15,10 +15,12 @@
         <TextView
             android:id="@+id/oneDay"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="18dp"
             android:text="M"
             android:textAlignment="center"
-            android:textColor="#8C3B3B"
+            android:textColor="#090909"
             android:textSize="17sp"
             android:textStyle="bold">
 
@@ -27,10 +29,12 @@
         <TextView
             android:id="@+id/day"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:layout_weight="5"
             android:text="22"
             android:textAlignment="center"
+            android:textColor="#880532"
             android:textSize="25sp"
             android:textStyle="bold">
 

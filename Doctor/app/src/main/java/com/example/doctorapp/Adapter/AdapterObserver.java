@@ -6,7 +6,7 @@ import java.util.List;
 public class AdapterObserver {
     private int index;
     private String type;
-    private List<ScheduleAdapter> adapters = new ArrayList<>();
+    private List<TimeSlotAdapter> adapters = new ArrayList<>();
 
     public int getIndex() {
         return index;
@@ -24,12 +24,12 @@ public class AdapterObserver {
         this.type = type;
     }
 
-    public void registerAdapter(ScheduleAdapter adapter) {
+    public void registerAdapter(TimeSlotAdapter adapter) {
         adapters.add(adapter);
     }
 
     public void notifyDataChanged() {
-        for (ScheduleAdapter adapter : adapters) {
+        for (TimeSlotAdapter adapter : adapters) {
             adapter.notifyDataSetChanged();
         }
     }

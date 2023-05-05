@@ -13,10 +13,9 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.doctorapp.Adapter.EditTimeSlotAdapter;
-import com.example.doctorapp.Adapter.ScheduleAdapter;
 import com.example.doctorapp.Api.RetrofitClient;
 import com.example.doctorapp.Api.ScheduleApiService;
-import com.example.doctorapp.Domain.ScheduleDomain;
+import com.example.doctorapp.Domain.TimeSlotDomain;
 import com.example.doctorapp.R;
 import com.example.doctorapp.Utils.Constant;
 import com.google.gson.Gson;
@@ -38,7 +37,7 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
     private Button btnComfirm;
     private ScheduleApiService scheduleApiService;
     private GridView gvMorning, gvAfternoon, gvEvening;
-    List<ScheduleDomain> afternoonSlotList, eveningSlotList, morningSlotList;
+    List<TimeSlotDomain> afternoonSlotList, eveningSlotList, morningSlotList;
     private EditTimeSlotAdapter afternoonAdapter, eveningAdapter, morningAdapter;
 
 
@@ -53,17 +52,17 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
     }
     private JsonArray getPeriod() {
         JsonArray periodList = new JsonArray();
-        for (ScheduleDomain morning: morningSlotList) {
+        for (TimeSlotDomain morning: morningSlotList) {
             if(morning.getSelected()) {
                 periodList.add(morning.getId());
             }
         }
-        for (ScheduleDomain afternoon: afternoonSlotList) {
+        for (TimeSlotDomain afternoon: afternoonSlotList) {
             if(afternoon.getSelected()) {
                 periodList.add(afternoon.getId());
             }
         }
-        for (ScheduleDomain evening: eveningSlotList) {
+        for (TimeSlotDomain evening: eveningSlotList) {
             if(evening.getSelected()) {
                 periodList.add(evening.getId());
             }
@@ -110,27 +109,27 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
                     JsonArray afternoon = result.getAsJsonArray("afternoon");
                     JsonArray evening = result.getAsJsonArray("evening");
 
-                    List<ScheduleDomain> morningList = new ArrayList<>();
-                    List<ScheduleDomain> afternoonList = new ArrayList<>();
-                    List<ScheduleDomain> eveningList = new ArrayList<>();
+                    List<TimeSlotDomain> morningList = new ArrayList<>();
+                    List<TimeSlotDomain> afternoonList = new ArrayList<>();
+                    List<TimeSlotDomain> eveningList = new ArrayList<>();
 
 
                     for (JsonElement e: morning) {
-                        ScheduleDomain item = gson.fromJson(e, ScheduleDomain.class);
+                        TimeSlotDomain item = gson.fromJson(e, TimeSlotDomain.class);
                         morningList.add(item);
                     }
                     setDataForSlotGridView(morningList, gvMorning, "morning");
 
 
                     for (JsonElement e: afternoon) {
-                        ScheduleDomain item = gson.fromJson(e, ScheduleDomain.class);
+                        TimeSlotDomain item = gson.fromJson(e, TimeSlotDomain.class);
                         afternoonList.add(item);
                     }
                     setDataForSlotGridView(afternoonList, gvAfternoon, "afternoon");
 
 
                     for (JsonElement e: evening) {
-                        ScheduleDomain item = gson.fromJson(e, ScheduleDomain.class);
+                        TimeSlotDomain item = gson.fromJson(e, TimeSlotDomain.class);
                         eveningList.add(item);
                     }
                     setDataForSlotGridView(eveningList, gvEvening, "evening");
@@ -143,7 +142,7 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
             }
         });
     }
-    private void setDataForSlotGridView(List<ScheduleDomain> timeArray, GridView gridView, String type) {
+    private void setDataForSlotGridView(List<TimeSlotDomain> timeArray, GridView gridView, String type) {
 
         EditTimeSlotAdapter adapter = new EditTimeSlotAdapter(EditTimeScheduleActivity.this, R.layout.row_time_detail, timeArray, type);
         adapter.notifyDataSetChanged();

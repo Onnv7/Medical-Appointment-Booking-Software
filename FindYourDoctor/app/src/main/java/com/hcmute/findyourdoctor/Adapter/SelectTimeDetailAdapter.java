@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.hcmute.findyourdoctor.AdapterObserver;
 import com.hcmute.findyourdoctor.Listener.OnSelectedTimeSlot;
 import com.hcmute.findyourdoctor.R;
-import com.hcmute.findyourdoctor.Domain.SelectTimeDetailDomain;
+import com.hcmute.findyourdoctor.Domain.TimeSlotDomain;
 
 import java.util.List;
 
@@ -23,12 +23,12 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
     private Context context;
     private int layout;
 
-    private List<SelectTimeDetailDomain> handList;
+    private List<TimeSlotDomain> handList;
 
     public SelectTimeDetailAdapter() {
     }
 
-    public SelectTimeDetailAdapter(Context context, int layout, List<SelectTimeDetailDomain> handList, String type, OnSelectedTimeSlot onSelectedTimeSlot, AdapterObserver dataObserver) {
+    public SelectTimeDetailAdapter(Context context, int layout, List<TimeSlotDomain> handList, String type, OnSelectedTimeSlot onSelectedTimeSlot, AdapterObserver dataObserver) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
@@ -86,7 +86,7 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
             viewHolder.DetailTime.setTextColor(color);
             view.setBackgroundResource(R.drawable.background_details_time);
         }
-        SelectTimeDetailDomain selectTimeDetail = handList.get(i);
+        TimeSlotDomain selectTimeDetail = handList.get(i);
 
         viewHolder.DetailTime.setText(selectTimeDetail.getTime());
 
@@ -118,11 +118,11 @@ public class SelectTimeDetailAdapter extends BaseAdapter {
         this.layout = layout;
     }
 
-    public List<SelectTimeDetailDomain> getHandList() {
+    public List<TimeSlotDomain> getHandList() {
         return handList;
     }
 
-    public void setHandList(List<SelectTimeDetailDomain> handList) {
+    public void setHandList(List<TimeSlotDomain> handList) {
 
         this.handList = handList;
     }

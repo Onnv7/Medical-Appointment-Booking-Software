@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.doctorapp.Domain.ScheduleDomain;
+import com.example.doctorapp.Domain.TimeSlotDomain;
 import com.example.doctorapp.R;
 
 import java.util.List;
@@ -22,12 +21,12 @@ public class EditTimeSlotAdapter extends BaseAdapter {
 
 
 
-    private List<ScheduleDomain> handList;
+    private List<TimeSlotDomain> handList;
 
     public EditTimeSlotAdapter() {
     }
 
-    public EditTimeSlotAdapter(Context context, int layout, List<ScheduleDomain> handList, String type) {
+    public EditTimeSlotAdapter(Context context, int layout, List<TimeSlotDomain> handList, String type) {
         this.context = context;
         this.layout = layout;
         this.handList = handList;
@@ -73,28 +72,23 @@ public class EditTimeSlotAdapter extends BaseAdapter {
         }
 
 
-        ScheduleDomain selectTimeDetail = handList.get(i);
+        TimeSlotDomain selectTimeDetail = handList.get(i);
 
         viewHolder.DetailTime.setText(selectTimeDetail.getStart());
 
         if(selectTimeDetail.getSelected()) {
             viewHolder.layoutMain.setBackgroundResource(R.drawable.background_selected);
-            viewHolder.DetailTime.setTextColor(Color.WHITE);
+            viewHolder.DetailTime.setTextColor(Color.BLACK);
         }
         else {
             viewHolder.layoutMain.setBackgroundResource(R.drawable.background_unselected);
-            viewHolder.DetailTime.setTextColor(Color.GREEN);
+            viewHolder.DetailTime.setTextColor(Color.BLACK);
         }
 
         viewHolder.layoutMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(selectTimeDetail.getSelected()){
-                    selectTimeDetail.setSelected(false);
-                }
-                else
-                    selectTimeDetail.setSelected(true);
-                Toast.makeText(getContext(), "clci", Toast.LENGTH_SHORT).show();
+                selectTimeDetail.setSelected(!selectTimeDetail.getSelected());
                 notifyDataSetChanged();
             }
         });
@@ -119,11 +113,11 @@ public class EditTimeSlotAdapter extends BaseAdapter {
         this.layout = layout;
     }
 
-    public List<ScheduleDomain> getHandList() {
+    public List<TimeSlotDomain> getHandList() {
         return handList;
     }
 
-    public void setHandList(List<ScheduleDomain> handList) {
+    public void setHandList(List<TimeSlotDomain> handList) {
 
         this.handList = handList;
     }

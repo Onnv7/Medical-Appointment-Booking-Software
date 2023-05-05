@@ -1,7 +1,5 @@
 package com.example.doctorapp.Fragment;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +16,10 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.doctorapp.Adapter.ListBookingAdapter;
-import com.example.doctorapp.Adapter.TimeManageBookingAdapter;
+import com.example.doctorapp.Adapter.DateAdapter;
 import com.example.doctorapp.Api.BookingApiService;
 import com.example.doctorapp.Api.RetrofitClient;
-import com.example.doctorapp.Domain.DayDomain;
+import com.example.doctorapp.Domain.DateDomain;
 import com.example.doctorapp.Listener.OnDateSelectedListener;
 import com.example.doctorapp.Model.Booking;
 import com.example.doctorapp.R;
@@ -46,7 +43,7 @@ public class ScheduleFragment extends Fragment implements OnDateSelectedListener
     SharedPreferences sharedPreferences;
     TextView tvSelectedTime;
     RecyclerView rcvDate, rcvBooking;
-    List<DayDomain> mListDay = new ArrayList<>();
+    List<DateDomain> mListDay = new ArrayList<>();
     List<Booking> mListInforPatient = new ArrayList<>();
     ListBookingAdapter listBookingAdapter;
     BookingApiService bookingApiService;
@@ -64,55 +61,35 @@ public class ScheduleFragment extends Fragment implements OnDateSelectedListener
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
         initView(view);
 
-        tvSelectedTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectDay();
-            }
-        });
-
-
         addDate();
-
 
         RecyclerView.LayoutManager linearLayout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
         rcvDate.setLayoutManager(linearLayout);
 
-//        addInforPatient();
 
         RecyclerView.LayoutManager linearLayout2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         rcvBooking.setLayoutManager(linearLayout2);
         return view;
     }
-    private void selectDay() {
-        Calendar calendar = Calendar.getInstance();
-        int date = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-        DatePickerDialog datePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-                calendar.set(i, i1, i2);
-                tvSelectedTime.setText(simpleDateFormat.format(calendar.getTime()));
-            }
-        }, date, month, year);
-        datePicker.show();
+    @Override
+    public void onResume() {
+        super.onResume();
+        initView(getView());
     }
 
     private void initView(View view) {
         bookingApiService = RetrofitClient.getRetrofit().create(BookingApiService.class);
         rcvDate = (RecyclerView) view.findViewById(R.id.rcv_date_schedule);
         rcvBooking = (RecyclerView) view.findViewById(R.id.rcv_booking_schedule);
-        tvSelectedTime = (TextView) view.findViewById(R.id.tv_selected_time_schedule);
+//        tvSelectedTime = (TextView) view.findViewById(R.id.tv_selected_time_schedule);
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String currentTime = dateFormat.format(calendar.getTime());
-        tvSelectedTime.setText(currentTime);
+//        tvSelectedTime.setText(currentTime);
     }
 
     public void addDate() {
@@ -158,11 +135,10 @@ public class ScheduleFragment extends Fragment implements OnDateSelectedListener
             }
 
             String date = parts[1].trim();
-            mListDay.add(new DayDomain(parts[0], date));
-            Log.d(TAG, "addDate: " + parts[0] + ", " + date);
+            mListDay.add(new DateDomain(parts[0], date));
         }
 
-        TimeManageBookingAdapter manageAdapter1 = new TimeManageBookingAdapter(mListDay, getContext(), ScheduleFragment.this);
+        DateAdapter manageAdapter1 = new DateAdapter(mListDay, getContext(), ScheduleFragment.this);
 
         rcvDate.setAdapter(manageAdapter1);
 

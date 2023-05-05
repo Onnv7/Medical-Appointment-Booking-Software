@@ -12,4 +12,11 @@ public class DateTimeFormat {
         SimpleDateFormat outputDateFormat = new SimpleDateFormat(pattern);
         return outputDateFormat.format(date);
     }
+
+    public static String formatDateMongodb(String dateInput, String pattern) throws ParseException {
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat(pattern);
+        Date inputDate = inputDateFormat.parse(dateInput);
+        return outputDateFormat.format(inputDate);
+    }
 }

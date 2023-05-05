@@ -1,6 +1,6 @@
 import Booking from "../models/booking.model.js";
 import Doctor from "../models/doctor.model.js";
-import { formatMongooseTime } from "../utils/formatTime.js";
+import { formatMongooseTime, formatFullDate } from "../utils/formatTime.js";
 import { format } from "date-fns"
 import moment from "moment";
 export const updateBooking = async (req, res, next) => {
@@ -20,9 +20,22 @@ export const updateBooking = async (req, res, next) => {
 
 export const createBooking = async (req, res, next) => {
     try {
+        console.log(req.body)
+        const oldBooking = await Booking.findOne(
+            {
+                patient: req.body.patient,
+                doctor: req.body.doctor,
+                time: req.body.time
+            }
+        );
+        console.log("🚀 ~ file: booking.controller.js:31 ~ createBooking ~ oldBooking:", oldBooking)
+        if (oldBooking) {
+            console.log("ok")
+            return res.status(200).json({ success: false, message: "Existed", result: oldBooking });
+        }
         const booking = new Booking({ ...req.body, star: 0, review: null });
         await booking.save();
-        res.status(200).json({ success: true, message: "Creared booking", result: booking });
+        res.status(200).json({ success: true, message: "Created booking", result: booking });
     } catch (error) {
         next(error);
     }
@@ -69,7 +82,8 @@ export const listBookingByDoctor = async (req, res, next) => {
                 time: {
                     $regex: new RegExp(outputDate, 'i'), // tìm chuỗi con chứa ngày
                 },
-                doctor: req.params.doctorId
+                doctor: req.params.doctorId,
+                status: 'accepted'
             }
         )
             .populate({
@@ -79,7 +93,7 @@ export const listBookingByDoctor = async (req, res, next) => {
                     'avatarUrl': 1,
                     'phone': 1,
                 }
-            }).select({ patient: 1, time: 1 });
+            }).select({ patient: 1, time: 1, createdAt: 1 });
         res.status(200).json({ success: true, message: `Get booking list for ${req.params.doctorId}`, result: bookingList });
     } catch (error) {
         next(error);
@@ -165,6 +179,40 @@ export const getBookingDetailsById = async (req, res, next) => {
             return res.status(200).json({ success: true, message: "Get appointment details successfully", result: { ...appointment._doc, createdAt } })
         }
         return res.status(200).json({ success: false, message: "Not found" })
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const listNewBooking = async (req, res, next) => {
+    try {
+        const date = new Date(req.query.date);
+        const day = new Date("2023-05-23")
+
+        const bookingList = await Booking.find(
+            {
+                doctor: req.params.doctorId,
+                status: 'waiting'
+            }
+        )
+            .populate({
+                path: 'patient',
+                select: {
+                    'name': 1,
+                    'avatarUrl': 1,
+                    'phone': 1,
+                }
+            })
+            .select({ patient: 1, time: 1, createdAt: 1 });
+        const result = [];
+        bookingList.forEach(booking => {
+            const time = new Date(formatFullDate('YYYY-MM-DD', booking.time))
+            if (time.getTime() >= date.getTime()) {
+                result.push(booking)
+            }
+        })
+
+        res.status(200).json({ success: true, message: `Get booking list for ${req.params.doctorId}`, result: result });
     } catch (error) {
         next(error);
     }

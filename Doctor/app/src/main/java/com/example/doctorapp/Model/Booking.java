@@ -15,10 +15,20 @@ public class Booking implements Serializable {
     private String image;
     private Review review;
     private String time;
+    private String createdAt;
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public String getAdvice() {
         return advice;
     }
+
 
     public void setAdvice(String advice) {
         this.advice = advice;

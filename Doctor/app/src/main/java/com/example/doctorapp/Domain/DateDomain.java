@@ -1,10 +1,10 @@
 package com.example.doctorapp.Domain;
 
-public class DayDomain {
+public class DateDomain {
     private String day;
     private String oneDay;
 
-    public DayDomain(String day, String oneDay) {
+    public DateDomain(String day, String oneDay) {
         this.day = day;
         this.oneDay = oneDay;
     }
