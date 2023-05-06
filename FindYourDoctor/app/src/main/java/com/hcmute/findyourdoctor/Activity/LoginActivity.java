@@ -1,5 +1,6 @@
 package com.hcmute.findyourdoctor.Activity;
 
+import static android.content.ContentValues.TAG;
 import static com.hcmute.findyourdoctor.Utils.Constant.SHARE;
 
 import androidx.activity.result.ActivityResult;
@@ -10,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Api.AuthApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
+import com.hcmute.findyourdoctor.Domain.ConnectivityReceiver;
 import com.hcmute.findyourdoctor.R;
 
 import org.json.JSONObject;
@@ -36,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText tvEmail, tvPassword;
     TextView btnLogin, tvRegister, btnForgetPassword;
     AuthApiService authApiService;
+    private ConnectivityReceiver connectivityReceiver;
+    private boolean isNetworkConnected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,51 +59,65 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        connectivityReceiver = new ConnectivityReceiver();
+
+
         initView();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean isConnected = connectivityReceiver.isConnected(LoginActivity.this);
 
-                authApiService = RetrofitClient.getRetrofit().create(AuthApiService.class);
+                if (isConnected == true)
+                {
+                    authApiService = RetrofitClient.getRetrofit().create(AuthApiService.class);
 
-                if(checkText()) {
-                    JsonObject body = new JsonObject();
-                    body.addProperty("email", tvEmail.getText().toString());
-                    body.addProperty("password", tvPassword.getText().toString());
+                    if(checkText()) {
+                        JsonObject body = new JsonObject();
+                        body.addProperty("email", tvEmail.getText().toString());
+                        body.addProperty("password", tvPassword.getText().toString());
 
-                    authApiService.loginPatient(body).enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            JsonObject res = response.body();
-                            if(response.isSuccessful()){
-                                String id = res.getAsJsonObject("result").get("_id").getAsString();
-                                String name = res.getAsJsonObject("result").get("name").getAsString();
-                                String email = res.getAsJsonObject("result").get("email").getAsString();
+                        authApiService.loginPatient(body).enqueue(new Callback<JsonObject>() {
+                            @Override
+                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                JsonObject res = response.body();
+                                if(response.isSuccessful()){
+                                    String id = res.getAsJsonObject("result").get("_id").getAsString();
+                                    String name = res.getAsJsonObject("result").get("name").getAsString();
+                                    String email = res.getAsJsonObject("result").get("email").getAsString();
 
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("id", id);
-                                editor.putString("name", name);
-                                editor.putString("email", email);
-                                editor.putBoolean("is_logged", true);
-                                editor.apply();
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("id", id);
+                                    editor.putString("name", name);
+                                    editor.putString("email", email);
+                                    editor.putBoolean("is_logged", true);
+                                    editor.apply();
 
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                                else {
+                                    Toast.makeText(LoginActivity.this, "Incorrect password or email", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            else {
-                                Toast.makeText(LoginActivity.this, "Incorrect password or email", Toast.LENGTH_SHORT).show();
-                            }
-                        }
 
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                            Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    authApiService = null;
+                            @Override
+                            public void onFailure(Call<JsonObject> call, Throwable t) {
+                                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        authApiService = null;
+                    }
+
+
                 }
+                else
+                {
+                    Toast.makeText(LoginActivity.this, "Please turn on the network connection.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -138,5 +158,24 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = (TextView) findViewById(R.id.btn_login);
         tvRegister = (TextView) findViewById(R.id.tv_register_log);
         btnForgetPassword = findViewById(R.id.btn_forget_password_login);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (connectivityReceiver != null) {
+            unregisterReceiver(connectivityReceiver);
+            connectivityReceiver = null;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (connectivityReceiver == null) {
+            connectivityReceiver = new ConnectivityReceiver();
+        }
+        registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 }
