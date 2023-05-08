@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Api.AuthApiService;
+import com.hcmute.findyourdoctor.Api.PatientApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.R;
 
@@ -57,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Successful account registration", Toast.LENGTH_SHORT).show();
                             Intent intentLogin = new Intent(RegisterActivity.this, LoginActivity.class);
                             startActivity(intentLogin);
+                            finish();
                         }
                     }
 
@@ -72,6 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView btnSignup, tvLogin;
     RadioButton radioPolicy;
     AuthApiService authApiService;
+    PatientApiService patientApiService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,10 +86,26 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checkText())
                 {
-                    authApiService = RetrofitClient.getRetrofit().create(AuthApiService.class);
-                    Intent intent = new Intent(RegisterActivity.this, VerifyCodeActivity.class);
-                    intent.putExtra("email", edtEmail.getText().toString().trim());
-                    launchResult.launch(intent);
+                    patientApiService.isExistedPatient(edtEmail.getText().toString()).enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            JsonObject res = response.body();
+                            if(res.get("result").getAsBoolean()) {
+                                edtEmail.setText("Email was registered account");
+                            }
+                            else if(res.get("result").getAsBoolean() == false) {
+                                Intent intent = new Intent(RegisterActivity.this, VerifyCodeActivity.class);
+                                intent.putExtra("email", edtEmail.getText().toString().trim());
+                                launchResult.launch(intent);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                        }
+                    });
+
                 }
             }
         });
@@ -96,6 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intentLogin = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intentLogin);
+                finish();
             }
         });
 
@@ -159,13 +179,18 @@ public class RegisterActivity extends AppCompatActivity {
         }
         if (!TextUtils.equals(edtPassword.getText(), edtRePwd.getText()))
         {
-            Toast.makeText(this, "Invalid confirmation password", Toast.LENGTH_SHORT).show();
+            edtRePwd.setError("Invalid confirmation password");
             edtRePwd.setText("");
             edtRePwd.requestFocus();
             return false;
         }
+        if(edtPassword.getText().length() < 6) {
+            edtPassword.setError("Password must be at least 6 characters");
+            return false;
+        }
         if(!isEmail(edtEmail.getText().toString())) {
-            Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show();
+            edtEmail.setText("Invalid email");
             edtEmail.requestFocus();
             return false;
         }
@@ -185,6 +210,8 @@ public class RegisterActivity extends AppCompatActivity {
         return text.matches(emailPattern);
     }
     private void init() {
+        patientApiService = RetrofitClient.getRetrofit().create(PatientApiService.class);
+        authApiService = RetrofitClient.getRetrofit().create(AuthApiService.class);
         edtName = findViewById(R.id.edt_name_reg);
         edtEmail = findViewById(R.id.edt_email_reg);
         edtPassword = findViewById(R.id.edt_password_reg);

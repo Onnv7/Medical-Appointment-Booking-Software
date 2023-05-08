@@ -31,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HistoryDetailsActivity extends AppCompatActivity {
-    private ImageView ivDoctorAvatar;
+    private ImageView ivDoctorAvatar, ivBack;
     private TextView tvTime, tvStatus, tvMessage, tvReview, tvDoctorAdvice, tvDoctorName, tvCreatedAt;
     private RatingBar rtbRatingDoctor;
     private LinearLayout loDoctorAdvice, loReview;
@@ -51,6 +51,12 @@ public class HistoryDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         bookingId = intent.getStringExtra("BookingId");
         renderViewFromData(bookingId);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +128,7 @@ public class HistoryDetailsActivity extends AppCompatActivity {
         loReview = findViewById(R.id.lo_review_history_details);
 
         reviewApiService = RetrofitClient.getRetrofit().create(ReviewApiService.class);
+        ivBack = findViewById(R.id.iv_back_appoitment_details);
 
 
     }

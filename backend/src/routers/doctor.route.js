@@ -11,7 +11,7 @@ const upload = multer({ storage });
 
 
 // router.post("/create", createDoctor)
-router.put("/update/:doctorId", upload.single('image'), updateProfile);
+router.put("/update-profile/:doctorId", upload.single('avatar'), updateProfile);
 router.get("/profile/:doctorId", getProfileById);
 router.get("/top-doctor/:top", getTopDoctor);
 router.get("/some-doctor/:some", getSomeDoctor);

@@ -20,7 +20,6 @@ export const updateBooking = async (req, res, next) => {
 
 export const createBooking = async (req, res, next) => {
     try {
-        console.log(req.body)
         const oldBooking = await Booking.findOne(
             {
                 patient: req.body.patient,
@@ -28,9 +27,8 @@ export const createBooking = async (req, res, next) => {
                 time: req.body.time
             }
         );
-        console.log("🚀 ~ file: booking.controller.js:31 ~ createBooking ~ oldBooking:", oldBooking)
+
         if (oldBooking) {
-            console.log("ok")
             return res.status(200).json({ success: false, message: "Existed", result: oldBooking });
         }
         const booking = new Booking({ ...req.body, star: 0, review: null });

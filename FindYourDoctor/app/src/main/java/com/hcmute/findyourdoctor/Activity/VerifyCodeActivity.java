@@ -31,7 +31,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
     AuthApiService authApiService;
     String email;
     String code;
-    ImageView imv_back_from_vefify_code;
+    ImageView btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +47,8 @@ public class VerifyCodeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checkText())
                 {
-                    HashMap<String, String> body = new HashMap<>();
                     String patientCode = edtNum1.getText().toString().trim() +  edtNum2.getText().toString().trim() +edtNum3.getText().toString().trim() +edtNum4.getText().toString().trim();
-                    System.out.println(code + " --- " +  patientCode);
+                    
                     if(!code.equals(patientCode))
                     {
                         tvWrong.setVisibility(View.VISIBLE);
@@ -120,7 +119,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
         edtNum4 = (EditText) findViewById(R.id.edt_search_appointment_list);
         tvWrong = (TextView) findViewById(R.id.tv_wrong);
         btnSubmit = (TextView) findViewById(R.id.btn_submit);
-        imv_back_from_vefify_code = (ImageView) findViewById(R.id.imv_back_from_vefify_code);
+        btnBack = (ImageView) findViewById(R.id.imv_back_from_vefify_code);
         edtNum1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -190,7 +189,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
             }
         });
 
-        imv_back_from_vefify_code.setOnClickListener(new View.OnClickListener() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

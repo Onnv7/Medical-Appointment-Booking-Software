@@ -11,53 +11,37 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_weight="0.75"
-        android:weightSum="10"
-        android:orientation="horizontal"
-        android:layout_height="0dp">
+        android:layout_height="50dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5">
+        <androidx.cardview.widget.CardView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            app:cardCornerRadius="8dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
-                app:cardCornerRadius="8dp">
+            <ImageView
+                android:id="@+id/imv_back_doctor_detail"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="2dp"
+                android:background="@null"
+                android:src="@drawable/back"></ImageView>
+        </androidx.cardview.widget.CardView>
 
-                <ImageView
-                    android:id="@+id/imv_back_doctor_detail"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@null"
-                    android:src="@drawable/back"></ImageView>
-            </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doctor Details"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:textStyle="bold">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="8.5"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:text="Doctor Details"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="15dp"
-                android:textSize="19sp"
-                android:textStyle="bold"
-                android:textColor="#1E1E1E"
-                android:layout_height="match_parent">
-
-            </TextView>
-        </LinearLayout>
+        </TextView>
 
 
     </LinearLayout>

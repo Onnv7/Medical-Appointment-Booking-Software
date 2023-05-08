@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.doctorapp.Adapter.EditTimeSlotAdapter;
@@ -35,6 +36,7 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
     private String uid;
     private String date;
     private Button btnComfirm;
+    private ImageView ivBack;
     private ScheduleApiService scheduleApiService;
     private GridView gvMorning, gvAfternoon, gvEvening;
     List<TimeSlotDomain> afternoonSlotList, eveningSlotList, morningSlotList;
@@ -48,7 +50,7 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_time_schedule);
         init();
         renderUI();
-        setOnConfirmButtonClick();
+        setButtonClick();
     }
     private JsonArray getPeriod() {
         JsonArray periodList = new JsonArray();
@@ -70,7 +72,7 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
         return periodList;
 
     }
-    private void setOnConfirmButtonClick() {
+    private void setButtonClick() {
         btnComfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +95,12 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
                         Toast.makeText(EditTimeScheduleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
@@ -180,5 +188,6 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
         gvEvening = findViewById(R.id.gv_evening_edit_time_schedule);
 
         btnComfirm = findViewById(R.id.btn_confirm_edit_time_schedule);
+        ivBack = findViewById(R.id.iv_back_edit_time_schedule);
     }
 }

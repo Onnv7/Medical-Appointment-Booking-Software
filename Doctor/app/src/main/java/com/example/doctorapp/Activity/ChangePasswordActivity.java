@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private TextView btnChangePwd;
     private SharedPreferences sharedPreferences;
     private AuthApiService authApiService;
+    private ImageView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_password);
         init();
         setOnChangePwdButtonClick();
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void setOnChangePwdButtonClick() {
@@ -108,5 +116,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         edtRePwd = findViewById(R.id.edt_re_pwd_change_password);
 
         btnChangePwd = findViewById(R.id.btn_change_pwd_change_password);
+        ivBack = findViewById(R.id.iv_back_change_password);
     }
 }

@@ -7,44 +7,59 @@ const doctorSchema = mongoose.Schema({
     email: {
         type: String,
         unique: true,
-        empty: false,
+        required: true,
     },
     password: {
         type: String,
-        empty: false,
+        required: true,
+        minLength: [
+            6,
+            "A user password must have more or equal than 6 characters",
+        ],
     },
     name: {
         type: String,
-        empty: false,
+        required: true,
     },
     gender: {
         type: String,
+        required: true,
         enum: ["male", "female"],
     },
     birthDate: {
-        type: Date
+        type: Date,
+        required: true,
     },
     avatarUrl: {
-        type: String
+        type: String,
+        required: true,
+        default: "https://res.cloudinary.com/dtvnsczg8/image/upload/v1681134360/Clinic/avatar/doctor/doctor_avatar_default.png"
     },
     phone: {
-        type: String
+        type: String,
+        required: true,
     },
     introduction: {
-        type: String
+        type: String,
+        required: true,
     },
     clinicName: {
-        type: String
+        type: String,
+        required: true,
     },
     clinicAddress: {
-        type: String
+        type: String,
+        required: true,
     },
     price: {
-        type: Number
+        type: Number,
+        required: true,
+        default: 0
     },
     specialist: {
         type: mongoose.Types.ObjectId,
         ref: "Specialist",
+        required: true,
         default: null
     }
 }, { timestamps: true }, { toJSON: { virtuals: true } });
