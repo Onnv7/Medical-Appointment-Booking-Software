@@ -1,6 +1,7 @@
 package com.example.doctorapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +37,7 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
     private String uid;
     private String date;
     private Button btnComfirm;
-    private ImageView ivBack;
+    private CardView ivBack;
     private ScheduleApiService scheduleApiService;
     private GridView gvMorning, gvAfternoon, gvEvening;
     List<TimeSlotDomain> afternoonSlotList, eveningSlotList, morningSlotList;
