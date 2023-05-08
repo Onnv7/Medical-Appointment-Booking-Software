@@ -1,6 +1,7 @@
 package com.example.doctorapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
@@ -26,7 +27,8 @@ import retrofit2.Response;
 
 public class BookingDetailsActivity extends AppCompatActivity {
     private String bookingId;
-    private ImageView ivPatientAvt, ivBack;
+    private ImageView ivPatientAvt;
+    private CardView ivBack;
     private BookingApiService bookingApiService;
     private TextView tvName, tvDatetime, tvStatus, tvMessage, tvAdvice, tvPhoneNumber;
     private TextView btnSuccess, btnDeny;

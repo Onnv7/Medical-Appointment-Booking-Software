@@ -1,6 +1,7 @@
 package com.example.doctorapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,7 +30,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private TextView btnChangePwd;
     private SharedPreferences sharedPreferences;
     private AuthApiService authApiService;
-    private ImageView ivBack;
+    private CardView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
