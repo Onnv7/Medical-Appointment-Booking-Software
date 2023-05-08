@@ -23,12 +23,32 @@ import cloudinary from "../utils/cloudinary.js";
 
 export const updateProfile = async (req, res, next) => {
     try {
+        const doctorId = req.params.doctorId;
+        let type;
+        let image, avatarUrl = "";
+        let body = req.body;
+        if (req.file) {
+            type = req.file.mimetype
+            image = `data:${type};base64,` + req.file.buffer.toString('base64');
+            const uploadedResponse = await cloudinary.uploader.upload(image, {
+                public_id: doctorId,
+                upload_preset: 'doctor avatar'
+            })
+            avatarUrl = uploadedResponse.url
+            body = {
+                ...body,
+                avatarUrl
+            }
+        }
+
         const doctor = await Doctor.findByIdAndUpdate(
-            req.params.doctorId,
-            { ...req.body },
-            { new: true }
+            doctorId,
+            body,
+            { new: true },
         );
-        res.status(200).json({ success: true, message: "Update profile successfully", result: doctor });
+
+        const { password, ...others } = doctor._doc;
+        res.status(200).json({ success: true, message: "Update profile successfully", result: others })
     } catch (error) {
         next(error);
     }
@@ -37,7 +57,7 @@ export const updateProfile = async (req, res, next) => {
 export const getProfileById = async (req, res, next) => {
     try {
         const doctor = await Doctor.findById(req.params.doctorId).populate('specialist');
-        const birthDate = formatMongooseTime("DD-MM-YYYY", doctor.birthDate)
+        const birthDate = formatMongooseTime("YYYY-MM-DD", doctor.birthDate)
         const { password, ...others } = doctor._doc;
         let rating = await doctor.rating;
         res.status(200).json({ success: true, message: "Find successfully", result: { ...others, rating, birthDate } });

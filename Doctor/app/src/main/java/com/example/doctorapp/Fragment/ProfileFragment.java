@@ -147,7 +147,20 @@ public class ProfileFragment extends Fragment {
                 body.put("phone", RequestBody.create(mediaType, edtPhone.getText().toString()));
                 body.put("birthDate", RequestBody.create(mediaType, edtBirthDate.getText().toString()));
                 body.put("address", RequestBody.create(mediaType, edtAddress.getText().toString()));
+                doctorApiService.updateProfile(uid, body, filePart).enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if(response.isSuccessful()) {
+                            renderProfile();
+                            Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

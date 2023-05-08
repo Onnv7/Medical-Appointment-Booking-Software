@@ -9,6 +9,10 @@ const patientSchema = mongoose.Schema({
     password: {
         type: String,
         required: true,
+        minLength: [
+            6,
+            "A user password must have more or equal than 6 characters",
+        ],
     },
     name: {
         type: String,

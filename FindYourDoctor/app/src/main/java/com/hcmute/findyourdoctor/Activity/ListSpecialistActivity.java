@@ -2,6 +2,7 @@ package com.hcmute.findyourdoctor.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -28,6 +29,7 @@ import retrofit2.Response;
 public class ListSpecialistActivity extends AppCompatActivity {
     List<Specialist> specialistList = new ArrayList<Specialist>();
     RecyclerView rcvSpecialistList;
+    SeeallSpecialtyAdapter specialistAdapter;
     ImageView back_specialty;
     SpecialistApiService specialistApiService;
     @Override
@@ -57,10 +59,12 @@ public class ListSpecialistActivity extends AppCompatActivity {
                         Specialist specialistDomain = gson.fromJson(specialist, Specialist.class);
                         specialistList.add(specialistDomain);
                     }
-                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(ListSpecialistActivity.this, 2, RecyclerView.VERTICAL, false);
+//                    LinearLayoutManager layoutManager = new LinearLayoutManager(ListSpecialistActivity.this, RecyclerView.VERTICAL, false);
 
+                    GridLayoutManager layoutManager = new GridLayoutManager(ListSpecialistActivity.this, 2);
+                    System.out.println(specialistList.size());
                     rcvSpecialistList.setLayoutManager(layoutManager);
-                    SeeallSpecialtyAdapter specialistAdapter = new SeeallSpecialtyAdapter(specialistList, ListSpecialistActivity.this);
+                    specialistAdapter = new SeeallSpecialtyAdapter(specialistList, ListSpecialistActivity.this);
                     rcvSpecialistList.setAdapter(specialistAdapter);
                 }
             }

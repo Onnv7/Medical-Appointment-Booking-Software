@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,8 +41,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.ViewTarget;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.hcmute.findyourdoctor.Activity.ChangePasswordActivity;
 import com.hcmute.findyourdoctor.Activity.LoginActivity;
 import com.hcmute.findyourdoctor.Api.PatientApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
@@ -67,10 +70,12 @@ import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
     private SharedPreferences sharedPreferences;
+    private boolean open = false;
     ImageView btnUploadImage, ivAvatar;
     LinearLayout layoutBirthdate;
     EditText edtName, edtEmail, edtPassword, edtPhone, edtBirthDate, edtAddress;
-    TextView btnUpadte, btnLogout, tvHelloName;
+    TextView btnUpdate, btnLogout, tvHelloName;
+    FloatingActionButton fabLogout, fabMore, fabChangePassword;
     RadioButton rdoFemale, rdoMale;
     PatientApiService patientApiService;
     DatePickerDialog.OnDateSetListener setListener;
@@ -118,7 +123,7 @@ public class ProfileFragment extends Fragment {
         init(view);
         setOnClickBtnUpdate();
         getProfilePatient(patientId);
-        setOnLogoutClick();
+        setOnFloatButtonClick();
     }
 
     @Override
@@ -173,6 +178,47 @@ public class ProfileFragment extends Fragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         activityResultLauncher.launch(Intent.createChooser(intent, "Select picture"));
     }
+    private void setOnFloatButtonClick() {
+        fabMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Drawable closeIcon = getResources().getDrawable(R.drawable.icon_arrow_drop);
+                Drawable moreIcon = getResources().getDrawable(R.drawable.icon_more);
+                if(open == false) {
+                    fabLogout.setVisibility(View.VISIBLE);
+                    fabChangePassword.setVisibility(View.VISIBLE);
+                    fabMore.setImageDrawable(closeIcon);
+                    open = true;
+                }
+                else {
+                    fabLogout.setVisibility(View.GONE);
+                    fabChangePassword.setVisibility(View.GONE);
+                    fabMore.setImageDrawable(moreIcon);
+                    open = false;
+                }
+            }
+        });
+        fabLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("id");
+                editor.remove("email");
+                editor.remove("is_logged");
+                editor.apply();
+
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        fabChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ChangePasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
     private void renderProfile(Response<JsonObject> response) {
         Gson gson = new Gson();
         JsonObject res = response.body();
@@ -223,6 +269,12 @@ public class ProfileFragment extends Fragment {
         edtPhone.setText(patient.getPhone());
 
         edtAddress.setText(patient.getAddress());
+        if(patient.getGender().equals("male")) {
+            rdoMale.setChecked(true);
+        }
+        else if(patient.getGender().equals("female")) {
+            rdoFemale.setChecked(true);
+        }
         if(patient.getAvatarUrl().equals(""))
         {
             int imageResource = getResources().getIdentifier("avatar", "drawable", getActivity().getPackageName());
@@ -236,15 +288,15 @@ public class ProfileFragment extends Fragment {
         }
     }
     private void setOnClickBtnUpdate() {
-        btnUpadte.setOnClickListener(new View.OnClickListener() {
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                alert.setTitle("Xác nhận");
+                alert.setTitle("Profile Update");
                 alert.setIcon(R.mipmap.ic_launcher);
-                alert.setMessage("Bạn có muốn cập nhật thông tin");
+                alert.setMessage("Do you want to update your profile");
 
-                alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         HashMap<String, RequestBody> body = new HashMap<>();
@@ -275,7 +327,6 @@ public class ProfileFragment extends Fragment {
                         patientApiService.updateProfile(patientId, body, filePart).enqueue(new Callback<JsonObject>() {
                             @Override
                             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                                Log.d("nva", response.toString());
                                 if(response.isSuccessful()) {
                                     renderProfile(response);
                                     Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
@@ -290,7 +341,7 @@ public class ProfileFragment extends Fragment {
                     }
                 });
 
-                alert.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -313,41 +364,6 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
-            }
-        });
-    }
-    private void setOnLogoutClick() {
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                alert.setTitle("Xác nhận");
-                alert.setIcon(R.mipmap.ic_launcher);
-                alert.setMessage("Bạn có muốn đăng xuất");
-
-                alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.remove("id");
-                        editor.remove("email");
-                        editor.remove("is_logged");
-                        editor.apply();
-
-                        Intent intent = new Intent(getContext(), LoginActivity.class);
-                        startActivity(intent);
-                    }
-                });
-
-                alert.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                alert.show();
 
             }
         });
@@ -381,8 +397,8 @@ public class ProfileFragment extends Fragment {
             return;
         }
         btnUploadImage = view.findViewById(R.id.btn_upload_image_pf);
-        btnUpadte = view.findViewById(R.id.btn_update_pf);
-        btnLogout = view.findViewById(R.id.btn_log_out);
+        btnUpdate = view.findViewById(R.id.btn_update_pf);
+//        btnLogout = view.findViewById(R.id.btn_log_out);
         ivAvatar = view.findViewById(R.id.iv_avatar_doctor_details);
 
         tvHelloName = view.findViewById(R.id.tv_hello_name_profile_fragment);
@@ -398,7 +414,11 @@ public class ProfileFragment extends Fragment {
         rdoMale = view.findViewById(R.id.rdo_male_pf);
         rdoFemale = view.findViewById(R.id.rdo_female_pf);
 
-
+        fabLogout = view.findViewById(R.id.fab_logout_pf);
+        fabMore = view.findViewById(R.id.fab_more_pf);
+        fabChangePassword = view.findViewById(R.id.fab_change_password_pf);
+        fabLogout.setVisibility(View.GONE);
+        fabChangePassword.setVisibility(View.GONE);
 
     }
 }

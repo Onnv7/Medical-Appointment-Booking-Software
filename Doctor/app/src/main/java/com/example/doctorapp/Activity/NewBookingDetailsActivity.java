@@ -27,7 +27,7 @@ public class NewBookingDetailsActivity extends AppCompatActivity {
     private BookingApiService bookingApiService;
     private TextView tvName, tvDatetime, tvStatus, tvMessage, tvAdvice, tvPhoneNumber;
     private TextView btnAccept, btnDeny;
-    private ImageView ivPatientAvt;
+    private ImageView ivPatientAvt, ivBack;
     private ConstraintLayout layoutControlButton;
 
     @Override
@@ -38,6 +38,12 @@ public class NewBookingDetailsActivity extends AppCompatActivity {
         renderUI();
         setOnButtonClick(btnAccept, "accepted");
         setOnButtonClick(btnDeny, "denied");
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -111,5 +117,6 @@ public class NewBookingDetailsActivity extends AppCompatActivity {
 
         layoutControlButton = findViewById(R.id.layout_control_button_new_booking_details);
         tvPhoneNumber = findViewById(R.id.tv_patient_phone_new_booking_details);
+        ivBack = findViewById(R.id.imv_back_new_booking_details);
     }
 }

@@ -112,9 +112,14 @@ export const loginPatient = async (req, res, next) => {
 
 export const changePasswordPatient = async (req, res, next) => {
     try {
+        console.log(req.body)
+        const patient = await Patient.findOne({ email: req.body.email })
+
+        const isPasswordCorrect = await bcrypt.compare(req.body.oldPassword, patient.password);
+        if (!isPasswordCorrect) return res.status(200).json({ success: false, message: 'Old password is incorrect' });
+
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
-
         await Patient.updateOne(
             { email: req.body.email },
             { password: hash }
@@ -128,16 +133,16 @@ export const changePasswordPatient = async (req, res, next) => {
 
 export const changePasswordDoctor = async (req, res, next) => {
     try {
-        
+
         const doctor = await Doctor.findOne({ email: req.body.email })
-        
+
         const isPasswordCorrect = await bcrypt.compare(req.body.oldPassword, doctor.password);
         if (!isPasswordCorrect) return res.status(200).json({ success: false, message: 'Old password is incorrect' });
-        
+
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
-        
-        
+
+
 
         await Doctor.updateOne(
             { email: req.body.email },

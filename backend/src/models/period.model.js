@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const periodSchema = mongoose.Schema({
     start: {
         type: String,
+        required: true,
     }
 }, { timestamps: false });
 

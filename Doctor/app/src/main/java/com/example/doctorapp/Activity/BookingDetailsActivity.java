@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 public class BookingDetailsActivity extends AppCompatActivity {
     private String bookingId;
-    private ImageView ivPatientAvt;
+    private ImageView ivPatientAvt, ivBack;
     private BookingApiService bookingApiService;
     private TextView tvName, tvDatetime, tvStatus, tvMessage, tvAdvice, tvPhoneNumber;
     private TextView btnSuccess, btnDeny;
@@ -40,6 +40,12 @@ public class BookingDetailsActivity extends AppCompatActivity {
         renderUI();
         setOnButtonClick(btnSuccess, "succeeded");
         setOnButtonClick(btnDeny, "denied");
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
     private void setOnButtonClick(TextView btn, String status) {
         btn.setOnClickListener(new View.OnClickListener() {
@@ -126,5 +132,6 @@ public class BookingDetailsActivity extends AppCompatActivity {
         tvAdvice = findViewById(R.id.tv_advice_booking_details);
         layoutControlButton = findViewById(R.id.layout_control_button_booking_details);
         tvPhoneNumber = findViewById(R.id.tv_patient_phone_booking_details);
+        ivBack = findViewById(R.id.iv_back_booking_details);
     }
 }
