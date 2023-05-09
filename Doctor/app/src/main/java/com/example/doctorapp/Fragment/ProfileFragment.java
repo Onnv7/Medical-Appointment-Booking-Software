@@ -60,7 +60,7 @@ public class ProfileFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private ImageView btnUploadImage, ivAvatar;
     private LinearLayout layoutBirthdate;
-    private EditText edtName, edtEmail, edtPassword, edtPhone, edtBirthDate, edtAddress, edtClinicName, edtSpecialist;
+    private EditText edtName, edtEmail, edtPassword, edtPhone, edtBirthDate, edtAddress, edtClinicName, edtSpecialist, edtIntroduction;
     private TextView btnUpadte, btnLogout, tvHelloName;
     private FloatingActionButton fabMore, fabLogout, fabChangePassword;
     private RadioButton rdoFemale, rdoMale;
@@ -147,6 +147,7 @@ public class ProfileFragment extends Fragment {
                 body.put("phone", RequestBody.create(mediaType, edtPhone.getText().toString()));
                 body.put("birthDate", RequestBody.create(mediaType, edtBirthDate.getText().toString()));
                 body.put("address", RequestBody.create(mediaType, edtAddress.getText().toString()));
+                body.put("introduction", RequestBody.create(mediaType, edtIntroduction.getText().toString()));
                 doctorApiService.updateProfile(uid, body, filePart).enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -272,6 +273,7 @@ public class ProfileFragment extends Fragment {
                     edtClinicName.setText(doctor.getClinicName());
                     edtAddress.setText(doctor.getClinicAddress());
                     edtSpecialist.setText(doctor.getSpecialist().getName());
+                    edtIntroduction.setText(doctor.getIntroduction());
 
                     Glide.with(getContext())
                             .load(doctor.getAvatarUrl())
@@ -310,6 +312,7 @@ public class ProfileFragment extends Fragment {
         edtClinicName = view.findViewById(R.id.edt_clinic_name_pf);
         edtAddress = view.findViewById(R.id.edt_address_pf);
         edtSpecialist = view.findViewById(R.id.edt_specialist_pf);
+        edtIntroduction = view.findViewById(R.id.edt_introduction_pf);
 
         rdoMale = view.findViewById(R.id.rdo_male_pf);
         rdoFemale = view.findViewById(R.id.rdo_female_pf);

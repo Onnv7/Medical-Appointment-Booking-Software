@@ -1,6 +1,7 @@
 package com.example.doctorapp.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import com.example.doctorapp.Adapter.SliderItemAdapter;
 import com.example.doctorapp.Api.ArticleApiService;
 import com.example.doctorapp.Api.DoctorApiService;
 import com.example.doctorapp.Api.RetrofitClient;
+import com.example.doctorapp.DoctorDetailActivity;
 import com.example.doctorapp.Domain.SliderItemDomain;
 import com.example.doctorapp.Model.Article;
 import com.example.doctorapp.Model.Doctor;
@@ -87,7 +89,18 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         init(view);
         renderUI();
+        setOnAvatarClick();
+
         return view;
+    }
+    private void setOnAvatarClick() {
+        ivAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), DoctorDetailActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     private void renderUI() {
         articleApiService.getAllArticles().enqueue(new Callback<JsonObject>() {

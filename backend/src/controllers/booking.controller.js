@@ -53,7 +53,7 @@ export const listBookingByPatient = async (req, res, next) => {
                     'name': 1,
                     'avatarUrl': 1
                 }
-            })
+            }).sort({ time: -1 });
         // .populate({
         //     // path: 'schedule',
         //     // select: 'date',
@@ -117,6 +117,7 @@ export const getHistoryList = async (req, res, next) => {
             path: "doctor",
             select: { name: 1, avatarUrl: 1 }
         }).select("doctor time status")
+            .sort({ time: -1 });
         if (bookings.length > 0)
             return res.status(200).json({ success: true, message: "Get history list successfully", result: bookings })
         else
