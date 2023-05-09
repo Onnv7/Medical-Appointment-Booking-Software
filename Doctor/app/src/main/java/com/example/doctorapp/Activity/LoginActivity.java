@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                                         editor.putBoolean("is_logged", true);
                                         editor.apply();
                                         Intent intentMain = new Intent(LoginActivity.this, MainActivity.class);
+//                                        intentMain.putExtra("name", doctor.getName());
+//                                        intentMain.putExtra("avatarUrl", doctor.getAvatarUrl());
                                         startActivity(intentMain);
                                         finish();
                                     }

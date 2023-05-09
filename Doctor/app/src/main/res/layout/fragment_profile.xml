@@ -404,6 +404,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
+        app:backgroundTint="@color/background_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/icon_more" />
@@ -415,6 +416,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
+        app:backgroundTint="@color/background_icon"
         app:layout_constraintBottom_toTopOf="@+id/fab_more_pf"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/icon_logout" />
@@ -426,6 +428,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
+        app:backgroundTint="@color/background_icon"
         app:layout_constraintBottom_toTopOf="@+id/fab_logout_pf"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/icon_password" />

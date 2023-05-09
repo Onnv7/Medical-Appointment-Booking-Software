@@ -161,7 +161,7 @@
         android:scaleType="center"
         android:src="@drawable/icon_edit"
         android:textAlignment="center"
-        app:backgroundTint="#DA582E"
+        app:backgroundTint="#B8DDFA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.904"
