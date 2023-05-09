@@ -27,4 +27,6 @@ public interface DoctorApiService {
     Call<JsonObject> updateProfile(@Path("doctorId") String doctorId,
                                    @PartMap HashMap<String, RequestBody> body,
                                    @Part MultipartBody.Part avatar);
+    @GET(BASE_URL + "/info/{doctorId}")
+    Call<JsonObject> getInfoDoctorById(@Path("doctorId") String doctorId);
 }
