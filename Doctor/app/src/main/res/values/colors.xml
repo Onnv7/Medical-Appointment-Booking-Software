@@ -17,4 +17,6 @@
     <color name="status_denied">#902F4E</color>
     <color name="status_waiting">#A3930D</color>
     <color name="status_accepted">#78C61C</color>
+    <color name="background_icon">#B8DDFA</color>
+    <color name="icon_color">#038108</color>
 </resources>
