@@ -16,4 +16,8 @@ public interface AuthApiService {
 
     @PATCH(BASE_URL + "/doctor/change-password")
     Call<JsonObject> changePassword(@Body JsonObject body);
+
+    @POST(BASE_URL + "/send-confirmation-code")
+    Call<JsonObject> sendCodeToEmail(@Body JsonObject body);
+
 }

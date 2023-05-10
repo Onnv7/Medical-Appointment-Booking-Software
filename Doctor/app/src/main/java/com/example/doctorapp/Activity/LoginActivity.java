@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +51,39 @@ public class LoginActivity extends AppCompatActivity {
         }
         initView();
         setOnLoginButtonClick();
+
+        edtPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_RIGHT = 2;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (motionEvent.getRawX() >= (edtPassword.getRight() - edtPassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        if (edtPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                            edtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.eye);
+                            edtPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+
+                        } else {
+                            edtPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.noteye);
+                            edtPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+                        }
+                        edtPassword.setSelection(edtPassword.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        btnForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void setOnLoginButtonClick() {
@@ -98,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     private boolean checkText() {
