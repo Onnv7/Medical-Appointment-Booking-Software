@@ -254,4 +254,16 @@ export const getAllDoctors = async (req, res, next) => {
         next(error)
     }
 }
-
+export const isExistedDoctor = async (req, res, next) => {
+    try {
+        const patient = await Doctor.findOne({ email: req.query.email });
+        if (patient) {
+            return res.status(200).json({ success: true, message: "Patient already exists", result: true })
+        }
+        else {
+            return res.status(200).json({ success: true, message: "Patient is not existed", result: false })
+        }
+    } catch (error) {
+        next(error)
+    }
+}

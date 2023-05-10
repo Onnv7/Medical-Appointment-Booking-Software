@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.hcmute.findyourdoctor.Activity.LoginActivity;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Api.ReviewApiService;
 import com.hcmute.findyourdoctor.R;
@@ -69,13 +67,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.reviewView
                 .load(review_pt.getPatient().getAvatarUrl())
                 .into(holder.ivPatientAvatar);
         if(!review_pt.getLiker().contains(uid)) {
-            Toast.makeText(mContext, "not like", Toast.LENGTH_SHORT).show();
             Glide.with(holder.itemView.getContext())
                     .load(R.drawable.ic_like_gray)
                     .into(holder.ivLike);
         }
         else {
-            Toast.makeText(mContext, "like", Toast.LENGTH_SHORT).show();
             Glide.with(holder.itemView.getContext())
                     .load(R.drawable.ic_like_green_filled)
                     .into(holder.ivLike);

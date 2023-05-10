@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
@@ -14,8 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hcmute.findyourdoctor.Adapter.AppointmentHistoryAdapter;
@@ -34,33 +35,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AppointmentFragment extends Fragment implements OnHistoryAppointmentClickListener {
-
-    RecyclerView rcvApointmentList;
-    List<Booking> mAppointment;
-    List<Booking> mSearchBookings;
-    EditText edtSearch;
-    AppointmentHistoryAdapter appointmentAdapter;
+    private Fragment haveAppointmentFragment;
+    private Fragment emptyAppointmentFragment;
+    private FragmentManager fragmentManager;
+    private FrameLayout flContent;
     private SharedPreferences sharedPreferences;
+    private Fragment currentFragment;
+    List<Booking> mAppointment;
     String uid;
-    private TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
 
-        @Override
-        public void afterTextChanged(Editable editable) {
-            String searchText = edtSearch.getText().toString().trim();
-            if(searchText.trim().equals(""))
-                renderAppointmentList();
-            else
-                searchAppointment(searchText);
-        }
-
-    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,21 +56,15 @@ public class AppointmentFragment extends Fragment implements OnHistoryAppointmen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_appointment, container, false);
+        init(view);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        init(getView());
-
-        RecyclerView.LayoutManager layoutFeatureAppointment = new LinearLayoutManager(getView().getContext(),
-                LinearLayoutManager.VERTICAL, false);
-
-        rcvApointmentList.setLayoutManager(layoutFeatureAppointment);
-
         renderAppointmentList();
-        edtSearch.addTextChangedListener(textWatcher);
+
     }
     private void renderAppointmentList() {
         mAppointment = new ArrayList<>();
@@ -94,46 +72,47 @@ public class AppointmentFragment extends Fragment implements OnHistoryAppointmen
         bookingApiService.getBookingListId(uid).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                JsonObject jsonObject = response.body();
-                addAppointment(jsonObject);
+                JsonObject res = response.body();
+                if(response.isSuccessful() && res.get("success").getAsBoolean() && res.getAsJsonArray("result").size() > 0) {
+                    JsonArray result = res.getAsJsonArray("result");
+                    haveAppointmentFragment = new HaveAppointmentFragment(result);
+                    setCurrentFragment(haveAppointmentFragment);
+                }
+                else {
+                    setCurrentFragment(emptyAppointmentFragment);
+                }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    public void addAppointment(JsonObject jsonObject) {
-        JsonArray jsonArray = jsonObject.getAsJsonArray("result");
-        Gson gson = new Gson();
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JsonObject appointment = jsonArray.get(i).getAsJsonObject();
-            Booking element = gson.fromJson(appointment, Booking.class);
-            mAppointment.add(element);
-        }
-        appointmentAdapter = new AppointmentHistoryAdapter(mAppointment, AppointmentFragment.this);
-        rcvApointmentList.setAdapter(appointmentAdapter);
     }
 
     @Override
     public void onClickHistoryAppointment(String bookingId) {
     }
-    private void searchAppointment(String searchContent) {
-        mSearchBookings =  new ArrayList<>();
-        for (Booking booking : mAppointment) {
-            if ((booking.getDoctor().getName().toLowerCase() + " " + booking.getStatus() + " " + booking.getTime()).contains(searchContent.toLowerCase())) {
-                mSearchBookings.add(booking);
-            }
+    private void setCurrentFragment(Fragment fragment) {
+        if (currentFragment != null && currentFragment != fragment) {
+            fragmentManager.beginTransaction().remove(currentFragment).commit();
         }
-        System.out.println(mSearchBookings.size() + " ---");
-        appointmentAdapter = new AppointmentHistoryAdapter(mSearchBookings, AppointmentFragment.this);
-        rcvApointmentList.setAdapter(appointmentAdapter);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.fl_content_appointment_list, fragment)
+                .commit();
+
+        currentFragment = fragment;
     }
+
     private void init(View view) {
         sharedPreferences = requireActivity().getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
         uid = sharedPreferences.getString("id", null);
-        rcvApointmentList = getView().findViewById(R.id.rcv_appointment_list);
-        edtSearch = view.findViewById(R.id.edt_search_appointment_list);
+
+        flContent = view.findViewById(R.id.fl_content_appointment_list);
+        fragmentManager = getActivity().getSupportFragmentManager();
+        currentFragment = null;
+        emptyAppointmentFragment = new EmptyAppointmentFragment();
     }
+
 }

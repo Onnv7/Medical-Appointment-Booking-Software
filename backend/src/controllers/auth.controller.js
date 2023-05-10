@@ -110,9 +110,8 @@ export const loginPatient = async (req, res, next) => {
     }
 };
 
-export const changePasswordPatient = async (req, res, next) => {
+export const updateNewPasswordPatient = async (req, res, next) => {
     try {
-        console.log(req.body)
         const patient = await Patient.findOne({ email: req.body.email })
 
         const isPasswordCorrect = await bcrypt.compare(req.body.oldPassword, patient.password);
@@ -129,9 +128,49 @@ export const changePasswordPatient = async (req, res, next) => {
         next(error)
     }
 }
+export const changePasswordPatient = async (req, res, next) => {
+    try {
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(req.body.password, salt);
+        const result = await Patient.findOneAndUpdate(
+            { email: req.body.email },
+            { password: hash },
+            { new: true }
+        )
+        if (result) {
 
+            res.status(200).json({ success: true, message: "Change password successfully" });
+        }
+        else {
+            res.status(200).json({ success: false, message: "Change password failed" });
+        }
+    } catch (error) {
+        next(error)
+    }
+}
 
 export const changePasswordDoctor = async (req, res, next) => {
+    try {
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(req.body.password, salt);
+        const result = await Doctor.findOneAndUpdate(
+            { email: req.body.email },
+            { password: hash },
+            { new: true }
+        )
+        if (result) {
+            res.status(200).json({ success: true, message: "Change password successfully" });
+        }
+        else {
+            res.status(200).json({ success: false, message: "Change password failed" });
+        }
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const updateNewPasswordDoctor = async (req, res, next) => {
     try {
 
         const doctor = await Doctor.findOne({ email: req.body.email })

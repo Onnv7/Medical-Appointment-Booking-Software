@@ -41,6 +41,7 @@ import com.example.doctorapp.Api.RetrofitClient;
 import com.example.doctorapp.Activity.ChangePasswordActivity;
 import com.example.doctorapp.Model.Doctor;
 import com.example.doctorapp.R;
+import com.example.doctorapp.UpdatePasswordActivity;
 import com.example.doctorapp.Utils.Constant;
 import com.example.doctorapp.Utils.RealPathUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -235,7 +236,7 @@ public class ProfileFragment extends Fragment {
         fabChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), ChangePasswordActivity.class);
+                Intent intent = new Intent(getContext(), UpdatePasswordActivity.class);
                 startActivity(intent);
             }
         });

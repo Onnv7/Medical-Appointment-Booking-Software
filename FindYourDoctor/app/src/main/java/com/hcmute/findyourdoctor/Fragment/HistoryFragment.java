@@ -139,7 +139,7 @@ public class HistoryFragment extends Fragment implements OnHistoryAppointmentCli
                         mAppointmentHistory.add(booking);
                     }
 
-                    appointmentHistoryAdapter = new AppointmentHistoryAdapter(mAppointmentHistory, HistoryFragment.this);
+                    appointmentHistoryAdapter = new AppointmentHistoryAdapter(mAppointmentHistory, getContext());
                     rcvApointmentHistory.setAdapter(appointmentHistoryAdapter);
                 }
             }
@@ -158,7 +158,7 @@ public class HistoryFragment extends Fragment implements OnHistoryAppointmentCli
                 mSearchBookings.add(booking);
             }
         }
-        appointmentHistoryAdapter = new AppointmentHistoryAdapter(mSearchBookings, HistoryFragment.this);
+        appointmentHistoryAdapter = new AppointmentHistoryAdapter(mSearchBookings, getContext());
         rcvApointmentHistory.setAdapter(appointmentHistoryAdapter);
     }
     private void init(View view) {

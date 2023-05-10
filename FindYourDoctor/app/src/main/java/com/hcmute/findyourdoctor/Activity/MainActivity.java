@@ -1,7 +1,5 @@
 package com.hcmute.findyourdoctor.Activity;
 
-import static com.hcmute.findyourdoctor.Utils.Constant.SHARE;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,23 +8,18 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 //import com.hcmute.findyourdoctor.Adapter.SpecialistAdapter;
 //import com.hcmute.findyourdoctor.Model.SpecialistDomain;
 import com.google.gson.JsonObject;
-import com.hcmute.findyourdoctor.Api.ApiService;
 import com.hcmute.findyourdoctor.Api.BookingApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
-import com.hcmute.findyourdoctor.Fragment.AppointmentEmptyFragment;
 import com.hcmute.findyourdoctor.Fragment.AppointmentFragment;
 import com.hcmute.findyourdoctor.Fragment.HistoryFragment;
 import com.hcmute.findyourdoctor.Fragment.HomeFragment;
-import com.hcmute.findyourdoctor.Fragment.NotificationsFragment;
 import com.hcmute.findyourdoctor.Fragment.ProfileFragment;
 import com.hcmute.findyourdoctor.Adapter.ViewPagerAdapter;
 import com.hcmute.findyourdoctor.R;
@@ -65,13 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkFragment(Boolean check){
         fragmentArrayList = new ArrayList<>();
         fragmentArrayList.add(new HomeFragment());
-        if(check) {
-            fragmentArrayList.add(new AppointmentFragment());
-        }
-        else {
-            fragmentArrayList.add(new AppointmentEmptyFragment());
-        }
-//        fragmentArrayList.add(new NotificationsFragment());
+        fragmentArrayList.add(new AppointmentFragment());
         fragmentArrayList.add(new HistoryFragment());
         fragmentArrayList.add(new ProfileFragment());
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(MainActivity.this, fragmentArrayList);
@@ -88,10 +75,6 @@ public class MainActivity extends AppCompatActivity {
                         viewPager.setCurrentItem(1);
                         bottomNavigationView.setSelectedItemId(R.id.action_calendar);
                         break;
-//                    case 2:
-//                        viewPager.setCurrentItem(2);
-//                        bottomNavigationView.setSelectedItemId(R.id.action_notifications);
-//                        break;
                     case 2:
                         viewPager.setCurrentItem(2);
                         bottomNavigationView.setSelectedItemId(R.id.action_history);
@@ -135,10 +118,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.body().getAsJsonArray("result").size() == 0){
-                    Toast.makeText(MainActivity.this, "fag hide", Toast.LENGTH_SHORT).show();
                     checkFragment(false);
                 }else{
-                    Toast.makeText(MainActivity.this, "fag > 0", Toast.LENGTH_SHORT).show();
                     checkFragment(true);
                 }
             }

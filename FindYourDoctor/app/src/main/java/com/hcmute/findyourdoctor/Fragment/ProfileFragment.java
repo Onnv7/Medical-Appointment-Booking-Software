@@ -50,6 +50,7 @@ import com.hcmute.findyourdoctor.Api.PatientApiService;
 import com.hcmute.findyourdoctor.Api.RetrofitClient;
 import com.hcmute.findyourdoctor.Model.Patient;
 import com.hcmute.findyourdoctor.R;
+import com.hcmute.findyourdoctor.UpdatePasswordActivity;
 import com.hcmute.findyourdoctor.Utils.Constant;
 import com.hcmute.findyourdoctor.Utils.RealPathUtil;
 
@@ -75,7 +76,7 @@ public class ProfileFragment extends Fragment {
     LinearLayout layoutBirthdate;
     EditText edtName, edtEmail, edtPassword, edtPhone, edtBirthDate, edtAddress;
     TextView btnUpdate, btnLogout, tvHelloName;
-    FloatingActionButton fabLogout, fabMore, fabChangePassword;
+    FloatingActionButton fabLogout, fabMore, fabUpdatePassword;
     RadioButton rdoFemale, rdoMale;
     PatientApiService patientApiService;
     DatePickerDialog.OnDateSetListener setListener;
@@ -186,13 +187,13 @@ public class ProfileFragment extends Fragment {
                 Drawable moreIcon = getResources().getDrawable(R.drawable.icon_more);
                 if(open == false) {
                     fabLogout.setVisibility(View.VISIBLE);
-                    fabChangePassword.setVisibility(View.VISIBLE);
+                    fabUpdatePassword.setVisibility(View.VISIBLE);
                     fabMore.setImageDrawable(closeIcon);
                     open = true;
                 }
                 else {
                     fabLogout.setVisibility(View.GONE);
-                    fabChangePassword.setVisibility(View.GONE);
+                    fabUpdatePassword.setVisibility(View.GONE);
                     fabMore.setImageDrawable(moreIcon);
                     open = false;
                 }
@@ -211,10 +212,10 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        fabChangePassword.setOnClickListener(new View.OnClickListener() {
+        fabUpdatePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), ChangePasswordActivity.class);
+                Intent intent = new Intent(getContext(), UpdatePasswordActivity.class);
                 startActivity(intent);
             }
         });
@@ -416,9 +417,9 @@ public class ProfileFragment extends Fragment {
 
         fabLogout = view.findViewById(R.id.fab_logout_pf);
         fabMore = view.findViewById(R.id.fab_more_pf);
-        fabChangePassword = view.findViewById(R.id.fab_change_password_pf);
+        fabUpdatePassword = view.findViewById(R.id.fab_change_password_pf);
         fabLogout.setVisibility(View.GONE);
-        fabChangePassword.setVisibility(View.GONE);
+        fabUpdatePassword.setVisibility(View.GONE);
 
     }
 }

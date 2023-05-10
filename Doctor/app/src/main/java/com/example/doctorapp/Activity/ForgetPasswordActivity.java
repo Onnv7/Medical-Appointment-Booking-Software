@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doctorapp.Api.DoctorApiService;
 import com.example.doctorapp.Api.PatientApiService;
 import com.example.doctorapp.Api.RetrofitClient;
 import com.example.doctorapp.R;
@@ -30,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ForgetPasswordActivity extends AppCompatActivity {
-    PatientApiService patientApiService;
+    DoctorApiService doctorApiService;
     EditText edtEmail;
     TextView btnContinue, tvError;
     ImageView imv_back_forget_password;
@@ -65,51 +66,31 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(ForgetPasswordActivity.this);
-                alert.setTitle("Xác nhận");
-                alert.setIcon(R.mipmap.ic_launcher);
-                alert.setMessage("Bạn có muốn tiếp tục");
-
-                alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                if(!CheckTextInput.isValidEmail(edtEmail.getText().toString())) {
+                    tvError.setVisibility(View.VISIBLE);
+                    tvError.setText("Invalid email");
+                    return;
+                }
+                doctorApiService.isExistedDoctor(edtEmail.getText().toString()).enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if(!CheckTextInput.isValidEmail(edtEmail.getText().toString())) {
-                            tvError.setVisibility(View.VISIBLE);
-                            tvError.setText("Invalid email");
-                            return;
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        JsonObject res = response.body();
+                        if(res.get("result").getAsBoolean()) {
+                            Intent intent = new Intent(ForgetPasswordActivity.this, VerifyCodeActivity.class);
+                            intent.putExtra("email", edtEmail.getText().toString().trim());
+                            resultLauncher.launch(intent);
                         }
-                        Toast.makeText(ForgetPasswordActivity.this, "ok", Toast.LENGTH_SHORT).show();
-                        patientApiService.isExistedPatient(edtEmail.getText().toString()).enqueue(new Callback<JsonObject>() {
-                            @Override
-                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                                JsonObject res = response.body();
-                                if(res.get("result").getAsBoolean()) {
-                                    Intent intent = new Intent(ForgetPasswordActivity.this, VerifyCodeActivity.class);
-                                    intent.putExtra("email", edtEmail.getText().toString().trim());
-                                    resultLauncher.launch(intent);
-                                }
-                                else if(res.get("result").getAsBoolean() == false) {
-                                    tvError.setVisibility(View.VISIBLE);
-                                    tvError.setText("Email not registered account");
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<JsonObject> call, Throwable t) {
-
-                            }
-                        });
+                        else if(res.get("result").getAsBoolean() == false) {
+                            tvError.setVisibility(View.VISIBLE);
+                            tvError.setText("Email not registered account");
+                        }
                     }
-                });
 
-                alert.setNegativeButton("Không", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Toast.makeText(ForgetPasswordActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-                alert.show();
-
 
 
             }
@@ -117,7 +98,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     }
 
     private void init() {
-        patientApiService = RetrofitClient.getRetrofit().create(PatientApiService.class);
+        doctorApiService = RetrofitClient.getRetrofit().create(DoctorApiService.class);
         edtEmail = findViewById(R.id.edt_email_forget_password);
         btnContinue = findViewById(R.id.btn_continue_forget_password);
         tvError = findViewById(R.id.tv_error_forget_password);

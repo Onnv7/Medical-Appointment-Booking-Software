@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -97,7 +96,6 @@ public class SelectTimeAdapter extends RecyclerView.Adapter<SelectTimeAdapter.se
         @Override
         public void onClick(View view) {
             boolean isSelected = itemView.isActivated();
-            Toast.makeText(itemView.getContext(), "lmaoooo " + isSelected, Toast.LENGTH_SHORT).show();
             itemView.setSelected(isSelected);
         }
     }
