@@ -27,6 +27,9 @@ public interface AuthApiService {
     @PATCH(BASE_URL + "/patient/change-password")
     Call<JsonObject> changePassword(@Body JsonObject body);
 
+    @PATCH(BASE_URL + "/patient/update-new-password")
+    Call<JsonObject> updateNewPassword(@Body JsonObject body);
+
     @GET("schedule/list/{id}")
     Call<JsonObject> test(@Path("id") String id);
 

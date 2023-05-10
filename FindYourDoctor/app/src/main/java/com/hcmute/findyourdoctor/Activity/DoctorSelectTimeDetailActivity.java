@@ -136,30 +136,21 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity
             public void onClick(View v) {
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(DoctorSelectTimeDetailActivity.this);
-                alert.setTitle("Xác nhận");
+                alert.setTitle("Booking");
                 alert.setIcon(R.mipmap.ic_launcher);
-                alert.setMessage("Bạn có muốn đặt lịch không");
+                alert.setMessage("Are you sure to book this appointment?");
 
-                alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String time = "";
                         if (adapterObserver.getType().equals("morning")) {
-                            Toast.makeText(DoctorSelectTimeDetailActivity.this,
-                                    "value" + morningSlotList.get(adapterObserver.getIndex()).getTime(),
-                                    Toast.LENGTH_SHORT).show();
                             time = morningSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
                         }
                         if (adapterObserver.getType().equals("afternoon")) {
-                            Toast.makeText(DoctorSelectTimeDetailActivity.this,
-                                    "value" + afternoonSlotList.get(adapterObserver.getIndex()).getTime(),
-                                    Toast.LENGTH_SHORT).show();
                             time = afternoonSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
                         }
                         if (adapterObserver.getType().equals("evening")) {
-                            Toast.makeText(DoctorSelectTimeDetailActivity.this,
-                                    "value" + eveningSlotList.get(adapterObserver.getIndex()).getTime(),
-                                    Toast.LENGTH_SHORT).show();
                             time = eveningSlotList.get(adapterObserver.getIndex()).getTime() + " " + selectedDate;
                         }
                         String message = edtReminder.getText().toString();
@@ -199,7 +190,7 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity
                     }
                 });
 
-                alert.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 

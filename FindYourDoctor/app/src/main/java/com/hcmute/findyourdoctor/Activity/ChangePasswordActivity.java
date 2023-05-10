@@ -24,8 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity {
-    private SharedPreferences sharedPreferences;
-    EditText edtNewPassword, edtRePassword, edtOldPassword;
+    EditText edtNewPassword, edtRePassword;
     TextView btnChangePassword;
     AuthApiService authApiService;
     ImageView ivBack;
@@ -36,15 +35,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         init();
-        setOnChangePasswordClick();
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        setOnButtonClick();
     }
-    private void setOnChangePasswordClick() {
+    private void setOnButtonClick() {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,18 +47,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 JsonObject body = new JsonObject();
 
                 body.addProperty("email", uemail);
-                body.addProperty("oldPassword", edtOldPassword.getText().toString());
                 body.addProperty("password", edtRePassword.getText().toString());
                 authApiService.changePassword(body).enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         JsonObject res = response.body();
-                        if(res.get("success").getAsBoolean()) {
+                        if(response.isSuccessful() && res.get("success").getAsBoolean()) {
                             Toast.makeText(ChangePasswordActivity.this, "Change password successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                         else {
-                            edtOldPassword.setError(res.get("message").getAsString());
                             Toast.makeText(ChangePasswordActivity.this, "Change password failed", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -79,6 +70,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
 
 
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
     private boolean checkInput() {
         boolean flag = true;
@@ -103,13 +100,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
         return flag;
     }
     private void init() {
-        sharedPreferences = ChangePasswordActivity.this.getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
-//        uid = sharedPreferences.getString("id", "");
-        uemail = sharedPreferences.getString("email", "");
+        Intent intent = getIntent();
+        uemail = intent.getStringExtra("email");
         authApiService = RetrofitClient.getRetrofit().create(AuthApiService.class);
         edtNewPassword = findViewById(R.id.edt_new_pwd_change_password);
         edtRePassword = findViewById(R.id.edt_re_pwd_change_password);
-        edtOldPassword = findViewById(R.id.edt_old_pwd_change_password);
         btnChangePassword = findViewById(R.id.btn_change_pwd_change_password);
         ivBack = findViewById(R.id.iv_back_change_password);
     }

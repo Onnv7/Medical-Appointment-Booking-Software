@@ -49,15 +49,17 @@ public class HistoryDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history_details);
         initViews();
         Intent intent = getIntent();
-        bookingId = intent.getStringExtra("BookingId");
+        bookingId = intent.getStringExtra("booking_id");
         renderViewFromData(bookingId);
+        setOnButtonClick();
+    }
+    private void setOnButtonClick() {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +106,6 @@ public class HistoryDetailsActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
     private void initViews() {
         SharedPreferences sharedPreferences = HistoryDetailsActivity.this.getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);

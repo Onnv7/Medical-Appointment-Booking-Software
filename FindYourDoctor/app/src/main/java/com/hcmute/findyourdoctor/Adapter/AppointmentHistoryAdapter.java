@@ -1,5 +1,6 @@
 package com.hcmute.findyourdoctor.Adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.hcmute.findyourdoctor.Activity.AppointmentDetailsActivity;
 import com.hcmute.findyourdoctor.Activity.DoctorDetailActivity;
+import com.hcmute.findyourdoctor.Activity.HistoryDetailsActivity;
 import com.hcmute.findyourdoctor.Model.Booking;
 import com.hcmute.findyourdoctor.Listener.OnHistoryAppointmentClickListener;
 import com.hcmute.findyourdoctor.R;
@@ -22,11 +25,13 @@ import java.util.List;
 
 public class AppointmentHistoryAdapter extends RecyclerView.Adapter<AppointmentHistoryAdapter.AppointmentHistoryViewHolder> {
     private List<Booking> mList;
+    private Context context;
     private OnHistoryAppointmentClickListener listener;
 
-    public AppointmentHistoryAdapter(List<Booking> mList, OnHistoryAppointmentClickListener listener) {
+    public AppointmentHistoryAdapter(List<Booking> mList, Context context) {
         this.mList = mList;
-        this.listener = listener;
+        this.context = context;
+//        this.listener = listener;
     }
 
     @NonNull
@@ -65,7 +70,9 @@ public class AppointmentHistoryAdapter extends RecyclerView.Adapter<AppointmentH
         holder.cvLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onClickHistoryAppointment(appointmentHistory_pt.getId());
+                Intent intent = new Intent(context, HistoryDetailsActivity.class);
+                intent.putExtra("booking_id", appointmentHistory_pt.getId());
+                context.startActivity(intent);
             }
         });
 

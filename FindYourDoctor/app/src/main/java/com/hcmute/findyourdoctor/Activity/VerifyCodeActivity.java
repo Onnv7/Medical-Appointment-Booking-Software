@@ -70,10 +70,9 @@ public class VerifyCodeActivity extends AppCompatActivity {
         authApiService.sendCodeToEmail(body).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                System.out.println(response.body());
-                if(response.isSuccessful())
+                JsonObject res = response.body();
+                if(response.isSuccessful() && res.get("success").getAsBoolean())
                 {
-                    JsonObject res = response.body();
                     code = res.get("result").getAsString();
                     Toast.makeText(VerifyCodeActivity.this, "Code sent to email " + email, Toast.LENGTH_SHORT).show();
                 }
@@ -81,7 +80,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Toast.makeText(VerifyCodeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -130,6 +129,8 @@ public class VerifyCodeActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() == 1) {
                     edtNum2.requestFocus();
+                } else if(edtNum1.getText().toString().length() > 1) {
+                    edtNum1.setText(edtNum1.getText().toString().substring(0, 1));
                 }
             }
 
@@ -147,6 +148,8 @@ public class VerifyCodeActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() == 1) {
                     edtNum3.requestFocus();
+                } else if(edtNum2.getText().toString().length() > 1) {
+                    edtNum2.setText(edtNum2.getText().toString().substring(0, 1));
                 }
             }
 
@@ -164,6 +167,8 @@ public class VerifyCodeActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() == 1) {
                     edtNum4.requestFocus();
+                } else if(edtNum3.getText().toString().length() > 1) {
+                    edtNum3.setText(edtNum3.getText().toString().substring(0, 1));
                 }
             }
 
@@ -181,6 +186,8 @@ public class VerifyCodeActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() == 0) {
                     edtNum3.requestFocus();
+                } else if(edtNum4.getText().toString().length() > 1) {
+                    edtNum4.setText(edtNum4.getText().toString().substring(0, 1));
                 }
             }
 

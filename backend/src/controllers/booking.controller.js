@@ -65,7 +65,12 @@ export const listBookingByPatient = async (req, res, next) => {
         //     //     }
         //     // }
         // });
-        res.status(200).json({ success: true, message: `Get booking list for ${req.params.patientId}`, result: bookingList });
+        if (bookingList) {
+            res.status(200).json({ success: true, message: `Get booking list for ${req.params.patientId}`, result: bookingList });
+        }
+        else {
+            res.status(200).json({ success: false, message: "Empty" });
+        }
     } catch (error) {
         next(error);
     }

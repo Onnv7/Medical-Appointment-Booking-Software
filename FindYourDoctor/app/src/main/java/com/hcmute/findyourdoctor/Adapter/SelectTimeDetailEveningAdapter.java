@@ -128,7 +128,6 @@ public class SelectTimeDetailEveningAdapter extends BaseAdapter {
 
                         else
                         {
-                            Toast.makeText(context, "Bạn đã chọn lịch buổi trưa", Toast.LENGTH_SHORT).show();
                         }
 
                     } while (cursor.moveToNext());
