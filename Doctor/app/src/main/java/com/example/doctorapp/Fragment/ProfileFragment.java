@@ -3,6 +3,7 @@ package com.example.doctorapp.Fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -193,17 +195,41 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+
+
+
         fabLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("id");
-                editor.remove("email");
-                editor.remove("is_logged");
-                editor.apply();
 
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle("Confirm");
+                alert.setIcon(R.mipmap.ic_launcher);
+                alert.setMessage("Do you want to sign out ?");
+
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("id");
+                        editor.remove("email");
+                        editor.remove("is_logged");
+                        editor.apply();
+
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                alert.show();
+
+
             }
         });
         fabChangePassword.setOnClickListener(new View.OnClickListener() {

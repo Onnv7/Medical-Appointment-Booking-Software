@@ -1,9 +1,11 @@
 package com.example.doctorapp.Activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -77,25 +79,44 @@ public class EditTimeScheduleActivity extends AppCompatActivity {
         btnComfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(morningSlotList.toString());
-                JsonObject body = new JsonObject();
-                JsonArray periods = getPeriod();
-                body.addProperty("date", date);
-                body.add("period", periods);
-                scheduleApiService.updateTimeSlotSchedule(uid, body).enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        JsonObject res = response.body();
-                        if(response.isSuccessful() && res.get("success").getAsBoolean()) {
-                            Toast.makeText(EditTimeScheduleActivity.this, "Updated", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                AlertDialog.Builder alert = new AlertDialog.Builder(EditTimeScheduleActivity.this);
+                alert.setTitle("Confirm");
+                alert.setIcon(R.mipmap.ic_launcher);
+                alert.setMessage("Are you sure the doctor chose this time?");
 
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Toast.makeText(EditTimeScheduleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println(morningSlotList.toString());
+                        JsonObject body = new JsonObject();
+                        JsonArray periods = getPeriod();
+                        body.addProperty("date", date);
+                        body.add("period", periods);
+                        scheduleApiService.updateTimeSlotSchedule(uid, body).enqueue(new Callback<JsonObject>() {
+                            @Override
+                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                JsonObject res = response.body();
+                                if(response.isSuccessful() && res.get("success").getAsBoolean()) {
+                                    Toast.makeText(EditTimeScheduleActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<JsonObject> call, Throwable t) {
+                                Toast.makeText(EditTimeScheduleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                alert.show();
+
+
             }
         });
         ivBack.setOnClickListener(new View.OnClickListener() {
