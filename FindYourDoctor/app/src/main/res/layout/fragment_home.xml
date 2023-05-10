@@ -11,76 +11,75 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="180dp">
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="match_parent"
-                android:layout_height="156dp"
-                android:background="@drawable/greeb_gradient_background"
-                android:src="@drawable/greeb_gradient_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </ImageView>
-
-            <TextView
-                android:id="@+id/tv_name_home_fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="48dp"
-                android:text="Hi Handwerker! "
-                android:textColor="#FAFAFA"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Find Your Doctor"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/tv_name_home_fragment"
-                app:layout_constraintTop_toBottomOf="@+id/tv_name_home_fragment" />
-
-            <EditText
-                android:id="@+id/edt_search_home_fragment"
-                android:layout_width="335dp"
-                android:layout_height="54dp"
-                android:layout_marginTop="116dp"
-                android:background="@drawable/textbox_search_background"
-                android:drawableStart="@drawable/search_icon"
-                android:drawablePadding="12dp"
-                android:ems="10"
-                android:hint="Search..."
-                android:inputType="textPersonName"
-                android:paddingStart="8dp"
-                android:singleLine="true"
-                android:textColor="@color/secondary_gray"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                android:weightSum="10">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="156dp"
+                        android:background="@drawable/greeb_gradient_background"
+                        android:src="@drawable/greeb_gradient_background"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/tv_name_home_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="48dp"
+                        android:text="Hi Handwerker! "
+                        android:textColor="#FAFAFA"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Find Your Doctor"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/tv_name_home_fragment"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_name_home_fragment" />
+
+                    <EditText
+                        android:id="@+id/edt_search_home_fragment"
+                        android:layout_width="335dp"
+                        android:layout_height="54dp"
+                        android:layout_marginTop="116dp"
+                        android:background="@drawable/textbox_search_background"
+                        android:drawableStart="@drawable/search_icon"
+                        android:drawablePadding="12dp"
+                        android:ems="10"
+                        android:hint="Search..."
+                        android:inputType="textPersonName"
+                        android:paddingStart="8dp"
+                        android:singleLine="true"
+                        android:textColor="@color/secondary_gray"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,19 +122,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <androidx.core.widget.NestedScrollView
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcv_specialist"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="40dp"
+                            android:paddingRight="33dp">
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rcv_specialist"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="40dp"
-                                android:paddingRight="33dp">
+                        </androidx.recyclerview.widget.RecyclerView>
 
-                            </androidx.recyclerview.widget.RecyclerView>
-                        </androidx.core.widget.NestedScrollView>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -236,7 +231,7 @@
 
                         <androidx.core.widget.NestedScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="160dp">
+                            android:layout_height="wrap_content">
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rcv_featureDoctor"
@@ -251,6 +246,7 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
