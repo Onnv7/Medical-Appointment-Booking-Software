@@ -17,6 +17,15 @@ public class Doctor implements Serializable {
     private String introduction;
     private int patientQuantity;
     private float start;
+    private String phone;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public Doctor() {
     }

@@ -147,7 +147,7 @@ export const getInfoDoctorById = async (req, res, next) => {
             select: { name: 1 }
         });
         const patients = await Booking.distinct('patient', { doctor: req.params.doctorId });
-        const successBooking = await Booking.distinct('patient', { doctor: req.params.doctorId, status: 'succeeded' });
+        const successBooking = await Booking.find({ doctor: req.params.doctorId, status: 'succeeded' });
         const { password, ...others } = doctor._doc;
 
         const rating = await doctor.rating;
@@ -160,6 +160,7 @@ export const getInfoDoctorById = async (req, res, next) => {
             price: others.price,
             clinicName: others.clinicName,
             clinicAddress: others.clinicAddress,
+            phone: others.phone,
             introduction: others.introduction,
             specialist: others.specialist || "Unknown",
             patientQuantity: patients.length,

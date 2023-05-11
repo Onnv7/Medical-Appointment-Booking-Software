@@ -40,7 +40,7 @@ import retrofit2.Response;
 public class DoctorDetailActivity extends AppCompatActivity {
     RecyclerView listReview;
     List<Review> mReview;
-    TextView tvName, tvSpecialist, tvPrice, tvClinicName, tvClinicAddress, tvIntroduce, tvPatientQuantity, tvSucceededQuantity;
+    TextView tvName, tvSpecialist, tvPrice, tvClinicName, tvClinicAddress, tvIntroduce, tvPatientQuantity, tvSucceededQuantity, tvPhoneNumber;
     RatingBar ratingBar;
     Button btnBooking;
     ImageView ivAvatar;
@@ -90,6 +90,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
         tvPrice = findViewById(R.id.tv_price_doctor_details);
         tvClinicName = findViewById(R.id.tv_clinic_name_doctor_details);
         tvClinicAddress = findViewById(R.id.tv_clinic_address_doctor_details);
+        tvPhoneNumber = findViewById(R.id.tv_phone_number_doctor_details);
         ivAvatar = findViewById(R.id.iv_avatar_doctor_details);
         listReview = (RecyclerView) findViewById(R.id.rcv_patient_review_doctor_details);
         tvIntroduce = findViewById(R.id.tv_introduce_doctor_details);
@@ -121,6 +122,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
                     tvClinicName.setText(doctor.getClinicName());
                     tvIntroduce.setText(doctor.getIntroduce());
                     tvPatientQuantity.setText(doctor.getPatientQuantity() + "");
+                    tvPhoneNumber.setText(doctor.getPhone());
                     tvSucceededQuantity.setText(result.get("successBookingQuantity").getAsString());
                     ratingBar.setStepSize(0.1f);
                     ratingBar.setRating(doctor.getRating());
