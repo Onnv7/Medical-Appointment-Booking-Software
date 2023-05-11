@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:paddingLeft="25dp"
-                    android:text="Morning 5 slots"
+                    android:text="Morning"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:paddingLeft="25dp"
-                    android:text="Afternoon 7 slots"
+                    android:text="Afternoon"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold">
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:paddingLeft="25dp"
-                    android:text="Evening 5 slots"
+                    android:text="Evening"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold">

@@ -4,6 +4,7 @@ const periodSchema = mongoose.Schema({
     start: {
         type: String,
         required: true,
+        unique: true
     }
 }, { timestamps: false });
 

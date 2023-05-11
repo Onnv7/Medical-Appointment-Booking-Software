@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hcmute.findyourdoctor.Activity.DoctorSelectTimeDetailActivity;
 import com.hcmute.findyourdoctor.Database.ConnectionDatabase;

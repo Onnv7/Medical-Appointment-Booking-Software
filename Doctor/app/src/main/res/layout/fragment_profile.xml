@@ -465,6 +465,6 @@
         app:backgroundTint="@color/background_icon"
         app:layout_constraintBottom_toTopOf="@+id/fab_logout_pf"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icon_password" />
+        app:srcCompat="@drawable/icon_key" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
