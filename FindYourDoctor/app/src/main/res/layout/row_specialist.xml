@@ -7,11 +7,11 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="65dp"
-        android:layout_height="75dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
-        app:cardBackgroundColor="#9153FF"
+        app:cardBackgroundColor="#B2F4E1"
         app:cardCornerRadius="7dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,9 +35,10 @@
                 android:id="@+id/specialist_title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="Detail care"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/iv_specialist"
