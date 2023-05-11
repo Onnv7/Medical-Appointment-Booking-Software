@@ -165,7 +165,8 @@ public class DoctorSelectTimeDetailActivity extends AppCompatActivity
                         JsonObject body = new JsonObject();
                         body.addProperty("patient", uid);
                         body.addProperty("doctor", doctor.getId());
-                        body.addProperty("message", "waiting");
+                        body.addProperty("message", edtReminder.getText().toString());
+                        body.addProperty("status", "waiting");
                         body.addProperty("time", time);
                         Call<JsonObject> call = bookingApiService.createBooking(body);
                         call.enqueue(new Callback<JsonObject>() {
