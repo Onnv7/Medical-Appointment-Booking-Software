@@ -46,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(Constant.SHARE, Context.MODE_PRIVATE);
         id_user = sharedPreferences.getString("id", null);
-        appoinmentTF(id_user);
+        checkFragment();
     }
+
 
     @Override
     protected void onResume() {
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void checkFragment(Boolean check){
+    private void checkFragment(){
         fragmentArrayList = new ArrayList<>();
         fragmentArrayList.add(new HomeFragment());
         fragmentArrayList.add(new AppointmentFragment());
@@ -112,24 +113,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void appoinmentTF(String id_user) {
-        BookingApiService bookingApiService = RetrofitClient.getRetrofit().create(BookingApiService.class);
-        bookingApiService.getBookingListId(id_user).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if(response.body().getAsJsonArray("result").size() == 0){
-                    checkFragment(false);
-                }else{
-                    checkFragment(true);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-
-            }
-        });
-
-    }
-
 }
