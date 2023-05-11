@@ -37,7 +37,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".DoctorDetailActivity"
+            android:name=".Activity.DoctorDetailActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.NewBookingDetailsActivity"

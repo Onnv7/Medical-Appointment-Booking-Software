@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -15,7 +14,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +23,7 @@ import com.example.doctorapp.Adapter.SliderItemAdapter;
 import com.example.doctorapp.Api.ArticleApiService;
 import com.example.doctorapp.Api.DoctorApiService;
 import com.example.doctorapp.Api.RetrofitClient;
-import com.example.doctorapp.DoctorDetailActivity;
+import com.example.doctorapp.Activity.DoctorDetailActivity;
 import com.example.doctorapp.Domain.SliderItemDomain;
 import com.example.doctorapp.Model.Article;
 import com.example.doctorapp.Model.Doctor;

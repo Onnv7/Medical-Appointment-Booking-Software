@@ -1,4 +1,4 @@
-package com.example.doctorapp;
+package com.example.doctorapp.Activity;
 
 import static android.content.ContentValues.TAG;
 
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +23,7 @@ import com.example.doctorapp.Api.RetrofitClient;
 import com.example.doctorapp.Api.ReviewApiService;
 import com.example.doctorapp.Model.Doctor;
 import com.example.doctorapp.Model.Review;
+import com.example.doctorapp.R;
 import com.example.doctorapp.Utils.Constant;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
