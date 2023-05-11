@@ -10,9 +10,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,12 +40,61 @@ public class ChangePasswordActivity extends AppCompatActivity {
     CardView ivBack;
     String uemail;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         init();
         setOnChangePasswordClick();
+
+        edtRePassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_RIGHT = 2;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (motionEvent.getRawX() >= (edtRePassword.getRight() - edtRePassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        if (edtRePassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                            edtRePassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.eye);
+                            edtRePassword.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+
+                        } else {
+                            edtRePassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.noteye);
+                            edtRePassword.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+                        }
+                        edtRePassword.setSelection(edtRePassword.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+        edtNewPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_RIGHT = 2;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (motionEvent.getRawX() >= (edtNewPassword.getRight() - edtNewPassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        if (edtNewPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                            edtNewPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.eye);
+                            edtNewPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+
+                        } else {
+                            edtNewPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.noteye);
+                            edtNewPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+                        }
+                        edtNewPassword.setSelection(edtNewPassword.getText().length());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
 //        ivBack.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -87,6 +139,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
 
     }
+
     private boolean checkInput() {
         boolean flag = true;
         if(TextUtils.isEmpty(edtNewPassword.getText())) {
