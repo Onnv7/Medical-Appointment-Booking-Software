@@ -119,7 +119,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-
         edtPassword.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -143,6 +142,8 @@ public class RegisterActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
 
         edtRePwd.setOnTouchListener(new View.OnTouchListener() {
             @Override

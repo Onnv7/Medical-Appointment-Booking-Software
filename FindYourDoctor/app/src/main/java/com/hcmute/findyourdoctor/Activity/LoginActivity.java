@@ -13,10 +13,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -118,6 +121,30 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Please turn on the network connection.", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        tvPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_RIGHT = 2;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (motionEvent.getRawX() >= (tvPassword.getRight() - tvPassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        if (tvPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                            tvPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.eye);
+                            tvPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+
+                        } else {
+                            tvPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            Drawable newDrawable = getResources().getDrawable(R.drawable.noteye);
+                            tvPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, newDrawable, null);
+                        }
+                        tvPassword.setSelection(tvPassword.getText().length());
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 

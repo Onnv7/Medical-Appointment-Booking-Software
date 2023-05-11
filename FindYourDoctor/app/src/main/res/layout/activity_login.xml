@@ -77,9 +77,11 @@
             android:layout_marginTop="28dp"
             android:background="@drawable/textbox_background"
             android:ems="10"
+            android:paddingRight="10dp"
             android:hint="Password"
             android:inputType="textPassword"
             android:paddingStart="24dp"
+            android:drawableEnd="@drawable/eye"
             app:layout_constraintEnd_toEndOf="@+id/edt_email_log"
             app:layout_constraintStart_toStartOf="@+id/edt_email_log"
             app:layout_constraintTop_toBottomOf="@+id/edt_email_log" />
