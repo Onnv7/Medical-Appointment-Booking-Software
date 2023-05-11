@@ -96,7 +96,6 @@ public class HomeFragment extends Fragment implements OnDocterCardClickListener 
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (i == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    Toast.makeText(getContext(), "EnTER", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(HomeFragment.this.getContext(), DoctorListActitvity.class);
                     intent.putExtra("search", edtSearch.getText().toString());
                     startActivity(intent);

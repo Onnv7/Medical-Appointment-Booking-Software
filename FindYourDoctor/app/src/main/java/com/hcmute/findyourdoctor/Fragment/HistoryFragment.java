@@ -153,6 +153,9 @@ public class HistoryFragment extends Fragment implements OnHistoryAppointmentCli
     }
     private void searchHistory(String searchContent) {
         mSearchBookings =  new ArrayList<>();
+        if(mAppointmentHistory == null || mAppointmentHistory.size() == 0) {
+            return;
+        }
         for (Booking booking : mAppointmentHistory) {
             if ((booking.getDoctor().getName().toLowerCase() + " " + booking.getStatus() + " " + booking.getTime()).contains(searchContent.toLowerCase())) {
                 mSearchBookings.add(booking);
