@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                             JsonObject res = response.body();
                             if(res.get("result").getAsBoolean()) {
-                                edtEmail.setText("Email was registered account");
+                                edtEmail.setError("Email was registered account");
                             }
                             else if(res.get("result").getAsBoolean() == false) {
                                 Intent intent = new Intent(RegisterActivity.this, VerifyCodeActivity.class);
