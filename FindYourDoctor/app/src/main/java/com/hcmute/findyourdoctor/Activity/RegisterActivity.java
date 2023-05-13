@@ -191,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
         if(!isEmail(edtEmail.getText().toString())) {
 //            Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show();
-            edtEmail.setText("Invalid email");
+            edtEmail.setError("Invalid email");
             edtEmail.requestFocus();
             return false;
         }
@@ -207,7 +207,7 @@ public class RegisterActivity extends AppCompatActivity {
         return phoneNumber.matches(regex);
     }
     public boolean isEmail(String text) {
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         return text.matches(emailPattern);
     }
     private void init() {
